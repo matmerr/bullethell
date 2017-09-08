@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="BulletHell.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\EnemyModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />

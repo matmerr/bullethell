@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
@@ -22,11 +23,16 @@ namespace bullethell.Models {
         public Texture2D Sprite;
 
         // coordinates for the model on the canvas
-        public int X;
-        public int Y;
+        public Point Location;
+        public Point Dimensions;
+        public Point Origin;
 
         // speed at which the xPos or yPos change
-        public double rate;
+        public double Rate;
+
+        // appearance modifiers
+        public float Rotation;
+        public float Scale = 1;
 
         // we use these variables to track when to increment coordinates by 1
         // for example, if we only move .30 pixel upward, after 4 increments 
@@ -37,36 +43,46 @@ namespace bullethell.Models {
 
         protected double startingRate;
 
-        public BaseModel(int startX, int startY, double startRate) {
-            X = startX;
-            Y = startY;
-            rate = startRate;
-            startingRate = rate;
+        public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate) {
+            Location.X = startX;
+            Location.Y = startY;
+            Dimensions.X = dimensionX;
+            Dimensions.Y = dimensionY;
+            Rate = startRate;
+            startingRate = Rate;
         }
 
-        public BaseModel(int startX, int startY, double startRate, Texture2D startSprite) {
-            X = startX;
-            Y = startY;
-            rate = startRate;
+        public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) {
+            Location.X = startX;
+            Location.Y = startY;
+            Dimensions.X = dimensionX;
+            Dimensions.Y = dimensionY;
+            Origin.X = dimensionX / 2;
+            Origin.Y = dimensionY / 2;
+            Rate = startRate;
             startingRate = startRate;
             Sprite = startSprite;
         }
 
-        // increment/decrement the X position and Y position based on rate
+        // increment/decrement the X position and Y position based on Rate
         // let x or y be 0 to indicate that we don't need to move in that direction, 
         // let 1 be up or right, and -1 be down or left.
 
         public void Move(int UpDown, int LeftRight) {
-            subRate += rate;
+            subRate += Rate;
             if (Math.Abs(subRate) > 0) {
-                Y += (UpDown * (int)subRate);
-                X += (LeftRight * (int)rate);
+                Location.Y += (UpDown * (int)subRate);
+                Location.X += (LeftRight * (int)Rate);
                 subRate = subRate % (int)subRate;
             }
         }
 
+        public void Rotate(double angleDegrees) {
+            Rotation += (float)angleDegrees;
+        }
+
         public void ToggleRate(int factor) {
-            rate = (rate == startingRate) ? rate * factor : startingRate;
+            Rate = (Rate == startingRate) ? Rate * factor : startingRate;
         }
 
 
@@ -89,21 +105,21 @@ namespace bullethell.Models {
             // when the angle results in an increment < 1 (moving less than a pixel)
             // we need to keep track of it. X will only increment when subX is an integer number.
             // we will always keep track of the remainder between subX, as subX will always be < 1; 
-            // EX. X = 35, rate = 2, angleDegrees = 25
+            // EX. X = 35, Rate = 2, angleDegrees = 25
             // subX = 1.81, 
             // X += 1, so X = 36, 
             // then subX = 1.81 % 1 = .81
             // then on the next increment subX will already be .81 in case we "bust" over 1 pixel
-            subX += Math.Cos(angleDegrees * (Math.PI / 180)) * rate;
+            subX += Math.Cos(angleDegrees * (Math.PI / 180)) * Rate;
             if ((int)subX != 0) {
-                X += (int)subX;
+                Location.X += (int)subX;
                 subX = subX % (int)subX;
             }
 
             // see above explanation
-            subY += Math.Sin(angleDegrees * (Math.PI / 180)) * rate;
+            subY += Math.Sin(angleDegrees * (Math.PI / 180)) * Rate;
             if ((int)subY != 0) {
-                Y -= (int)subY;
+                Location.Y -= (int)subY;
                 subY = subY % (int)subY;
             }
         }
