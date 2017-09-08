@@ -1,0 +1,75 @@
+0:01 - 	Menu with different features of the game. Music Playing. Lots of aesthetic background
+0:03 - 	Picks the replay status and it looks like its a recording of the player's previous runthrough of the game. 
+		Shows the difficulty, date, time, and score.
+0:10 - 	Change of music. The window shows the actual game on the left and has the difficulty, high score, current score, player's stars, and power on the right.
+0:12 - 	Two different enemies spawn on the left canvas - one blue and one red. 
+		Player demonstrates movements in different directions. However, the player can't go past bounds.
+0:22 - 	An different enemy and start shooting at the player. *still not miniboss
+		REG. ENEMY BULLET PATTERN:
+			The direction of the bullet goes from the time the enemy shoots and the player's current position. 
+			Bullets don't follow the player after the player moves.
+			Bullet size and speed aren't the same after every batch.  
+0:25 - 	The spawn patterns of the enemies are relatively the same. 
+		The first batch from 0:12 to 0:18 spawns in a straight horizontal line.
+		Second batch from 0:18 until the miniboss appears shows a J movement. 
+		As soon as miniboss appears, the enemies leave the screen.
+		Spawn of enemies who dont shoot repeats.
+0:48 -	!Miniboss: Enemies fall down straight from the top of the screen and timer starts in 46 seconds. 
+		A different sprite comes out and the bullet pattern is different from the previous enemy.
+		MINI BOSS BULLET PATTERN:
+			1st: Shoots in a fixed cone pattern and shoots out 6 bullets. 
+			Each bullet has their own angle and doesn't follow the current position of the player.
+			SPEED: faster than regular enemy's bullets 
+			2nd: Shoots out smaller balls in a  fixed circle pattern around the miniboss's current position.
+			SPEED: faster than miniboss's 1st bullets
+			Repeats 1st and 2nd and mixes them up as the miniboss moves.
+			
+		In the 5-6 second mark of the timer, two regular but bigger size enemies spawn on the miniboss's left and right side. 
+		Red and Blue regular enemies spawn from the top to bottom. Has a rain movement.
+		
+1:14: -	The two enemies that spawned by the miniboss starts shooting purple diamond shaped bullets.
+		Spawn patterns for the regular enemies same as 0:25
+		
+1:24 -	Enemies leave.
+
+1:28 -	Cutscene between the player and the boss. 
+1:37 -	45 second timer starts. 
+		BULLET PATTERN:
+			1st: Lasso-like pattern that follows the player's current position. 
+				 The red bullets stick together and gets skinnier the closer it gets to the player
+				 SPEED: Slow.
+			2nd: Circular pattern much like the mini boss's but the the movement isn't fixed.
+				 Bullets feel like they move in cirles.
+			The Lasso-like pattern gets repeated but in random shapes. It looks like its the same amount of bullets per shape.
+			
+2:22 -	Another 45 second timer starts. Player games 1110 points. 
+		BULLET PATTERN:
+			3rd: Much the the the mini boss's 2 pets, boss shoots out diamond shaped bullets around her in a circle. 
+				 These bullets rotate and split off into two, creating more bullets. 
+				 As soon as the bullets leave the body, the boss moves diagonally. 
+				 The pattern are the same the whole time but covers different areas because the boss moves each time.
+			Literally repeats 3rd bullet pattern until timer is up.
+		
+2:47 -	First time the player gets hit. Loses 1 star located to the right of the screen.However, player gets more points.
+
+2:57 -	Player gets hit again. Player grabs the "p"s that came out of the body from the hit and gains yinyang signs on the sides.
+		Yin-yang signs give 2 power. 
+
+3:07 -	Another 45 second timer starts. Player's new total is now 1490. Failed to get bonus because player was hit.
+		BULLET PATTERN:
+			4th. Literally the same as the 2nd bullet pattern
+			5th. Similar to the lasso-like pattern BUT there are more bullets and longer and faster shape.
+				 Covers way more area than the 1st bullet pattern.
+				 In order to see how the shape is made, there is a blurry red circle which creates bullets.
+			Repeats 4th and 5th bullet patterns.
+			
+3:39 -	Player gets hit again and loses the yinyang signs and power multiplyer. gains more points. 			
+3:52 -	Another 45 second timer starts. Player's new total is now 1630. 
+		BULLET PATTERN:
+			5th: Creates 8 yellow circles. From those 8 yellow circles, yellow lines come out from their radius and starts moving to the edge of the screen.
+			6th: From the boss's position, shoots out rapid fast red diamond bullets around her current position. 
+			Repeats 5th and 6th
+			
+4:07: gets hit another time. 
+
+4:41: done.
