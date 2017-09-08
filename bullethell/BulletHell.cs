@@ -16,6 +16,7 @@ namespace bullethell {
         private PlayerModel playerShip;
         private EnemyModel enemyShip;
         private EnemyModel enemyShip2;
+        private EnemyModel enemyShip3;
 
         public BulletHell() {
             graphics = new GraphicsDeviceManager(this);
@@ -43,10 +44,10 @@ namespace bullethell {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            playerShip = new PlayerModel(100, 100, 2, Content.Load<Texture2D>("ship"));
-            enemyShip = new EnemyModel(200, 200, -1, 200, 250, Content.Load<Texture2D>("baddie1-A"));
-            enemyShip2 = new EnemyModel(600, 400, 1, Content.Load<Texture2D>("baddie1-A"));
-
+            playerShip = new PlayerModel(100, 100, 32, 32, 2, Content.Load<Texture2D>("ship"));
+            enemyShip = new EnemyModel(600, 400, 32, 32, 2, Content.Load<Texture2D>("baddie1-A"));
+            enemyShip2 = new EnemyModel(300, 300, 32, 32, 2, 250, 250, Content.Load<Texture2D>("baddie1-A"));
+            enemyShip3 = new EnemyModel(100, 100, 32, 32, 1, Content.Load<Texture2D>("baddie1-A"));
         }
 
         /// <summary>
@@ -93,11 +94,16 @@ namespace bullethell {
             }
             oldKeyboardState = newKeyboardState;
 
-            // MOVE SHIP IN AN ORBIT
-            enemyShip.MoveOrbit();
-
             // MOVE A SHIP IN AN ANGLE BASED ON THE UNIT CIRCLE (IN DEGREES)
-            enemyShip2.Move(150);
+            enemyShip.Move(150);
+
+            // MOVE SHIP IN AN ORBIT
+            enemyShip2.MoveOrbit();
+            enemyShip2.Rotate(.1);
+
+            // ROTATE A SHIP IN ONE DIRECTION
+            enemyShip3.Move(310);
+            enemyShip3.Rotate(-.1);
 
             base.Update(gameTime);
         }
@@ -111,10 +117,16 @@ namespace bullethell {
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(playerShip.Sprite, new Rectangle(playerShip.X, playerShip.Y, 32, 32), Color.White);
-            spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip.X, enemyShip.Y, 32, 32), Color.White);
-            spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip2.X, enemyShip2.Y, 32, 32), Color.White);
 
+            // player 
+            spriteBatch.Draw(playerShip.Sprite, new Rectangle(playerShip.Location, playerShip.Dimensions), Color.White);
+
+            // non rotating
+            spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip.Location, enemyShip.Dimensions), Color.White);
+
+            // rotating
+            spriteBatch.Draw(enemyShip2.Sprite, enemyShip2.Location.ToVector2(), new Rectangle(0, 0, enemyShip2.Dimensions.X, enemyShip2.Dimensions.Y), Color.White, enemyShip2.Rotation, enemyShip2.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(enemyShip3.Sprite, enemyShip3.Location.ToVector2(), new Rectangle(0, 0, enemyShip3.Dimensions.X, enemyShip3.Dimensions.Y), Color.White, enemyShip3.Rotation, enemyShip3.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
 
             spriteBatch.End();
             base.Draw(gameTime);
