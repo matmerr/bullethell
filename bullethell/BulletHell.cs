@@ -97,13 +97,12 @@ namespace bullethell {
             // MOVE A SHIP IN AN ANGLE BASED ON THE UNIT CIRCLE (IN DEGREES)
             enemyShip.Move(150);
 
-
-
             // MOVE SHIP IN AN ORBIT
             enemyShip2.MoveOrbit();
             enemyShip2.Rotate(.1);
 
-            enemyShip3.Move(0);
+            // ROTATE A SHIP IN ONE DIRECTION
+            enemyShip3.Move(310);
             enemyShip3.Rotate(-.1);
 
             base.Update(gameTime);
@@ -118,8 +117,14 @@ namespace bullethell {
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+
+            // player 
             spriteBatch.Draw(playerShip.Sprite, new Rectangle(playerShip.Location, playerShip.Dimensions), Color.White);
+
+            // non rotating
             spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip.Location, enemyShip.Dimensions), Color.White);
+
+            // rotating
             spriteBatch.Draw(enemyShip2.Sprite, enemyShip2.Location.ToVector2(), new Rectangle(0, 0, enemyShip2.Dimensions.X, enemyShip2.Dimensions.Y), Color.White, enemyShip2.Rotation, enemyShip2.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
             spriteBatch.Draw(enemyShip3.Sprite, enemyShip3.Location.ToVector2(), new Rectangle(0, 0, enemyShip3.Dimensions.X, enemyShip3.Dimensions.Y), Color.White, enemyShip3.Rotation, enemyShip3.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
 

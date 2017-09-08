@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
 
+    // use this to avoid confusion in the Move method
     static class Direction {
         public const int Up = -1;
         public const int Down = 1;
@@ -20,19 +21,20 @@ namespace bullethell.Models {
 
     abstract class BaseModel {
 
-        public Texture2D Sprite;
+        // image sprite for the model on the canvas
+        protected Texture2D sprite;
 
         // coordinates for the model on the canvas
-        public Point Location;
-        public Point Dimensions;
-        public Point Origin;
+        protected Point location;
+        private Point dimensions;
+        private Point origin;
 
         // speed at which the xPos or yPos change
-        public double Rate;
+        protected double rate;
 
         // appearance modifiers
-        public float Rotation;
-        public float Scale = 1;
+        private float rotation;
+        private float scale = 1;
 
         // we use these variables to track when to increment coordinates by 1
         // for example, if we only move .30 pixel upward, after 4 increments 
@@ -41,50 +43,51 @@ namespace bullethell.Models {
         private double subY;
         private double subRate;
 
+        // the when we toggle up a rate, we have the start rate saved
         protected double startingRate;
 
-        public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate) {
-            Location.X = startX;
-            Location.Y = startY;
-            Dimensions.X = dimensionX;
-            Dimensions.Y = dimensionY;
-            Rate = startRate;
-            startingRate = Rate;
-        }
+        // Setters / Getters
+        public Texture2D Sprite => sprite;
+        public Point Location => location;
+        public Point Dimensions => dimensions;
+        public Point Origin => origin;
+        public float Rotation => rotation;
+        public float Scale => scale;
 
+        // constructor which is required for all classes
         public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) {
-            Location.X = startX;
-            Location.Y = startY;
-            Dimensions.X = dimensionX;
-            Dimensions.Y = dimensionY;
-            Origin.X = dimensionX / 2;
-            Origin.Y = dimensionY / 2;
-            Rate = startRate;
+            location.X = startX;
+            location.Y = startY;
+            dimensions.X = dimensionX;
+            dimensions.Y = dimensionY;
+            origin.X = dimensionX / 2;
+            origin.Y = dimensionY / 2;
+            rate = startRate;
             startingRate = startRate;
-            Sprite = startSprite;
+            sprite = startSprite;
         }
 
-        // increment/decrement the X position and Y position based on Rate
+        // increment/decrement the X position and Y position based on _rate
         // let x or y be 0 to indicate that we don't need to move in that direction, 
         // let 1 be up or right, and -1 be down or left.
-
         public void Move(int UpDown, int LeftRight) {
-            subRate += Rate;
-            if (Math.Abs(subRate) > 0) {
-                Location.Y += (UpDown * (int)subRate);
-                Location.X += (LeftRight * (int)Rate);
+            subRate += rate;
+            if ((int)subRate != 0) {
+                location.Y += (UpDown * (int)subRate);
+                location.X += (LeftRight * (int)rate);
                 subRate = subRate % (int)subRate;
             }
         }
 
+        // rotate around the origin
         public void Rotate(double angleDegrees) {
-            Rotation += (float)angleDegrees;
+            rotation += (float)angleDegrees;
         }
 
+        // toggle a multiplier for rate
         public void ToggleRate(int factor) {
-            Rate = (Rate == startingRate) ? Rate * factor : startingRate;
+            rate = (rate == startingRate) ? rate * factor : startingRate;
         }
-
 
         /// <summary>
         /// similar to the move above, except this allows us to move in a more granular direction,
@@ -105,21 +108,21 @@ namespace bullethell.Models {
             // when the angle results in an increment < 1 (moving less than a pixel)
             // we need to keep track of it. X will only increment when subX is an integer number.
             // we will always keep track of the remainder between subX, as subX will always be < 1; 
-            // EX. X = 35, Rate = 2, angleDegrees = 25
+            // EX. X = 35, rate = 2, angleDegrees = 25
             // subX = 1.81, 
             // X += 1, so X = 36, 
             // then subX = 1.81 % 1 = .81
-            // then on the next increment subX will already be .81 in case we "bust" over 1 pixel
-            subX += Math.Cos(angleDegrees * (Math.PI / 180)) * Rate;
+            // then on the next increment _subX will already be .81 in case we "bust" over 1 pixel
+            subX += Math.Cos(angleDegrees * (Math.PI / 180)) * rate;
             if ((int)subX != 0) {
-                Location.X += (int)subX;
+                location.X += (int)subX;
                 subX = subX % (int)subX;
             }
 
             // see above explanation
-            subY += Math.Sin(angleDegrees * (Math.PI / 180)) * Rate;
+            subY += Math.Sin(angleDegrees * (Math.PI / 180)) * rate;
             if ((int)subY != 0) {
-                Location.Y -= (int)subY;
+                location.Y -= (int)subY;
                 subY = subY % (int)subY;
             }
         }
