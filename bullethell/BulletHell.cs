@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
+using System;
 
 namespace bullethell {
     /// <summary>
@@ -17,6 +19,7 @@ namespace bullethell {
         private EnemyModel enemyShip;
         private EnemyModel enemyShip2;
         private EnemyModel enemyShip3;
+        private MidBossModel middleBoss;
 
         public BulletHell() {
             graphics = new GraphicsDeviceManager(this);
@@ -48,6 +51,8 @@ namespace bullethell {
             enemyShip = new EnemyModel(600, 400, 32, 32, 2, Content.Load<Texture2D>("baddie1-A"));
             enemyShip2 = new EnemyModel(300, 300, 32, 32, 2, 250, 250, Content.Load<Texture2D>("baddie1-A"));
             enemyShip3 = new EnemyModel(100, 100, 32, 32, 1, Content.Load<Texture2D>("baddie1-A"));
+            enemyShip3 = new EnemyModel(100, 100, 32, 32, 1, Content.Load<Texture2D>("baddie1-A"));
+            middleBoss = new MidBossModel(300, 100, 50, 50, 2, Content.Load<Texture2D>("midBoss"));
         }
 
         /// <summary>
@@ -71,6 +76,10 @@ namespace bullethell {
                 Exit();
 
             // TODO: Add your update logic here
+
+            if (gameTime.TotalGameTime.TotalSeconds > 3) {
+                middleBoss.MoveToPoint(300, 100, Direction.Down, Direction.Right);
+            }
 
             // MOVE PLAYER
             // We can use the Direction class that I made to avoid confusion
@@ -127,6 +136,9 @@ namespace bullethell {
             // rotating
             spriteBatch.Draw(enemyShip2.Sprite, enemyShip2.Location.ToVector2(), new Rectangle(0, 0, enemyShip2.Dimensions.X, enemyShip2.Dimensions.Y), Color.White, enemyShip2.Rotation, enemyShip2.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
             spriteBatch.Draw(enemyShip3.Sprite, enemyShip3.Location.ToVector2(), new Rectangle(0, 0, enemyShip3.Dimensions.X, enemyShip3.Dimensions.Y), Color.White, enemyShip3.Rotation, enemyShip3.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
+
+            // MIDDLE BOSS
+            spriteBatch.Draw(middleBoss.Sprite, new Rectangle(middleBoss.Location.X, middleBoss.Location.Y, 50, 50), Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);
