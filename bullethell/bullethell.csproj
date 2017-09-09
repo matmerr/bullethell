@@ -44,6 +44,7 @@
     <Compile Include="BulletHell.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\EnemyModel.cs" />
+    <Compile Include="Models\MidBossModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
