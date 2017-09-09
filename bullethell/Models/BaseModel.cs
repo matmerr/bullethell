@@ -69,6 +69,12 @@ namespace bullethell.Models {
             rate = (rate == startingRate) ? rate * factor : startingRate;
         }
 
+        public void MoveToPoint(int finalX, int finalY, int UpDown, int LeftRight) {
+            if ((X < finalX) && (Y < finalY)) {
+                Move(UpDown, LeftRight);
+            }
+        }
+
 
         /// <summary>
         /// similar to the move above, except this allows us to move in a more granular direction,

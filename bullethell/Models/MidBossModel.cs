@@ -18,10 +18,8 @@ namespace bullethell.Models {
         }
 
         public void enterMidBoss() {
-            while ((X != 300) && (Y != 100)) {
-                Move(Direction.Down);
-                Move(Direction.Right);
-            }
+            X += 1;
+            Y += 1;
         }
     }
 }

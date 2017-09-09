@@ -49,7 +49,7 @@ namespace bullethell {
             playerShip = new PlayerModel(100, 100, 2, Content.Load<Texture2D>("ship"));
             enemyShip = new EnemyModel(200, 200, -1, 200, 250, Content.Load<Texture2D>("baddie1-A"));
             enemyShip2 = new EnemyModel(600, 400, 1, Content.Load<Texture2D>("baddie1-A"));
-            middleBoss = new MidBossModel(100, 10, 2, Content.Load<Texture2D>("midBoss"));
+            middleBoss = new MidBossModel(100, -100, 2, Content.Load<Texture2D>("midBoss"));
 
         }
 
@@ -75,8 +75,8 @@ namespace bullethell {
 
             // TODO: Add your update logic here
 
-            if (gameTime.TotalGameTime.TotalSeconds == 3) {
-                middleBoss.enterMidBoss();
+            if (gameTime.TotalGameTime.TotalSeconds > 3) {
+                middleBoss.MoveToPoint(300, 100, Direction.Down, Direction.Right);
             }
 
             // MOVE PLAYER
@@ -122,7 +122,7 @@ namespace bullethell {
             spriteBatch.Draw(playerShip.Sprite, new Rectangle(playerShip.X, playerShip.Y, 32, 32), Color.White);
             spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip.X, enemyShip.Y, 32, 32), Color.White);
             spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip2.X, enemyShip2.Y, 32, 32), Color.White);
-            spriteBatch.Draw(middleBoss.Sprite, new Rectangle(middleBoss.X, middleBoss.Y, 32, 32), Color.White);
+            spriteBatch.Draw(middleBoss.Sprite, new Rectangle(middleBoss.X, middleBoss.Y, 50, 50), Color.White);
 
 
             spriteBatch.End();
