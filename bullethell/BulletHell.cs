@@ -1,4 +1,5 @@
 ﻿using bullethell.Models;
+using bullethell.Story;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,11 +16,9 @@ namespace bullethell {
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private PlayerModel playerShip;
-        private EnemyModel enemyShip;
-        private EnemyModel enemyShip2;
-        private EnemyModel enemyShip3;
-        private MidBossModel middleBoss;
+        private GameContent MainContent;
+        private SpriteFont font;
+
 
         public BulletHell() {
             graphics = new GraphicsDeviceManager(this);
@@ -47,12 +46,17 @@ namespace bullethell {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            playerShip = new PlayerModel(100, 100, 32, 32, 2, Content.Load<Texture2D>("ship"));
-            enemyShip = new EnemyModel(600, 400, 32, 32, 2, Content.Load<Texture2D>("baddie1-A"));
-            enemyShip2 = new EnemyModel(300, 300, 32, 32, 2, 250, 250, Content.Load<Texture2D>("baddie1-A"));
-            enemyShip3 = new EnemyModel(100, 100, 32, 32, 1, Content.Load<Texture2D>("baddie1-A"));
-            enemyShip3 = new EnemyModel(100, 100, 32, 32, 1, Content.Load<Texture2D>("baddie1-A"));
-            middleBoss = new MidBossModel(300, 100, 50, 50, 2, Content.Load<Texture2D>("midBoss"));
+            font = Content.Load<SpriteFont>("HUD");
+
+            MainContent = new GameContent(
+                PlayerShip: Content.Load<Texture2D>("ship"),
+                MiddleBoss: Content.Load<Texture2D>("midBoss"),
+                Baddie1A: Content.Load<Texture2D>("baddie1-A")
+            );
+
+            MainContent.InitializeModels();
+            MainContent.InitializeEvents();
+            MainContent.Start();
         }
 
         /// <summary>
@@ -77,42 +81,30 @@ namespace bullethell {
 
             // TODO: Add your update logic here
 
-            if (gameTime.TotalGameTime.TotalSeconds > 3) {
-                middleBoss.MoveToPoint(300, 100, Direction.Down, Direction.Right);
-            }
-
             // MOVE PLAYER
             // We can use the Direction class that I made to avoid confusion
             if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
-                playerShip.Move(Direction.Stay, Direction.Right);
+                MainContent.PlayerShip.Move(Direction.Right, Direction.Stay);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
-                playerShip.Move(Direction.Stay, Direction.Left);
+                MainContent.PlayerShip.Move(Direction.Left, Direction.Stay);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
-                playerShip.Move(Direction.Up, Direction.Stay);
+                MainContent.PlayerShip.Move(Direction.Stay, Direction.Up);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down)) {
-                playerShip.Move(Direction.Down, Direction.Stay);
+                MainContent.PlayerShip.Move(Direction.Stay, Direction.Down);
             }
 
             // TOGGLE SPEED
             // we have to check the key is down, and not just being spammed
             if (oldKeyboardState.IsKeyUp(Keys.Space) && Keyboard.GetState().IsKeyDown(Keys.Space)) {
-                playerShip.ToggleRate(5);
+                MainContent.PlayerShip.ToggleRate(5);
             }
             oldKeyboardState = newKeyboardState;
 
-            // MOVE A SHIP IN AN ANGLE BASED ON THE UNIT CIRCLE (IN DEGREES)
-            enemyShip.Move(150);
-
-            // MOVE SHIP IN AN ORBIT
-            enemyShip2.MoveOrbit();
-            enemyShip2.Rotate(.1);
-
-            // ROTATE A SHIP IN ONE DIRECTION
-            enemyShip3.Move(310);
-            enemyShip3.Rotate(-.1);
+            // this method calls all scheduled events in the game timeline
+            MainContent.Events.ExecuteScheduledEvents();
 
             base.Update(gameTime);
         }
@@ -128,17 +120,31 @@ namespace bullethell {
             spriteBatch.Begin();
 
             // player 
-            spriteBatch.Draw(playerShip.Sprite, new Rectangle(playerShip.Location, playerShip.Dimensions), Color.White);
+            spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.Location, MainContent.PlayerShip.Dimensions), Color.White);
 
-            // non rotating
-            spriteBatch.Draw(enemyShip.Sprite, new Rectangle(enemyShip.Location, enemyShip.Dimensions), Color.White);
+            // draw special enemies
+            spriteBatch.Draw(MainContent.MidBoss.Sprite,
+                MainContent.MidBoss.Location.ToVector2(),
+                new Rectangle(0, 0, MainContent.MidBoss.Dimensions.X, MainContent.MidBoss.Dimensions.Y),
+                Color.White,
+                MainContent.MidBoss.Rotation,
+                MainContent.MidBoss.Origin.ToVector2(),
+                MainContent.MidBoss.Scale,
+                SpriteEffects.None,
+                1.0f);
 
-            // rotating
-            spriteBatch.Draw(enemyShip2.Sprite, enemyShip2.Location.ToVector2(), new Rectangle(0, 0, enemyShip2.Dimensions.X, enemyShip2.Dimensions.Y), Color.White, enemyShip2.Rotation, enemyShip2.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
-            spriteBatch.Draw(enemyShip3.Sprite, enemyShip3.Location.ToVector2(), new Rectangle(0, 0, enemyShip3.Dimensions.X, enemyShip3.Dimensions.Y), Color.White, enemyShip3.Rotation, enemyShip3.Origin.ToVector2(), enemyShip.Scale, SpriteEffects.None, 1.0f);
+            // draw each enemy
+            foreach (EnemyModel enemy in MainContent.EnemyShipList) {
+                spriteBatch.Draw(enemy.Sprite, enemy.Location.ToVector2(), new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, enemy.Origin.ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+            }
 
-            // MIDDLE BOSS
-            spriteBatch.Draw(middleBoss.Sprite, new Rectangle(middleBoss.Location.X, middleBoss.Location.Y, 50, 50), Color.White);
+            // draw each bullet
+            foreach (BulletModel bullet in MainContent.EnemyBulletList) {
+                spriteBatch.Draw(bullet.Sprite, bullet.Location.ToVector2(), new Rectangle(0, 0, bullet.Dimensions.X, bullet.Dimensions.Y), Color.White, bullet.Rotation, bullet.Origin.ToVector2(), bullet.Scale, SpriteEffects.None, 1.0f);
+
+            }
+
+            spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(50, 450), Color.Black);
 
             spriteBatch.End();
             base.Draw(gameTime);

@@ -49,3 +49,10 @@
 /processorParam:TextureFormat=Color
 /build:ship.png
 
+#begin HUD.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:HUD.spritefont
+
