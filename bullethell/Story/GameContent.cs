@@ -30,7 +30,7 @@ namespace bullethell.Story {
         public List<EnemyModel> EnemyShipList => enemyShipList;
         public List<BulletModel> EnemyBulletList => enemyBulletList;
 
-
+        // constructor
         public GameContent(Texture2D PlayerShip, Texture2D MiddleBoss, Texture2D Baddie1A) {
             playerShipTexture = PlayerShip;
             midBossTexture = MiddleBoss;
@@ -40,7 +40,8 @@ namespace bullethell.Story {
             enemyBulletList = new List<BulletModel>();
         }
 
-
+        // here we will initalize the specific models that are used, as well as add any "bulk models"
+        // to lists
         public void InitializeModels() {
             // set starting player point
             playerShip = new PlayerModel(100, 100, 32, 32, 2, playerShipTexture);
@@ -58,17 +59,17 @@ namespace bullethell.Story {
         public void InitializeEvents() {
 
             // this is how we add an event. 
-            // Move the midBoss 327 degrees between seconds 1 and 3
+            // Move the midBoss 327 degrees between seconds 0 and 3
+            // ending is not inclusive, so it is [0,3)
             events.AddScheduledEvent(0, 3, () => midBoss.Move(327));
 
-            // MOVE A SHIP IN AN ANGLE BASED ON THE UNIT CIRCLE (IN DEGREES)
+            // move a ship in an angle specified in degrees, based on the unit circle
             events.AddScheduledEvent(3, 5, () => midBoss.Move(180));
 
-            // MOVE SHIP IN AN ORBIT
+            // move a ship in orbit
             events.AddScheduledEvent(5, 7, () => midBoss.StartOrbit());
 
-
-            // ROTATE A SHIP
+            // rotate a ship, this is happening at the same time as orbit
             events.AddScheduledEvent(5, 6, () => midBoss.Rotate(.1));
             events.AddScheduledEvent(6, 7, () => midBoss.Rotate(-.1));
 
