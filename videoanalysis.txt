@@ -27,6 +27,7 @@
 		In the 5-6 second mark of the timer, two regular but bigger size enemies spawn on the miniboss's left and right side. 
 		Red and Blue regular enemies spawn from the top to bottom. Has a rain movement.
 		
+		
 1:14: -	The two enemies that spawned by the miniboss starts shooting purple diamond shaped bullets.
 		Spawn patterns for the regular enemies same as 0:25
 		
