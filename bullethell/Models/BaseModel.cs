@@ -12,6 +12,7 @@ namespace bullethell.Models {
 
     // use this to avoid confusion in the Move method
     static class Direction {
+
         public const int Up = -1;
         public const int Down = 1;
         public const int Right = 1;
@@ -54,6 +55,9 @@ namespace bullethell.Models {
         public float Rotation => rotation;
         public float Scale => scale;
 
+
+
+
         // constructor which is required for all classes
         public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) {
             location.X = startX;
@@ -70,11 +74,11 @@ namespace bullethell.Models {
         // increment/decrement the X position and Y position based on _rate
         // let x or y be 0 to indicate that we don't need to move in that direction, 
         // let 1 be up or right, and -1 be down or left.
-        public void Move(int UpDown, int LeftRight) {
+        public void Move(int X, int Y) {
             subRate += rate;
             if ((int)subRate != 0) {
-                location.Y += (UpDown * (int)subRate);
-                location.X += (LeftRight * (int)rate);
+                location.Y += (Y * (int)subRate);
+                location.X += (X * (int)rate);
                 subRate = subRate % (int)subRate;
             }
         }
@@ -89,9 +93,32 @@ namespace bullethell.Models {
             rate = (rate == startingRate) ? rate * factor : startingRate;
         }
 
-        public void MoveToPoint(int finalX, int finalY, int UpDown, int LeftRight) {
-            if ((Location.X < finalX) && (Location.Y < finalY)) {
-                Move(UpDown, LeftRight);
+        public void SetScale(float newScale) {
+            scale = newScale;
+        }
+
+        public void MoveToPoint(int finalX, int finalY) {
+
+            // if the difference to move is less than the rate,
+            // we'll just call it good, otherwise we'll rubberband back and forth
+            if (Math.Abs(location.X - finalX) < rate) {
+                location.X = finalX;
+            } else {
+                if (Location.X < finalX) {
+                    Move(Direction.Right, Direction.Stay);
+                } else if (Location.X > finalX) {
+                    Move(Direction.Left, Direction.Stay);
+                }
+            }
+
+            if (Math.Abs(location.Y - finalY) < rate) {
+                location.Y = finalY;
+            } else {
+                if (Location.Y < finalY) {
+                    Move(Direction.Stay, Direction.Down);
+                } else if (Location.Y > finalY) {
+                    Move(Direction.Stay, Direction.Up);
+                }
             }
         }
 
