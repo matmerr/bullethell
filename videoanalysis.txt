@@ -1,3 +1,6 @@
+[bz: when dealing with the mid boss and final boss, remember that they are also moving. 
+Remember how the enemies and bullets move and plan on how you would implement such movements.]
+
 0:01 - 	Menu with different features of the game. Music Playing. Lots of aesthetic background
 0:03 - 	Picks the replay status and it looks like its a recording of the player's previous runthrough of the game. 
 		Shows the difficulty, date, time, and score.
@@ -42,6 +45,7 @@
 			2nd: Circular pattern much like the mini boss's but the the movement isn't fixed.
 				 Bullets feel like they move in cirles.
 			The Lasso-like pattern gets repeated but in random shapes. It looks like its the same amount of bullets per shape.
+			[bz: the Lasso pattern isn't really random. They are targeting the player's position, so their shape is determined by how the player moves.]
 			
 2:22 -	Another 45 second timer starts. Player games 1110 points. 
 		BULLET PATTERN:
@@ -63,6 +67,7 @@
 				 Covers way more area than the 1st bullet pattern.
 				 In order to see how the shape is made, there is a blurry red circle which creates bullets.
 			Repeats 4th and 5th bullet patterns.
+			[bz: the lasso is three-way this time. See the Project-Spec pdf for some info too.]
 			
 3:39 -	Player gets hit again and loses the yinyang signs and power multiplyer. gains more points. 			
 3:52 -	Another 45 second timer starts. Player's new total is now 1630. 
