@@ -8,13 +8,36 @@ using bullethell.Models;
 
 namespace bullethell.Story {
     class GameEvents {
+
+
+        class Event {
+            private Action gameEvent;
+            private int startTime;
+            private int endTime;
+            public bool HasFired;
+
+            public Event(int start, int end, Action GameEvent) {
+                startTime = start;
+                endTime = end;
+                HasFired = false;
+                gameEvent = GameEvent;
+            }
+
+            public Action GameEvent => gameEvent;
+            public int StartTime => startTime;
+            public int EndTime => endTime;
+        }
+
+
         private Timer clock = new Timer();
         private DateTime startTime;
-        private List<Tuple<int, int, Action>> eventTimesList;
+        private List<Event> eventTimesList;
+
+
         public Timer Clock => clock;
 
         public GameEvents() {
-            eventTimesList = new List<Tuple<int, int, Action>>();
+            eventTimesList = new List<Event>();
         }
 
         public double TimeElapsed() {
@@ -23,25 +46,41 @@ namespace bullethell.Story {
 
         // add a tuple event to the list of actions
         public void AddScheduledEvent(int startTime, int endTime, Action gameEvent) {
-            Tuple<int, int, Action> tempEvent = new Tuple<int, int, Action>(startTime, endTime, gameEvent);
+            Event tempEvent = new Event(startTime, endTime, gameEvent);
             eventTimesList.Add(tempEvent);
         }
+
+        public void AddSingleEvent(int startTime, Action gameEvent) {
+            // a single event is where the start and end times are the same
+            Event tempEvent = new Event(startTime, startTime, gameEvent);
+            eventTimesList.Add(tempEvent);
+        }
+
 
         // sequentially execute all events
         public void ExecuteScheduledEvents() {
             double currTime = TimeElapsed();
-            foreach (Tuple<int, int, Action> gameEvent in eventTimesList) {
-
+            foreach (Event ev in eventTimesList) {
                 // if we are in the "window of execution" execute the Action
-                if (currTime >= gameEvent.Item1 && currTime < gameEvent.Item2) {
-                    gameEvent.Item3();
+
+
+
+                // if the start time and end time are the same, it's a single event action
+                if (ev.StartTime == ev.EndTime && currTime >= ev.StartTime && ev.HasFired == false) {
+                    ev.GameEvent();
+                    ev.HasFired = true;
+                }
+
+                // so it's not a single event, let's execute it if it's within the window
+                else if (currTime >= ev.StartTime && currTime < ev.EndTime) {
+                    ev.GameEvent();
                 }
             }
         }
 
         // kickoff the timer
         public void StartTimer() {
-            eventTimesList.Sort(Comparer<System.Tuple<int, int, Action>>.Default);
+            eventTimesList.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
             startTime = DateTime.Now;
             clock.Start();
         }

@@ -10,7 +10,7 @@ namespace bullethell.Models {
     class MidBossModel : EnemyModel {
         private int health;
 
-        public MidBossModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) : base(startX, startY, dimensionX, dimensionY, startRate, startSprite) {
+        public MidBossModel(int startX, int startY, double startRate, Texture2D startSprite) : base(startX, startY, startRate, startSprite) {
         }
     }
 }
