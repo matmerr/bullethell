@@ -55,37 +55,33 @@ namespace bullethell.Story {
             WindowWidth = width;
         }
 
-        public void AddGoodBullet(Point startingPoint, int rate) {
-            goodBulletList.Add(new BulletModel(startingPoint.X, startingPoint.Y, rate, goodBulletTexture));
+        public BulletModel AddGoodBullet(Point startingPoint, int rate) {
+            BulletModel lilGoodBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, goodBulletTexture);
+            goodBulletList.Add(lilGoodBullet);
+            return lilGoodBullet;
         }
 
 
-        private List<BaseModel> OnScreenModels;
 
         // here we will initalize the specific models that are used, as well as add any "bulk models"
         // to lists
         public void InitializeModels() {
 
-
-
-            OnScreenModels = new List<BaseModel> {
-                new PlayerModel(100, 100, 2, playerShipTexture),
-                new EnemyModel(400, 400, 1, baddie1ATexture)
-            };
-
-
-
             // set starting player point
-            playerShip = new PlayerModel(0, 0, 2, playerShipTexture);
+            playerShip = new PlayerModel(300, 400, 2, playerShipTexture);
 
             midBoss = new MidBossModel(300, 100, 1, midBossTexture);
             midBoss.SetScale(.5f);
             midBoss.SetOrbitPoint(300, 250);
-
-            // add an enemy to the list do do nothing
-            enemyShipList.Add(new EnemyModel(400, 400, 1, baddie1ATexture));
-            enemyShipList.Add(new EnemyModel(300, 100, 1, baddie1ATexture));
         }
+
+        // this is an example of how to give an enemy a time to live
+        public EnemyModel EnemyTimeToLive(int startLife, int endLife, EnemyModel enemy) {
+            events.AddSingleEvent(startLife, () => enemyShipList.Add(enemy));
+            events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemy));
+            return enemy;
+        }
+
 
         // this is our timeline for the game.
         public void InitializeEvents() {
@@ -93,8 +89,6 @@ namespace bullethell.Story {
             // this is how we add an event. 
             // Move the midBoss 327 degrees between seconds 0 and 3
             // ending is not inclusive, so it is [0,3)
-            /*
-
             events.AddScheduledEvent(0, 3, () => midBoss.Move(327));
 
             // move a ship in an angle specified in degrees, based on the unit circle
@@ -110,12 +104,14 @@ namespace bullethell.Story {
             // now we'll move the midboss back to where it came from
             events.AddScheduledEvent(7, 15, () => midBoss.MoveToPoint(300, 100));
 
-            */
 
-            events.AddScheduledEvent(0, 30, () => enemyShipList[1].MoveToPoint(playerShip.Location));
+            // here we will create an enemy with a time to live, then we will tell it what to do during its life
+            EnemyModel enemy = EnemyTimeToLive(2, 7, new EnemyModel(200, 200, 1, baddie1ATexture));
+            events.AddScheduledEvent(2, 7, () => enemy.MoveToPoint(PlayerShip.Location));
 
-            //events.AddScheduledEvent(5, 30, () => ShowModels());
-
+            // here we will test that an enemy created after will be destroyed after the previous enemy
+            EnemyModel enemy2 = EnemyTimeToLive(3, 9, new EnemyModel(200, 200, 1, baddie1ATexture));
+            events.AddScheduledEvent(3, 9, () => enemy2.MoveToPoint(100, 200));
 
         }
 

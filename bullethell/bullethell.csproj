@@ -52,7 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Story\GameContent.cs" />
     <Compile Include="Story\GameEvents.cs" />
-    <Compile Include="Story\Stages.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
