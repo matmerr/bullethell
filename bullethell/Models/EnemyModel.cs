@@ -17,9 +17,7 @@ namespace bullethell.Models {
         public Point OrbitPoint;
 
 
-        public EnemyModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) : base(startX, startY, dimensionX, dimensionY, startRate, startSprite) {
-            // this is for when an enemy doesn't need to orbit something
-        }
+
 
 
         public void SetOrbitPoint(int orbitX, int orbitY) {
@@ -41,11 +39,16 @@ namespace bullethell.Models {
             angle += rate * 1 / 25;
             location.X = (int)(OrbitPoint.X + Math.Cos(angle) * (int)orbitRadius);
             location.Y = (int)(OrbitPoint.Y + Math.Sin(angle) * (int)orbitRadius);
+            drawingLocation.X = location.X - dimensions.X / 2;
+            drawingLocation.Y = location.Y - dimensions.Y / 2;
         }
 
         public void StopOrbit() {
             orbitRadius = 0;
             angle = 0;
+        }
+
+        public EnemyModel(int startX, int startY, double startRate, Texture2D startSprite) : base(startX, startY, startRate, startSprite) {
         }
     }
 }

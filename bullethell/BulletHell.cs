@@ -44,16 +44,20 @@ namespace bullethell {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
             font = Content.Load<SpriteFont>("HUD");
+
+            // set window dimension
+
 
             MainContent = new GameContent(
                 PlayerShip: Content.Load<Texture2D>("ship"),
                 MiddleBoss: Content.Load<Texture2D>("midBoss"),
-                Baddie1A: Content.Load<Texture2D>("baddie1-A")
+                Baddie1A: Content.Load<Texture2D>("baddie1-A"),
+                GoodBullet: Content.Load<Texture2D>("goodMissile"),
+                BadBullet: Content.Load<Texture2D>("badMissile")
             );
 
+            MainContent.SetWindowDimensions(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             MainContent.InitializeModels();
             MainContent.InitializeEvents();
             MainContent.Start();
@@ -98,10 +102,13 @@ namespace bullethell {
 
             // TOGGLE SPEED
             // we have to check the key is down, and not just being spammed
-            if (oldKeyboardState.IsKeyUp(Keys.Space) && Keyboard.GetState().IsKeyDown(Keys.Space)) {
+            if (oldKeyboardState.IsKeyUp(Keys.LeftShift) && Keyboard.GetState().IsKeyDown(Keys.LeftShift)) {
                 MainContent.PlayerShip.ToggleRate(5);
             }
-            oldKeyboardState = newKeyboardState;
+
+            if (oldKeyboardState.IsKeyUp(Keys.LeftShift) && Keyboard.GetState().IsKeyDown(Keys.LeftShift)) {
+                MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
+            }
 
             // this method calls all scheduled events in the game timeline
             MainContent.Events.ExecuteScheduledEvents();
@@ -120,7 +127,7 @@ namespace bullethell {
             spriteBatch.Begin();
 
             // player 
-            spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.Location, MainContent.PlayerShip.Dimensions), Color.White);
+            spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Dimensions), Color.White);
 
             // draw special enemies
             spriteBatch.Draw(MainContent.MidBoss.Sprite,
@@ -128,23 +135,23 @@ namespace bullethell {
                 new Rectangle(0, 0, MainContent.MidBoss.Dimensions.X, MainContent.MidBoss.Dimensions.Y),
                 Color.White,
                 MainContent.MidBoss.Rotation,
-                MainContent.MidBoss.Origin.ToVector2(),
+                MainContent.MidBoss.Center.ToVector2(),
                 MainContent.MidBoss.Scale,
                 SpriteEffects.None,
                 1.0f);
 
             // draw each enemy
             foreach (EnemyModel enemy in MainContent.EnemyShipList) {
-                spriteBatch.Draw(enemy.Sprite, enemy.Location.ToVector2(), new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, enemy.Origin.ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocation.ToVector2(), new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
             }
 
-            // draw each bullet
-            foreach (BulletModel bullet in MainContent.EnemyBulletList) {
-                spriteBatch.Draw(bullet.Sprite, bullet.Location.ToVector2(), new Rectangle(0, 0, bullet.Dimensions.X, bullet.Dimensions.Y), Color.White, bullet.Rotation, bullet.Origin.ToVector2(), bullet.Scale, SpriteEffects.None, 1.0f);
-
-            }
 
             spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(50, 450), Color.Black);
+            spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(50, 350), Color.Black);
+            spriteBatch.DrawString(font, "ship origin: X " + MainContent.PlayerShip.DrawingLocation.X + " Y " + MainContent.PlayerShip.DrawingLocation.Y, new Vector2(50, 320), Color.Black);
+
+
+
 
             spriteBatch.End();
             base.Draw(gameTime);

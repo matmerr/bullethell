@@ -27,8 +27,9 @@ namespace bullethell.Models {
 
         // coordinates for the model on the canvas
         protected Point location;
-        private Point dimensions;
-        private Point origin;
+        protected Point drawingLocation;
+        protected Point dimensions;
+        protected Point center;
 
         // speed at which the xPos or yPos change
         protected double rate;
@@ -50,22 +51,25 @@ namespace bullethell.Models {
         // Setters / Getters
         public Texture2D Sprite => sprite;
         public Point Location => location;
+        public Point DrawingLocation => drawingLocation;
         public Point Dimensions => dimensions;
-        public Point Origin => origin;
+        public Point Center => center;
         public float Rotation => rotation;
         public float Scale => scale;
 
 
-
-
         // constructor which is required for all classes
-        public BaseModel(int startX, int startY, int dimensionX, int dimensionY, double startRate, Texture2D startSprite) {
+        public BaseModel(int startX, int startY, double startRate, Texture2D startSprite) {
+            sprite = startSprite;
+            dimensions.X = sprite.Height;
+            dimensions.Y = sprite.Width;
             location.X = startX;
             location.Y = startY;
-            dimensions.X = dimensionX;
-            dimensions.Y = dimensionY;
-            origin.X = dimensionX / 2;
-            origin.Y = dimensionY / 2;
+            drawingLocation.X = location.X - dimensions.X / 2;
+            drawingLocation.Y = location.Y - dimensions.Y / 2;
+
+            center.X = dimensions.X / 2;
+            center.Y = dimensions.Y / 2;
             rate = startRate;
             startingRate = startRate;
             sprite = startSprite;
@@ -77,13 +81,15 @@ namespace bullethell.Models {
         public void Move(int X, int Y) {
             subRate += rate;
             if ((int)subRate != 0) {
-                location.Y += (Y * (int)subRate);
-                location.X += (X * (int)rate);
+                location.Y += Y * (int)rate;
+                location.X += X * (int)rate;
+                drawingLocation.X = location.X - dimensions.X / 2;
+                drawingLocation.Y = location.Y - dimensions.Y / 2;
                 subRate = subRate % (int)subRate;
             }
         }
 
-        // rotate around the origin
+        // rotate around the center
         public void Rotate(double angleDegrees) {
             rotation += (float)angleDegrees;
         }
@@ -97,12 +103,18 @@ namespace bullethell.Models {
             scale = newScale;
         }
 
+        public void MoveToPoint(Point target) {
+            MoveToPoint(target.X, target.Y);
+        }
+
+
         public void MoveToPoint(int finalX, int finalY) {
 
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
+
             } else {
                 if (Location.X < finalX) {
                     Move(Direction.Right, Direction.Stay);
@@ -159,6 +171,8 @@ namespace bullethell.Models {
                 location.Y -= (int)subY;
                 subY = subY % (int)subY;
             }
+            drawingLocation.X = location.X - dimensions.X / 2;
+            drawingLocation.Y = location.Y - dimensions.Y / 2;
         }
     }
 
