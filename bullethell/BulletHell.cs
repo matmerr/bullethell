@@ -57,8 +57,8 @@ namespace bullethell {
                 MiddleBoss: Content.Load<Texture2D>("midBoss"),
                 Baddie1A: Content.Load<Texture2D>("baddie1-A"),
                 BadBullet: Content.Load<Texture2D>("badMissile"),
-                GoodBullet: Content.Load<Texture2D>("goodMissile")
-                
+                GoodBullet: Content.Load<Texture2D>("goodMissile"),
+                MainBoss: Content.Load<Texture2D>("galaga_mainboss")
             );
 
             MainContent.SetWindowDimensions(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
@@ -165,6 +165,16 @@ namespace bullethell {
                 MainContent.MidBoss.Rotation,
                 MainContent.MidBoss.Center.ToVector2(),
                 MainContent.MidBoss.Scale,
+                SpriteEffects.None,
+                1.0f);
+
+            spriteBatch.Draw(MainContent.MainBoss.Sprite,
+                MainContent.MainBoss.Location.ToVector2(),
+                new Rectangle(0, 0, MainContent.MainBoss.Dimensions.X, MainContent.MainBoss.Dimensions.Y),
+                Color.White,
+                MainContent.MainBoss.Rotation,
+                MainContent.MainBoss.Center.ToVector2(),
+                MainContent.MainBoss.Scale,
                 SpriteEffects.None,
                 1.0f);
 

@@ -19,10 +19,12 @@ namespace bullethell.Story {
         private Texture2D baddie1ATexture;
         private Texture2D goodBulletTexture;
         private Texture2D badBulletTexture;
+        private Texture2D mainBossTexture;
 
         // Notable Players
         private PlayerModel playerShip;
         private MidBossModel midBoss;
+        private MainBossModel mainBoss;
 
         // List of non important Enemies and or bullets
         private List<EnemyModel> enemyShipList;
@@ -34,17 +36,19 @@ namespace bullethell.Story {
         public GameEvents Events => events;
         public PlayerModel PlayerShip => playerShip;
         public MidBossModel MidBoss => midBoss;
+        public MainBossModel MainBoss => mainBoss;
         public List<EnemyModel> EnemyShipList => enemyShipList;
         public List<BulletModel> GoodBulletList => goodBulletList;
         public List<BulletModel> EnemyBulletList => enemyBulletList;
 
         // constructor
-        public GameContent(Texture2D PlayerShip, Texture2D MiddleBoss, Texture2D Baddie1A, Texture2D GoodBullet, Texture2D BadBullet) {
+        public GameContent(Texture2D PlayerShip, Texture2D MiddleBoss, Texture2D Baddie1A, Texture2D GoodBullet, Texture2D BadBullet, Texture2D MainBoss) {
             playerShipTexture = PlayerShip;
             midBossTexture = MiddleBoss;
             baddie1ATexture = Baddie1A;
             goodBulletTexture = GoodBullet;
             badBulletTexture = BadBullet;
+            mainBossTexture = MainBoss; 
             events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
@@ -79,6 +83,10 @@ namespace bullethell.Story {
             midBoss = new MidBossModel(300, -100, 1, midBossTexture);
             midBoss.SetScale(.25f);
             midBoss.SetOrbitPoint(300, 250);
+
+            mainBoss = new MainBossModel(250, -225, 2, mainBossTexture);
+            mainBoss.SetScale(.4f);
+            mainBoss.SetOrbitPoint(300, 250);
         }
 
         // this is an example of how to give an enemy a time to live
@@ -90,8 +98,7 @@ namespace bullethell.Story {
 
 
         // this is our timeline for the game.
-        public void InitializeEvents()
-        {
+        public void InitializeEvents() {
 
             // this is how we add an event. 
             events.AddScheduledEvent(0, 5, () => midBoss.MoveToPoint(400, 75));                       //Change time later to match actual game time (48 seconds)
@@ -104,6 +111,20 @@ namespace bullethell.Story {
             events.AddScheduledEvent(20, 23, () => midBoss.MoveToPoint(100, 75));
             events.AddScheduledEvent(23, 29, () => midBoss.MoveToPoint(400, 75));
             events.AddScheduledEvent(29, 31, () => midBoss.MoveToPoint(200, -50));
+
+            //MainBoss testing:
+            events.AddScheduledEvent(1, 6, () => mainBoss.MoveToPoint(250, 50));
+            events.AddScheduledEvent(6, 12, () => mainBoss.MoveToPoint(380, 170));
+            events.AddScheduledEvent(12, 16, () => mainBoss.MoveToPoint(250, 170));
+            events.AddScheduledEvent(16, 20, () => mainBoss.MoveToPoint(110, 270));
+            events.AddScheduledEvent(20, 24, () => mainBoss.MoveToPoint(250, 50 ));
+
+            events.AddScheduledEvent(20, 24, () => mainBoss.StartOrbit());
+            events.AddScheduledEvent(24, 26, () => mainBoss.Rotate(.1));
+            events.AddScheduledEvent(26, 28, () => mainBoss.Rotate(-.1));
+
+            //leave
+            events.AddScheduledEvent(28, 34, () => mainBoss.MoveToPoint(250, -150));
 
             //midboss shooters:
             events.AddScheduledEvent(5,5, () => AddEnemyBullet(midBoss.Location,1));
