@@ -36,6 +36,7 @@ namespace bullethell.Story {
         public MidBossModel MidBoss => midBoss;
         public List<EnemyModel> EnemyShipList => enemyShipList;
         public List<BulletModel> GoodBulletList => goodBulletList;
+        public List<BulletModel> EnemyBulletList => enemyBulletList;
 
         // constructor
         public GameContent(Texture2D PlayerShip, Texture2D MiddleBoss, Texture2D Baddie1A, Texture2D GoodBullet, Texture2D BadBullet) {
@@ -61,6 +62,11 @@ namespace bullethell.Story {
             return lilGoodBullet;
         }
 
+        public BulletModel AddEnemyBullet(Point startingPoint, int rate) {
+            BulletModel lilEnemyBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, badBulletTexture);
+            enemyBulletList.Add(lilEnemyBullet);
+            return lilEnemyBullet;
+        }
 
 
         // here we will initalize the specific models that are used, as well as add any "bulk models"
@@ -68,10 +74,10 @@ namespace bullethell.Story {
         public void InitializeModels() {
 
             // set starting player point
-            playerShip = new PlayerModel(300, 400, 2, playerShipTexture);
+            playerShip = new PlayerModel(250, 750, 2, playerShipTexture);
 
-            midBoss = new MidBossModel(300, 100, 1, midBossTexture);
-            midBoss.SetScale(.5f);
+            midBoss = new MidBossModel(300, -100, 1, midBossTexture);
+            midBoss.SetScale(.25f);
             midBoss.SetOrbitPoint(300, 250);
         }
 
@@ -84,34 +90,44 @@ namespace bullethell.Story {
 
 
         // this is our timeline for the game.
-        public void InitializeEvents() {
+        public void InitializeEvents()
+        {
 
             // this is how we add an event. 
-            // Move the midBoss 327 degrees between seconds 0 and 3
-            // ending is not inclusive, so it is [0,3)
-            events.AddScheduledEvent(0, 3, () => midBoss.Move(327));
+            events.AddScheduledEvent(0, 5, () => midBoss.MoveToPoint(400, 75));                       //Change time later to match actual game time (48 seconds)
 
-            // move a ship in an angle specified in degrees, based on the unit circle
-            events.AddScheduledEvent(3, 5, () => midBoss.Move(180));
+            //midBoss movement loop
+            events.AddScheduledEvent(5, 8, () => midBoss.MoveToPoint(250, 225));
+            events.AddScheduledEvent(8, 11, () => midBoss.MoveToPoint(100, 75));
+            events.AddScheduledEvent(11, 17, () => midBoss.MoveToPoint(400, 75));
+            events.AddScheduledEvent(17, 20, () => midBoss.MoveToPoint(250, 225));
+            events.AddScheduledEvent(20, 23, () => midBoss.MoveToPoint(100, 75));
+            events.AddScheduledEvent(23, 29, () => midBoss.MoveToPoint(400, 75));
+            events.AddScheduledEvent(29, 31, () => midBoss.MoveToPoint(200, -50));
 
-            // move a ship in orbit
-            events.AddScheduledEvent(5, 7, () => midBoss.StartOrbit());
-
-            // rotate a ship, this is happening at the same time as orbit
-            events.AddScheduledEvent(5, 6, () => midBoss.Rotate(.1));
-            events.AddScheduledEvent(6, 7, () => midBoss.Rotate(-.1));
-
-            // now we'll move the midboss back to where it came from
-            events.AddScheduledEvent(7, 15, () => midBoss.MoveToPoint(300, 100));
-
+            //midboss shooters:
+            events.AddScheduledEvent(5,5, () => AddEnemyBullet(midBoss.Location,1));
+            events.AddScheduledEvent(6, 6, () => AddEnemyBullet(midBoss.Location, 1));
+            events.AddScheduledEvent(7, 7, () => AddEnemyBullet(midBoss.Location, 1));
+            events.AddScheduledEvent(8, 8, () => AddEnemyBullet(midBoss.Location, 1));
 
             // here we will create an enemy with a time to live, then we will tell it what to do during its life
-            EnemyModel enemy = EnemyTimeToLive(2, 7, new EnemyModel(200, 200, 1, baddie1ATexture));
-            events.AddScheduledEvent(2, 7, () => enemy.MoveToPoint(PlayerShip.Location));
+            EnemyModel enemy = EnemyTimeToLive(2, 9, new EnemyModel(200, 32, 3, baddie1ATexture));
+            events.AddScheduledEvent(2, 7, () => enemy.MoveToPoint(200,350));
 
             // here we will test that an enemy created after will be destroyed after the previous enemy
-            EnemyModel enemy2 = EnemyTimeToLive(3, 9, new EnemyModel(200, 200, 1, baddie1ATexture));
-            events.AddScheduledEvent(3, 9, () => enemy2.MoveToPoint(100, 200));
+            EnemyModel enemy2 = EnemyTimeToLive(3, 10, new EnemyModel(230, 32, 3, baddie1ATexture));
+            events.AddScheduledEvent(3, 10, () => enemy2.MoveToPoint(230, 350));
+
+            // List of enemies spawned:
+            EnemyModel enemy3 = EnemyTimeToLive(4, 11, new EnemyModel(260, 32 , 3, baddie1ATexture));
+            events.AddScheduledEvent(4, 11, () => enemy3.MoveToPoint(260, 350));
+
+            EnemyModel enemy4 = EnemyTimeToLive(5, 12, new EnemyModel(290, 32, 3, baddie1ATexture));
+            events.AddScheduledEvent(5, 12, () => enemy4.MoveToPoint(290, 350));
+
+            EnemyModel enemy5 = EnemyTimeToLive(6, 13, new EnemyModel(310, 32, 3, baddie1ATexture));
+            events.AddScheduledEvent(6, 13, () => enemy5.MoveToPoint(310, 350));
 
         }
 

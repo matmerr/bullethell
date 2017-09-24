@@ -33,7 +33,10 @@ namespace bullethell {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-
+            graphics.PreferredBackBufferWidth = 500;
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.ApplyChanges();
+            base.Initialize(); base.Initialize();
             base.Initialize();
         }
 
@@ -53,8 +56,9 @@ namespace bullethell {
                 PlayerShip: Content.Load<Texture2D>("ship"),
                 MiddleBoss: Content.Load<Texture2D>("midBoss"),
                 Baddie1A: Content.Load<Texture2D>("baddie1-A"),
-                GoodBullet: Content.Load<Texture2D>("goodMissile"),
-                BadBullet: Content.Load<Texture2D>("badMissile")
+                BadBullet: Content.Load<Texture2D>("badMissile"),
+                GoodBullet: Content.Load<Texture2D>("goodMissile")
+                
             );
 
             MainContent.SetWindowDimensions(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
@@ -110,11 +114,17 @@ namespace bullethell {
                 MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
             }
 
+            //JUST TESTING FOR ENEMY BULLETS:
+            if (oldKeyboardState.IsKeyUp(Keys.A) && newKeyboardState.IsKeyDown(Keys.A))
+            {
+                MainContent.AddEnemyBullet(MainContent.MidBoss.Location, 2);
+            }
+
             // update the keyboard state
             oldKeyboardState = newKeyboardState;
 
             // this method calls all scheduled events in the game timeline
-            MainContent.Events.ExecuteScheduledEvents();
+            MainContent.Events.ExecuteScheduledEvents(); //Jomar's Comment: Much like the propertieschanged{} back in 321, super lit
 
             // this is just an example of moving the bullets
             // TODO: actually implement this inside of MainContent
@@ -122,6 +132,14 @@ namespace bullethell {
             foreach (BulletModel gb in MainContent.GoodBulletList) {
                 gb.Move(Direction.Stay, Direction.Up);
             }
+
+            //THIS IS THE VERY MINIMAL FIRE FOR DELIVERABLE 1 RIGHT NOW.
+            foreach (BulletModel eb in MainContent.EnemyBulletList)
+            {
+                //eb.Move(MainContent.PlayerShip.Location.X,MainContent.PlayerShip.Location.Y); //Doesn't work for now.
+                eb.MoveToPoint(MainContent.PlayerShip.Location);
+            }
+
 
             base.Update(gameTime);
         }
@@ -159,12 +177,19 @@ namespace bullethell {
                 spriteBatch.Draw(gb.Sprite, gb.DrawingLocation.ToVector2(), new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
             }
 
-            spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(50, 450), Color.Black);
-            spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(50, 400), Color.Black);
+            foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
+                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocation.ToVector2(), 
+                    new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation, 
+                    new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
+            }
+            
+            spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.Black);
+            spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.Black);
+
 
 
             spriteBatch.End();
             base.Draw(gameTime);
-        }
+            }
     }
 }
