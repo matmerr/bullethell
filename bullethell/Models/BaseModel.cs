@@ -119,26 +119,11 @@ namespace bullethell.Models {
             double xv = finalX - location.X;
             double yv = finalY - location.Y;
 
-            double distance = (float)Math.Sqrt(Math.Pow((finalX - location.X), 2) + Math.Pow((finalY - location.Y), 2));
+            double distance = Math.Sqrt(Math.Pow(finalX - location.X, 2) + Math.Pow(finalY - location.Y, 2));
 
             trajectoryAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
             trajectoryAngle = trajectoryAngle * 180 / Math.PI;
             trajectoryAngle *= -1;
-
-            //double dot = (location.X * finalX) + (location.Y * finalY);
-            //double det = (location.X * finalY) - (location.Y * finalY);
-            //trajectoryAngle = Math.Atan2(det, dot) * (180 / Math.PI);
-
-            //trajectoryAngle = Math.Atan2(location.Y, location.X) - Math.Atan2(finalY, finalX) * (180 / Math.PI);
-
-
-            //trajectoryAngle = Math.Atan2(location.Y - finalY, location.X - finalX) * 180 / Math.PI;
-
-
-
-            //if (trajectoryAngle < 0) {
-            //    trajectoryAngle = trajectoryAngle + 360;
-            //}
 
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
@@ -160,17 +145,11 @@ namespace bullethell.Models {
                     Move(trajectoryAngle);
                 }
             }
-
-
         }
-
-
-
 
         public void MoveToPoint(Point target) {
             MoveToPoint(target.X, target.Y);
         }
-
 
         public void MoveToPoint(int finalX, int finalY) {
 

@@ -135,7 +135,7 @@ namespace bullethell {
             //THIS IS THE VERY MINIMAL FIRE FOR DELIVERABLE 1 RIGHT NOW.
             foreach (BulletModel eb in MainContent.EnemyBulletList) {
                 //eb.Move(MainContent.PlayerShip.Location.X,MainContent.PlayerShip.Location.Y); //Doesn't work for now.
-                eb.MoveToPoint(MainContent.PlayerShip.Location);
+                eb.MoveToPointFlex(MainContent.PlayerShip.Location);
             }
 
 

@@ -100,6 +100,8 @@ namespace bullethell.Story {
         // this is our timeline for the game.
         public void InitializeEvents() {
 
+
+
             // this is how we add an event. 
             events.AddScheduledEvent(0, 5, () => midBoss.MoveToPoint(400, 75));                       //Change time later to match actual game time (48 seconds)
 
@@ -149,6 +151,13 @@ namespace bullethell.Story {
 
             EnemyModel enemy5 = EnemyTimeToLive(6, 13, new EnemyModel(310, 32, 3, baddie1ATexture));
             events.AddScheduledEvent(6, 13, () => enemy5.MoveToPoint(310, 350));
+
+            EnemyModel enemy6 = EnemyTimeToLive(0, 13, new EnemyModel(310, 32, 1, baddie1ATexture));
+            events.AddScheduledEvent(0, 13, () => enemy6.MoveToPointFlex(playerShip.Location));
+
+
+
+            events.AddSingleEvent(5, () => enemy.StartOrbit());
 
         }
 
