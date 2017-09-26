@@ -17,9 +17,6 @@ namespace bullethell.Models {
         public Point OrbitPoint;
 
 
-
-
-
         public void SetOrbitPoint(int orbitX, int orbitY) {
             OrbitPoint.X = orbitX;
             OrbitPoint.Y = orbitY;

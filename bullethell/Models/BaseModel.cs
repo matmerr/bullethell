@@ -31,6 +31,9 @@ namespace bullethell.Models {
         protected Point dimensions;
         protected Point center;
 
+
+        protected double trajectoryAngle;
+
         // speed at which the xPos or yPos change
         protected double rate;
 
@@ -56,6 +59,7 @@ namespace bullethell.Models {
         public Point Center => center;
         public float Rotation => rotation;
         public float Scale => scale;
+        public double TrajectoryAngle => trajectoryAngle;
 
 
         // constructor which is required for all classes
@@ -102,6 +106,66 @@ namespace bullethell.Models {
         public void SetScale(float newScale) {
             scale = newScale;
         }
+
+
+        public void MoveToPointFlex(Point target) {
+            MoveToPointFlex(target.X, target.Y);
+        }
+
+        public void MoveToPointFlex(int finalX, int finalY) {
+            // if the difference to move is less than the rate,
+            // we'll just call it good, otherwise we'll rubberband back and forth
+
+            double xv = finalX - location.X;
+            double yv = finalY - location.Y;
+
+            double distance = (float)Math.Sqrt(Math.Pow((finalX - location.X), 2) + Math.Pow((finalY - location.Y), 2));
+
+            trajectoryAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
+            trajectoryAngle = trajectoryAngle * 180 / Math.PI;
+            trajectoryAngle *= -1;
+
+            //double dot = (location.X * finalX) + (location.Y * finalY);
+            //double det = (location.X * finalY) - (location.Y * finalY);
+            //trajectoryAngle = Math.Atan2(det, dot) * (180 / Math.PI);
+
+            //trajectoryAngle = Math.Atan2(location.Y, location.X) - Math.Atan2(finalY, finalX) * (180 / Math.PI);
+
+
+            //trajectoryAngle = Math.Atan2(location.Y - finalY, location.X - finalX) * 180 / Math.PI;
+
+
+
+            //if (trajectoryAngle < 0) {
+            //    trajectoryAngle = trajectoryAngle + 360;
+            //}
+
+            if (Math.Abs(location.X - finalX) < rate) {
+                location.X = finalX;
+
+            } else {
+                if (Location.X < finalX) {
+                    Move(trajectoryAngle);
+                } else if (Location.X > finalX) {
+                    Move(trajectoryAngle);
+                }
+            }
+
+            if (Math.Abs(location.Y - finalY) < rate) {
+                location.Y = finalY;
+            } else {
+                if (Location.Y < finalY) {
+                    Move(trajectoryAngle);
+                } else if (Location.Y > finalY) {
+                    Move(trajectoryAngle);
+                }
+            }
+
+
+        }
+
+
+
 
         public void MoveToPoint(Point target) {
             MoveToPoint(target.X, target.Y);
