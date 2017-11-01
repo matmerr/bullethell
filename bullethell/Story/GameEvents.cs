@@ -28,7 +28,6 @@ namespace bullethell.Story {
             public int EndTime => endTime;
         }
 
-
         private Timer clock = new Timer();
         private DateTime startTime;
         private List<Event> eventTimesList;
@@ -62,8 +61,6 @@ namespace bullethell.Story {
             double currTime = TimeElapsed();
             foreach (Event ev in eventTimesList) {
                 // if we are in the "window of execution" execute the Action
-
-
 
                 // if the start time and end time are the same, it's a single event action
                 if (ev.StartTime == ev.EndTime && currTime >= ev.StartTime && ev.HasFired == false) {

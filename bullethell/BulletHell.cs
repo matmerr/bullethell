@@ -115,8 +115,7 @@ namespace bullethell {
             }
 
             //JUST TESTING FOR ENEMY BULLETS:
-            if (oldKeyboardState.IsKeyUp(Keys.A) && newKeyboardState.IsKeyDown(Keys.A))
-            {
+            if (oldKeyboardState.IsKeyUp(Keys.A) && newKeyboardState.IsKeyDown(Keys.A)) {
                 MainContent.AddEnemyBullet(MainContent.MidBoss.Location, 2);
             }
 
@@ -134,10 +133,9 @@ namespace bullethell {
             }
 
             //THIS IS THE VERY MINIMAL FIRE FOR DELIVERABLE 1 RIGHT NOW.
-            foreach (BulletModel eb in MainContent.EnemyBulletList)
-            {
+            foreach (BulletModel eb in MainContent.EnemyBulletList) {
                 //eb.Move(MainContent.PlayerShip.Location.X,MainContent.PlayerShip.Location.Y); //Doesn't work for now.
-                eb.MoveToPoint(MainContent.PlayerShip.Location);
+                eb.MoveToPointFlex(MainContent.PlayerShip.Location);
             }
 
 
@@ -188,11 +186,12 @@ namespace bullethell {
             }
 
             foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
-                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocation.ToVector2(), 
-                    new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation, 
+                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocation.ToVector2(),
+                    new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation,
                     new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
             }
-            
+
+            spriteBatch.DrawString(font, "Trajectory Angle " + MainContent.PlayerShip.TrajectoryAngle, new Vector2(25, 650), Color.Black);
             spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.Black);
             spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.Black);
 
@@ -200,6 +199,6 @@ namespace bullethell {
 
             spriteBatch.End();
             base.Draw(gameTime);
-            }
+        }
     }
 }

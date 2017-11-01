@@ -48,7 +48,7 @@ namespace bullethell.Story {
             baddie1ATexture = Baddie1A;
             goodBulletTexture = GoodBullet;
             badBulletTexture = BadBullet;
-            mainBossTexture = MainBoss; 
+            mainBossTexture = MainBoss;
             events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
@@ -100,6 +100,8 @@ namespace bullethell.Story {
         // this is our timeline for the game.
         public void InitializeEvents() {
 
+
+
             // this is how we add an event. 
             events.AddScheduledEvent(0, 5, () => midBoss.MoveToPoint(400, 75));                       //Change time later to match actual game time (48 seconds)
 
@@ -117,7 +119,7 @@ namespace bullethell.Story {
             events.AddScheduledEvent(6, 12, () => mainBoss.MoveToPoint(380, 170));
             events.AddScheduledEvent(12, 16, () => mainBoss.MoveToPoint(250, 170));
             events.AddScheduledEvent(16, 20, () => mainBoss.MoveToPoint(110, 270));
-            events.AddScheduledEvent(20, 24, () => mainBoss.MoveToPoint(250, 50 ));
+            events.AddScheduledEvent(20, 24, () => mainBoss.MoveToPoint(250, 50));
 
             events.AddScheduledEvent(20, 24, () => mainBoss.StartOrbit());
             events.AddScheduledEvent(24, 26, () => mainBoss.Rotate(.1));
@@ -127,21 +129,21 @@ namespace bullethell.Story {
             events.AddScheduledEvent(28, 34, () => mainBoss.MoveToPoint(250, -150));
 
             //midboss shooters:
-            events.AddScheduledEvent(5,5, () => AddEnemyBullet(midBoss.Location,1));
+            events.AddScheduledEvent(5, 5, () => AddEnemyBullet(midBoss.Location, 1));
             events.AddScheduledEvent(6, 6, () => AddEnemyBullet(midBoss.Location, 1));
             events.AddScheduledEvent(7, 7, () => AddEnemyBullet(midBoss.Location, 1));
             events.AddScheduledEvent(8, 8, () => AddEnemyBullet(midBoss.Location, 1));
 
             // here we will create an enemy with a time to live, then we will tell it what to do during its life
             EnemyModel enemy = EnemyTimeToLive(2, 9, new EnemyModel(200, 32, 3, baddie1ATexture));
-            events.AddScheduledEvent(2, 7, () => enemy.MoveToPoint(200,350));
+            events.AddScheduledEvent(2, 7, () => enemy.MoveToPoint(200, 350));
 
             // here we will test that an enemy created after will be destroyed after the previous enemy
             EnemyModel enemy2 = EnemyTimeToLive(3, 10, new EnemyModel(230, 32, 3, baddie1ATexture));
             events.AddScheduledEvent(3, 10, () => enemy2.MoveToPoint(230, 350));
 
             // List of enemies spawned:
-            EnemyModel enemy3 = EnemyTimeToLive(4, 11, new EnemyModel(260, 32 , 3, baddie1ATexture));
+            EnemyModel enemy3 = EnemyTimeToLive(4, 11, new EnemyModel(260, 32, 3, baddie1ATexture));
             events.AddScheduledEvent(4, 11, () => enemy3.MoveToPoint(260, 350));
 
             EnemyModel enemy4 = EnemyTimeToLive(5, 12, new EnemyModel(290, 32, 3, baddie1ATexture));
@@ -149,6 +151,13 @@ namespace bullethell.Story {
 
             EnemyModel enemy5 = EnemyTimeToLive(6, 13, new EnemyModel(310, 32, 3, baddie1ATexture));
             events.AddScheduledEvent(6, 13, () => enemy5.MoveToPoint(310, 350));
+
+            EnemyModel enemy6 = EnemyTimeToLive(0, 13, new EnemyModel(310, 32, 1, baddie1ATexture));
+            events.AddScheduledEvent(0, 13, () => enemy6.MoveToPointFlex(playerShip.Location));
+
+
+
+            events.AddSingleEvent(5, () => enemy.StartOrbit());
 
         }
 
