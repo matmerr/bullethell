@@ -89,20 +89,31 @@ namespace bullethell {
 
             // TODO: Add your update logic here
 
+
+
+            int direction = 0;
+            /*
+            Right: 1
+            Up: 2
+            Left: 4
+            Down: 8*/
+
             // MOVE PLAYER
             // We can use the Direction class that I made to avoid confusion
             if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
-                MainContent.PlayerShip.Move(Direction.Right, Direction.Stay);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
-                MainContent.PlayerShip.Move(Direction.Left, Direction.Stay);
+                direction += 1;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
-                MainContent.PlayerShip.Move(Direction.Stay, Direction.Up);
+                direction += 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
+                direction += 4;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down)) {
-                MainContent.PlayerShip.Move(Direction.Stay, Direction.Down);
+                direction += 8;
             }
+
+            if (direction != 0) MainContent.PlayerShip.Move(Direction.ConvertKeyDirection(direction));
 
             // TOGGLE SPEED
             // we have to check the key is down, and not just being spammed
@@ -155,43 +166,25 @@ namespace bullethell {
             // player 
             spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Dimensions), Color.White);
 
-            // draw special enemies
-            spriteBatch.Draw(MainContent.MidBoss.Sprite,
-                MainContent.MidBoss.Location.ToVector2(),
-                new Rectangle(0, 0, MainContent.MidBoss.Dimensions.X, MainContent.MidBoss.Dimensions.Y),
-                Color.White,
-                MainContent.MidBoss.Rotation,
-                MainContent.MidBoss.Center.ToVector2(),
-                MainContent.MidBoss.Scale,
-                SpriteEffects.None,
-                1.0f);
-
-            spriteBatch.Draw(MainContent.MainBoss.Sprite,
-                MainContent.MainBoss.Location.ToVector2(),
-                new Rectangle(0, 0, MainContent.MainBoss.Dimensions.X, MainContent.MainBoss.Dimensions.Y),
-                Color.White,
-                MainContent.MainBoss.Rotation,
-                MainContent.MainBoss.Center.ToVector2(),
-                MainContent.MainBoss.Scale,
-                SpriteEffects.None,
-                1.0f);
 
             // draw each enemy
             foreach (EnemyModel enemy in MainContent.EnemyShipList) {
-                spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocation.ToVector2(), new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocationVector, new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+
             }
 
             foreach (BulletModel gb in MainContent.GoodBulletList) {
-                spriteBatch.Draw(gb.Sprite, gb.DrawingLocation.ToVector2(), new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(gb.Sprite, gb.DrawingLocationVector, new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
             }
 
             foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
-                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocation.ToVector2(),
+                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocationVector,
                     new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation,
                     new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
             }
 
-            spriteBatch.DrawString(font, "Trajectory Angle " + MainContent.PlayerShip.TrajectoryAngle, new Vector2(25, 650), Color.Black);
+            spriteBatch.DrawString(font, "Key" + (int)Keys.Down, new Vector2(25, 650), Color.Black);
+
             spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.Black);
             spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.Black);
 

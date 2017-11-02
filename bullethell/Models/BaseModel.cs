@@ -18,6 +18,37 @@ namespace bullethell.Models {
         public const int Right = 1;
         public const int Left = -1;
         public const int Stay = 0;
+
+        public const int E = 0;
+        public const int NE = 45;
+        public const int N = 90;
+        public const int NW = 135;
+        public const int W = 180;
+        public const int SW = 225;
+        public const int S = 270;
+        public const int SE = 315;
+
+
+        /*
+         * Right: 1
+         * Up: 2
+         * Left: 4
+         * Down: 8*/
+        // takes a sum of encoded keypresses, returns an angle
+        public static int ConvertKeyDirection(int sum) {
+            if (sum == 1) return E;
+            if (sum == 2) return N;
+            if (sum == 4) return W;
+            if (sum == 8) return S;
+
+            if (sum == 3) return NE;
+            if (sum == 6) return NW;
+            if (sum == 12) return SW;
+            if (sum == 9) return SE;
+
+
+            return -1;
+        }
     }
 
     abstract class BaseModel {
@@ -54,12 +85,25 @@ namespace bullethell.Models {
         // Setters / Getters
         public Texture2D Sprite => sprite;
         public Point Location => location;
-        public Point DrawingLocation => drawingLocation;
+
+
         public Point Dimensions => dimensions;
         public Point Center => center;
         public float Rotation => rotation;
         public float Scale => scale;
         public double TrajectoryAngle => trajectoryAngle;
+
+        public Point DrawingLocation => drawingLocation;
+
+        public Vector2 DrawingLocationVector {
+            get {
+                var NormalizedDirection = drawingLocation.ToVector2();
+                //NormalizedDirection.Normalize();
+                return NormalizedDirection;
+            }
+        }
+
+
 
 
         // constructor which is required for all classes
@@ -125,15 +169,16 @@ namespace bullethell.Models {
             trajectoryAngle = trajectoryAngle * 180 / Math.PI;
             trajectoryAngle *= -1;
 
+
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
-
             } else {
                 if (Location.X < finalX) {
                     Move(trajectoryAngle);
                 } else if (Location.X > finalX) {
                     Move(trajectoryAngle);
                 }
+                return;
             }
 
             if (Math.Abs(location.Y - finalY) < rate) {
@@ -144,6 +189,7 @@ namespace bullethell.Models {
                 } else if (Location.Y > finalY) {
                     Move(trajectoryAngle);
                 }
+                return;
             }
         }
 
@@ -157,22 +203,20 @@ namespace bullethell.Models {
             // we'll just call it good, otherwise we'll rubberband back and forth
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
-
             } else {
                 if (Location.X < finalX) {
-                    Move(Direction.Right, Direction.Stay);
+                    Move(0);
                 } else if (Location.X > finalX) {
-                    Move(Direction.Left, Direction.Stay);
+                    Move(180);
                 }
             }
-
             if (Math.Abs(location.Y - finalY) < rate) {
                 location.Y = finalY;
             } else {
                 if (Location.Y < finalY) {
-                    Move(Direction.Stay, Direction.Down);
+                    Move(270);
                 } else if (Location.Y > finalY) {
-                    Move(Direction.Stay, Direction.Up);
+                    Move(90);
                 }
             }
         }
