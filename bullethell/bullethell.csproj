@@ -47,14 +47,14 @@
     <Compile Include="Models\EnemyModel.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
+    <Compile Include="Models\Movement Patterns\Spiral.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Story\Events\BulletSpray.cs" />
-    <Compile Include="Story\GameContent.cs" />
-    <Compile Include="Story\GameEvents.cs" />
+    <Compile Include="Controller\GameContent.cs" />
+    <Compile Include="Controller\GameEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

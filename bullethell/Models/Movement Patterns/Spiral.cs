@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bullethell.Story.Events {
-    class BulletSpray {
+namespace bullethell.Models.Movement_Patterns {
+    static class Spiral {
     }
 }

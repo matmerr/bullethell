@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using bullethell.Models;
 
-namespace bullethell.Story {
+namespace bullethell.Controller {
     class GameEvents {
 
 

@@ -1,10 +1,10 @@
 ﻿using bullethell.Models;
-using bullethell.Story;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System;
+using bullethell.Controller;
 
 namespace bullethell {
     /// <summary>
@@ -149,8 +149,11 @@ namespace bullethell {
             // update the keyboard state
             oldKeyboardState = newKeyboardState;
 
-            // this method calls all scheduled events in the game timeline
-            MainContent.Events.ExecuteScheduledEvents(); //Jomar's Comment: Much like the propertieschanged{} back in 321, super lit
+
+            if (gameState == GameStates.InGame) {
+                // this method calls all scheduled events in the game timeline
+                MainContent.Events.ExecuteScheduledEvents(); //Jomar's Comment: Much like the propertieschanged{} back in 321, super lit
+            }
 
             // this is just an example of moving the bullets
             // TODO: actually implement this inside of MainContent
@@ -168,11 +171,16 @@ namespace bullethell {
             // Here we handle mouse click logic
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed) {
-                if (startButton.ClickedWithinBounds(mouseState)) {
+                if (startButton.ClickedWithinBounds(mouseState) && gameState == GameStates.Menu) {
                     gameState = GameStates.InGame;
                     MainContent.Start();
                 }
             }
+
+
+
+
+
 
             base.Update(gameTime);
         }
@@ -190,9 +198,6 @@ namespace bullethell {
             if (gameState == GameStates.Menu) {
 
                 spriteBatch.Draw(startButton.Texture, startButton.Location.ToVector2(), Color.White);
-
-
-
 
             } else if (gameState == GameStates.InGame) {
 
