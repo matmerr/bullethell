@@ -47,6 +47,7 @@
     <Compile Include="Models\EnemyModel.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
+    <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Program.cs" />
@@ -68,6 +69,7 @@
     <Content Include="Content\goodMissile.png" />
     <Content Include="Content\midBoss.png" />
     <Content Include="Content\ship.png" />
+    <Content Include="Content\startButton.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -20,8 +20,6 @@ namespace bullethell.Models {
         public void SetOrbitPoint(int orbitX, int orbitY) {
             OrbitPoint.X = orbitX;
             OrbitPoint.Y = orbitY;
-
-
         }
 
         public void StartOrbit() {

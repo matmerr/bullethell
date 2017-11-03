@@ -11,6 +11,9 @@ namespace bullethell {
     /// This is the main type for your game.
     /// </summary>
     public class BulletHell : Game {
+        // Menu Items
+        private MenuButton startButton;
+
 
         private KeyboardState oldKeyboardState;
 
@@ -19,6 +22,13 @@ namespace bullethell {
         private GameContent MainContent;
         private SpriteFont font;
 
+        public enum GameStates {
+            Menu,
+            InGame,
+            Paused
+        }
+
+        private GameStates gameState;
 
         public BulletHell() {
             graphics = new GraphicsDeviceManager(this);
@@ -33,6 +43,8 @@ namespace bullethell {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
+            gameState = GameStates.Menu;
             graphics.PreferredBackBufferWidth = 500;
             graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
@@ -61,10 +73,12 @@ namespace bullethell {
                 MainBoss: Content.Load<Texture2D>("galaga_mainboss")
             );
 
+            startButton = new MenuButton("start", 200, 200, Content.Load<Texture2D>("startButton"));
+
+
             MainContent.SetWindowDimensions(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             MainContent.InitializeModels();
             MainContent.InitializeEvents();
-            MainContent.Start();
         }
 
         /// <summary>
@@ -97,6 +111,8 @@ namespace bullethell {
             Up: 2
             Left: 4
             Down: 8*/
+
+
 
             // MOVE PLAYER
             // We can use the Direction class that I made to avoid confusion
@@ -149,6 +165,14 @@ namespace bullethell {
                 eb.MoveToPointFlex(MainContent.PlayerShip.Location);
             }
 
+            // Here we handle mouse click logic
+            MouseState mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed) {
+                if (startButton.ClickedWithinBounds(mouseState)) {
+                    gameState = GameStates.InGame;
+                    MainContent.Start();
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -158,37 +182,44 @@ namespace bullethell {
         /// </summary>
         //  / <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            // player 
-            spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Dimensions), Color.White);
+            if (gameState == GameStates.Menu) {
+
+                spriteBatch.Draw(startButton.Texture, startButton.Location.ToVector2(), Color.White);
 
 
-            // draw each enemy
-            foreach (EnemyModel enemy in MainContent.EnemyShipList) {
-                spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocationVector, new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+
+
+            } else if (gameState == GameStates.InGame) {
+
+                // player 
+                spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Dimensions), Color.White);
+
+                // draw each enemy
+                foreach (EnemyModel enemy in MainContent.EnemyShipList) {
+                    spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocationVector, new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+                }
+
+                foreach (BulletModel gb in MainContent.GoodBulletList) {
+                    spriteBatch.Draw(gb.Sprite, gb.DrawingLocationVector, new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
+                }
+
+                foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
+                    spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocationVector,
+                        new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation,
+                        new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
+                }
+
+                spriteBatch.DrawString(font, "Key" + (int)Keys.Down, new Vector2(25, 650), Color.Black);
+
+                spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.White);
+                spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.White);
 
             }
-
-            foreach (BulletModel gb in MainContent.GoodBulletList) {
-                spriteBatch.Draw(gb.Sprite, gb.DrawingLocationVector, new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
-            }
-
-            foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
-                spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocationVector,
-                    new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation,
-                    new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
-            }
-
-            spriteBatch.DrawString(font, "Key" + (int)Keys.Down, new Vector2(25, 650), Color.Black);
-
-            spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.Black);
-            spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.Black);
-
-
 
             spriteBatch.End();
             base.Draw(gameTime);
