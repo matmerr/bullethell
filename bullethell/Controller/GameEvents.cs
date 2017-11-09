@@ -12,11 +12,11 @@ namespace bullethell.Controller {
 
         class Event {
             private Action gameEvent;
-            private int startTime;
-            private int endTime;
+            private double startTime;
+            private double endTime;
             public bool HasFired;
 
-            public Event(int start, int end, Action GameEvent) {
+            public Event(double start, double end, Action GameEvent) {
                 startTime = start;
                 endTime = end;
                 HasFired = false;
@@ -24,8 +24,8 @@ namespace bullethell.Controller {
             }
 
             public Action GameEvent => gameEvent;
-            public int StartTime => startTime;
-            public int EndTime => endTime;
+            public double StartTime => startTime;
+            public double EndTime => endTime;
         }
 
         private Timer clock = new Timer();
@@ -44,12 +44,14 @@ namespace bullethell.Controller {
         }
 
         // add a tuple event to the list of actions
-        public void AddScheduledEvent(int startTime, int endTime, Action gameEvent) {
-            Event tempEvent = new Event(startTime, endTime, gameEvent);
-            eventTimesList.Add(tempEvent);
+        public void AddScheduledEvent(double startTime, double endTime, Action gameEvent) {
+            if (startTime <= endTime) {
+                Event tempEvent = new Event(startTime, endTime, gameEvent);
+                eventTimesList.Add(tempEvent);
+            }
         }
 
-        public void AddSingleEvent(int startTime, Action gameEvent) {
+        public void AddSingleEvent(double startTime, Action gameEvent) {
             // a single event is where the start and end times are the same
             Event tempEvent = new Event(startTime, startTime, gameEvent);
             eventTimesList.Add(tempEvent);

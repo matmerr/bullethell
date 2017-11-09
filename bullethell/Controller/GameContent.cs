@@ -16,12 +16,20 @@ namespace bullethell.Controller {
 
         private GameEvents events;
 
-        private Texture2D playerShipTexture;
+        public Texture2D playerShipTexture;
         private Texture2D midBossTexture;
         private Texture2D baddie1ATexture;
         private Texture2D goodBulletTexture;
         private Texture2D badBulletTexture;
         private Texture2D mainBossTexture;
+        private Texture2D baddieDie1Texture;
+
+        public Texture2D PlayerShipTexture => playerShipTexture;
+        public Texture2D MidBossTexture => midBossTexture;
+        public Texture2D Baddie1ATexture => baddie1ATexture;
+        public Texture2D GoodBulletTexture => goodBulletTexture;
+        public Texture2D MainBossTexture => mainBossTexture;
+        public Texture2D BaddieDie1Texture => baddieDie1Texture;
 
         // Notable Players
         private PlayerModel playerShip;
@@ -32,6 +40,7 @@ namespace bullethell.Controller {
         private List<EnemyModel> enemyShipList;
         private List<BulletModel> enemyBulletList;
         private List<BulletModel> goodBulletList;
+        private List<BaseModel> miscModelList;
 
 
         // field encapsulation so we don't accidentally change stuff outside of this class
@@ -42,25 +51,53 @@ namespace bullethell.Controller {
         public List<EnemyModel> EnemyShipList => enemyShipList;
         public List<BulletModel> GoodBulletList => goodBulletList;
         public List<BulletModel> EnemyBulletList => enemyBulletList;
+        public List<BaseModel> MiscModelList => miscModelList;
 
         // constructor
-        public GameContent(Texture2D PlayerShip, Texture2D MiddleBoss, Texture2D Baddie1A, Texture2D GoodBullet, Texture2D BadBullet, Texture2D MainBoss) {
+        public GameContent(Texture2D PlayerShip,
+                            Texture2D MiddleBoss,
+                            Texture2D Baddie1A,
+                            Texture2D GoodBullet,
+                            Texture2D BadBullet,
+                            Texture2D MainBoss,
+                            Texture2D BaddieDie1) {
             playerShipTexture = PlayerShip;
             midBossTexture = MiddleBoss;
             baddie1ATexture = Baddie1A;
             goodBulletTexture = GoodBullet;
             badBulletTexture = BadBullet;
             mainBossTexture = MainBoss;
+            baddieDie1Texture = BaddieDie1;
             events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
             goodBulletList = new List<BulletModel>();
+            miscModelList = new List<BaseModel>();
         }
 
         public void SetWindowDimensions(int height, int width) {
             WindowHeight = height;
             WindowWidth = width;
         }
+
+        public bool IsColliding(BaseModel a, BaseModel b) {
+            Rectangle ra = new Rectangle(a.DrawingLocation.X, a.DrawingLocation.Y, a.Texture.Width, a.Texture.Height);
+            Rectangle rb = new Rectangle(b.DrawingLocation.X, b.DrawingLocation.Y, a.Texture.Width, b.Texture.Height);
+            return ra.Intersects(rb);
+        }
+
+        public Point CollisionPoint(BaseModel a, BaseModel b) {
+            Rectangle ra = new Rectangle(a.DrawingLocation.X, a.DrawingLocation.Y, a.Texture.Width, a.Texture.Height);
+            Rectangle rb = new Rectangle(b.DrawingLocation.X, b.DrawingLocation.Y, a.Texture.Width, b.Texture.Height);
+
+            if (ra.Intersects(rb)) {
+                Rectangle rect = Rectangle.Intersect(ra, rb);
+                return new Point(rect.Center.X - rect.Width / 2,
+                    rect.Center.Y - rect.Height / 2);
+            }
+            return new Point(0, 0);
+        }
+
 
         public BulletModel AddGoodBullet(Point startingPoint, int rate) {
             BulletModel lilGoodBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, goodBulletTexture);
@@ -92,10 +129,31 @@ namespace bullethell.Controller {
         }
 
         // this is an example of how to give an enemy a time to live
-        public EnemyModel EnemyTimeToLive(int startLife, int endLife, EnemyModel enemy) {
-            events.AddSingleEvent(startLife, () => enemyShipList.Add(enemy));
-            events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemy));
-            return enemy;
+        public Object TimeToLive(double startLife, double endLife, BaseModel model) {
+            if (startLife > endLife) {
+                return null;
+            }
+
+            if (model is EnemyModel enemyModel) {
+                events.AddSingleEvent(startLife, () => enemyShipList.Add(enemyModel));
+                events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemyModel));
+            }
+
+            if (model is BulletModel bullet) {
+                if (bullet.Texture == goodBulletTexture) {
+                    events.AddSingleEvent(startLife, () => goodBulletList.Add(bullet));
+                    events.AddSingleEvent(endLife, () => goodBulletList.Remove(bullet));
+                } else if (bullet.Texture == badBulletTexture) {
+                    events.AddSingleEvent(startLife, () => enemyBulletList.Add((BulletModel)model));
+                    events.AddSingleEvent(endLife, () => enemyBulletList.Remove((BulletModel)model));
+                }
+            } else {
+                events.AddSingleEvent(startLife, () => miscModelList.Add(model));
+                events.AddSingleEvent(endLife, () => miscModelList.Remove(model));
+
+            }
+
+            return model;
         }
 
 
@@ -103,50 +161,21 @@ namespace bullethell.Controller {
         public void InitializeEvents() {
 
 
-
-            // this is how we add an event. 
-
-            for (int i = 0; i < 50; i++) {
-                //here we will create an enemy with a time to live, then we will tell it what to do during its life
-                EnemyModel enemy = EnemyTimeToLive(i, 200, new EnemyModel(200, 350, 2, baddie1ATexture));
-                enemy.SetOrbitPoint(200, 351);
-                events.AddScheduledEvent(i, 200, () => enemy.Spiral());
-            }
-
-
             for (int i = 0; i < 50; i++) {
                 int j = 1;
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
-                    EnemyModel enemy = EnemyTimeToLive(i, 200, new EnemyModel(200 + j, 400 + i, 2, badBulletTexture));
-                    enemy.SetLinearTravelAngle(j);
-                    events.AddScheduledEvent(i, 200, () => enemy.MoveLinear());
+
+                    BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(200 + j, 400 + i, 2, badBulletTexture));
+                    if (bullet != null) {
+                        bullet.SetLinearTravelAngle(j);
+                        events.AddScheduledEvent(i, 200, () => bullet.MoveLinear());
+                    }
+
                     j += 10;
                 }
             }
 
-
-            for (int i = 0; i < 50; i++) {
-                int j = 1;
-                while (j < 360) {
-                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
-                    EnemyModel enemy = EnemyTimeToLive(i, 200, new EnemyModel(100, 100, 2, badBulletTexture));
-                    enemy.SetLinearTravelAngle(j);
-                    events.AddScheduledEvent(i, 200, () => enemy.MoveLinear());
-                    j += 10;
-                }
-            }
-
-            for (int i = 0; i < 50; i++) {
-                int j = 1;
-                while (j < 360) {
-                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
-                    EnemyModel enemy = EnemyTimeToLive(i, 200, new EnemyModel(400, 500, 2, badBulletTexture));
-                    enemy.SetLinearTravelAngle(j);
-                    events.AddScheduledEvent(i, 200, () => enemy.MoveLinear());
-                    j += 10;
-                }
-            }
 
 
         }

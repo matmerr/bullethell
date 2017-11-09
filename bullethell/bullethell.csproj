@@ -65,6 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\baddie1-A.png" />
+    <Content Include="Content\baddie1-B.png" />
+    <Content Include="Content\baddie2-A.png" />
+    <Content Include="Content\baddie2-B.png" />
+    <Content Include="Content\baddieDie-1.png" />
+    <Content Include="Content\baddieDie-2.png" />
+    <Content Include="Content\baddieDie-3.png" />
+    <Content Include="Content\baddieDie-4.png" />
+    <Content Include="Content\baddieDie-5.png" />
     <Content Include="Content\badMissile.png" />
     <Content Include="Content\goodMissile.png" />
     <Content Include="Content\midBoss.png" />

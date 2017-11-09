@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using bullethell.Controller;
 
 namespace bullethell {
@@ -70,7 +72,9 @@ namespace bullethell {
                 Baddie1A: Content.Load<Texture2D>("baddie1-A"),
                 BadBullet: Content.Load<Texture2D>("badMissile"),
                 GoodBullet: Content.Load<Texture2D>("goodMissile"),
-                MainBoss: Content.Load<Texture2D>("galaga_mainboss")
+                MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
+                BaddieDie1: Content.Load<Texture2D>("baddieDie-1")
+
             );
 
             startButton = new MenuButton("start", 200, 200, Content.Load<Texture2D>("startButton"));
@@ -155,17 +159,10 @@ namespace bullethell {
                 MainContent.Events.ExecuteScheduledEvents(); //Jomar's Comment: Much like the propertieschanged{} back in 321, super lit
             }
 
-            // this is just an example of moving the bullets
-            // TODO: actually implement this inside of MainContent
-            // and remove all bullets that collide or go off screen
-            foreach (BulletModel gb in MainContent.GoodBulletList) {
-                gb.Move(Direction.Stay, Direction.Up);
-            }
+            // this is just an example of moving the good bullets
 
-            //THIS IS THE VERY MINIMAL FIRE FOR DELIVERABLE 1 RIGHT NOW.
-            foreach (BulletModel eb in MainContent.EnemyBulletList) {
-                //eb.Move(MainContent.PlayerShip.Location.X,MainContent.PlayerShip.Location.Y); //Doesn't work for now.
-                eb.MoveToPointFlex(MainContent.PlayerShip.Location);
+            foreach (BulletModel gb in MainContent.GoodBulletList) {
+                gb.Move(Direction.N);
             }
 
             // Here we handle mouse click logic
@@ -202,27 +199,61 @@ namespace bullethell {
             } else if (gameState == GameStates.InGame) {
 
                 // player 
-                spriteBatch.Draw(MainContent.PlayerShip.Sprite, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Dimensions), Color.White);
+                spriteBatch.Draw(MainContent.PlayerShip.Texture, new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Texture.Bounds.Size), Color.White);
+
+
 
                 // draw each enemy
                 foreach (EnemyModel enemy in MainContent.EnemyShipList) {
-                    spriteBatch.Draw(enemy.Sprite, enemy.DrawingLocationVector, new Rectangle(0, 0, enemy.Dimensions.X, enemy.Dimensions.Y), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+                    spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector, new Rectangle(0, 0, enemy.Texture.Width, enemy.Texture.Height), Color.White, enemy.Rotation, new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
                 }
 
                 foreach (BulletModel gb in MainContent.GoodBulletList) {
-                    spriteBatch.Draw(gb.Sprite, gb.DrawingLocationVector, new Rectangle(0, 0, gb.Dimensions.X, gb.Dimensions.Y), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
+                    spriteBatch.Draw(gb.Texture, gb.DrawingLocationVector, new Rectangle(0, 0, gb.Texture.Width, gb.Texture.Height), Color.White, gb.Rotation, new Point(0, 0).ToVector2(), gb.Scale, SpriteEffects.None, 1.0f);
                 }
 
-                foreach (BulletModel eBulletModel in MainContent.EnemyBulletList) {
-                    spriteBatch.Draw(eBulletModel.Sprite, eBulletModel.DrawingLocationVector,
-                        new Rectangle(0, 0, eBulletModel.Dimensions.X, eBulletModel.Dimensions.Y), Color.White, eBulletModel.Rotation,
-                        new Point(0, 0).ToVector2(), eBulletModel.Scale, SpriteEffects.None, 1.0f);
+                foreach (BaseModel bm in MainContent.MiscModelList) {
+                    spriteBatch.Draw(bm.Texture, bm.DrawingLocationVector, new Rectangle(0, 0, bm.Texture.Height, bm.Texture.Height), Color.White, bm.Rotation, new Point(0, 0).ToVector2(), bm.Scale, SpriteEffects.None, 1.0f);
+
                 }
 
-                spriteBatch.DrawString(font, "Key" + (int)Keys.Down, new Vector2(25, 650), Color.Black);
+                foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList()) {
 
+                    // "Check each enemy bullet to see if it collides with a good bullet"
+                    foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
+                        if (MainContent.IsColliding(enemyBullet, goodBullet)) {
+                            MainContent.GoodBulletList.Remove(goodBullet);
+                            MainContent.EnemyBulletList.Remove(enemyBullet);
+                            // draw explosions lol
+                            double currTime = MainContent.Events.TimeElapsed();
+                            Point collisionPoint = MainContent.CollisionPoint(enemyBullet, goodBullet);
+                            BaseModel explosion1 = (BaseModel)MainContent.TimeToLive(currTime, currTime + .2,
+                                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, MainContent.BaddieDie1Texture));
+                            MainContent.Events.AddScheduledEvent(currTime, currTime + .2, () => explosion1.Move(Direction.Stay, Direction.Stay));
+                        }
+                    }
+
+                    // "Check the enemey bullet to see if it is colliding with player"
+                    if (MainContent.IsColliding(enemyBullet, MainContent.PlayerShip)) {
+                        MainContent.PlayerShip.TakeDamage();
+                        MainContent.EnemyBulletList.Remove(enemyBullet);
+                        Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
+                        double currTime = MainContent.Events.TimeElapsed();
+                        BaseModel explosion1 = (BaseModel)MainContent.TimeToLive(currTime, currTime + .2,
+                            new BaseModel(collisionPoint.X, collisionPoint.Y, 1, MainContent.BaddieDie1Texture));
+                        MainContent.Events.AddScheduledEvent(currTime, currTime + .2, () => explosion1.Move(Direction.Stay, Direction.Stay));
+                    } else {
+                        spriteBatch.Draw(enemyBullet.Texture, enemyBullet.DrawingLocationVector,
+                            new Rectangle(0, 0, enemyBullet.Texture.Width, enemyBullet.Texture.Height), Color.White,
+                            enemyBullet.Rotation,
+                            new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
+                    }
+
+                }
+
+                spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650), Color.White);
                 spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750), Color.White);
-                spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.Location.X + " Y " + MainContent.PlayerShip.Location.Y, new Vector2(25, 700), Color.White);
+                spriteBatch.DrawString(font, "ship location: X " + MainContent.PlayerShip.DrawingLocation.X + " Y " + MainContent.PlayerShip.DrawingLocation.Y, new Vector2(25, 700), Color.White);
 
             }
 
