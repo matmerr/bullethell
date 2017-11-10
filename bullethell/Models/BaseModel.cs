@@ -271,7 +271,9 @@ namespace bullethell.Models {
             Move(linearAngle);
         }
 
-
+        public void SetOrbitPoint(Point p) {
+            SetOrbitPoint(p.X, p.Y);
+        }
         public void SetOrbitPoint(int orbitX, int orbitY) {
             OrbitPoint.X = orbitX;
             OrbitPoint.Y = orbitY;
@@ -297,12 +299,21 @@ namespace bullethell.Models {
         }
 
         public void StopOrbit() {
-            orbitRadius = 0;
+            orbitRadius = 1;
             orbitAngle = 0;
         }
 
 
+        public Point GetLocation() {
+            return location;
+        }
 
+        public void SetLocation(Point p) {
+            location.X = p.X;
+            location.Y = p.Y;
+            drawingLocation.X = location.X - texture.Width / 2;
+            drawingLocation.Y = location.Y - texture.Height / 2;
+        }
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,24 @@ namespace bullethell.Controller {
 
 
         class Event {
+            private int tag;
             private Action gameEvent;
             private double startTime;
             private double endTime;
             public bool HasFired;
 
+            public int Tag => tag;
+
             public Event(double start, double end, Action GameEvent) {
+                tag = -1;
+                startTime = start;
+                endTime = end;
+                HasFired = false;
+                gameEvent = GameEvent;
+            }
+
+            public Event(double start, double end, int actionTag, Action GameEvent) {
+                tag = actionTag;
                 startTime = start;
                 endTime = end;
                 HasFired = false;
@@ -41,6 +54,25 @@ namespace bullethell.Controller {
 
         public double TimeElapsed() {
             return (DateTime.Now - startTime).TotalSeconds;
+        }
+
+
+        // add a tuple event to the list of actions
+        public void AddScheduledTaggedEvent(double startTime, double endTime, object tag, Action gameEvent) {
+            if (startTime <= endTime) {
+                Event tempEvent = new Event(startTime, endTime, tag.GetHashCode(), gameEvent);
+                eventTimesList.Add(tempEvent);
+            }
+        }
+
+        public void AddSingleTaggedEvent(double startTime, object tag, Action gameEvent) {
+            // a single event is where the start and end times are the same
+            Event tempEvent = new Event(startTime, startTime, tag.GetHashCode(), gameEvent);
+            eventTimesList.Add(tempEvent);
+        }
+
+        public void RemoveTaggedEvents(object tag) {
+            eventTimesList.RemoveAll(e => e.Tag == tag.GetHashCode() && e.StartTime > TimeElapsed());
         }
 
         // add a tuple event to the list of actions
@@ -73,6 +105,7 @@ namespace bullethell.Controller {
                 // so it's not a single event, let's execute it if it's within the window
                 else if (currTime >= ev.StartTime && currTime < ev.EndTime) {
                     ev.GameEvent();
+
                 }
             }
         }

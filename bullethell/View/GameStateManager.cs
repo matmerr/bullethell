@@ -21,18 +21,6 @@ namespace bullethell.View {
         public GameStateManager(ContentManager content) {
             this.Content = content;
 
-            MainContent = new GameContent(
-                PlayerShip: Content.Load<Texture2D>("ship"),
-                MiddleBoss: Content.Load<Texture2D>("midBoss"),
-                Baddie1A: Content.Load<Texture2D>("baddie1-A"),
-                BadBullet: Content.Load<Texture2D>("badMissile"),
-                GoodBullet: Content.Load<Texture2D>("goodMissile"),
-                MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
-                BaddieDie1: Content.Load<Texture2D>("baddieDie-1")
-            );
-
-            MainContent.InitializeModels();
-            MainContent.InitializeEvents();
             Screens = new Stack<GameState>();
         }
 
@@ -43,9 +31,7 @@ namespace bullethell.View {
         }
 
         public void RemoveState() {
-            if (Screens.Count > 0) {
-                MainContent = Screens.Pop().GetMainContent();
-            }
+
         }
 
         public void Update(GameTime gameTime) {
@@ -67,9 +53,7 @@ namespace bullethell.View {
             Screens.Peek()?.UnloadContent();
         }
 
-        public GameContent GetMainContent() {
-            return MainContent;
-        }
+
 
         public Stack<GameState> GetScreens() {
             return Screens;
@@ -82,7 +66,6 @@ namespace bullethell.View {
                 var top = Screens.Peek();
                 if (top.GetHashCode() != TopHash && top.Screens.Count > 0) {
                     Screens = top.GetScreens();
-                    MainContent = top.GetMainContent();
                 }
             }
         }

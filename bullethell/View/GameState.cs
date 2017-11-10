@@ -11,14 +11,12 @@ using Microsoft.Xna.Framework.Graphics;
 namespace bullethell.View {
     public abstract class GameState {
         protected GraphicsDevice graphicsDevice;
-        protected GameContent MainContent;
         protected ContentManager Content;
         protected BulletHell.GameStates gameState;
         public Stack<GameState> Screens;
 
-        protected GameState(GraphicsDevice graphicsDevice, GameContent MainContent, ContentManager Content, Stack<GameState> Screens) {
+        protected GameState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) {
             this.graphicsDevice = graphicsDevice;
-            this.MainContent = MainContent;
             this.Content = Content;
             this.Screens = Screens;
         }
@@ -28,7 +26,6 @@ namespace bullethell.View {
         public abstract void UnloadContent();
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract GameContent GetMainContent();
         public abstract Stack<GameState> GetScreens();
     }
 }

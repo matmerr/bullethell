@@ -13,11 +13,12 @@ using Microsoft.Xna.Framework.Input;
 namespace bullethell.View {
     class InGameState : GameState {
 
+        private GameContent MainContent;
         private KeyboardState oldKeyboardState;
         private SpriteFont font;
 
 
-        public InGameState(GraphicsDevice graphicsDevice, GameContent MainContent, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, MainContent, Content, Screens) {
+        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
             LoadContent();
         }
 
@@ -28,8 +29,28 @@ namespace bullethell.View {
 
         public override void LoadContent() {
             font = Content.Load<SpriteFont>("HUD");
+
+
+            MainContent = new GameContent(
+                PlayerShip: Content.Load<Texture2D>("ship"),
+                Baddie1A: Content.Load<Texture2D>("baddie1-A"),
+                Baddie1B: Content.Load<Texture2D>("baddie1-B"),
+                Baddie2A: Content.Load<Texture2D>("baddie2-B"),
+                Baddie2B: Content.Load<Texture2D>("baddie2-B"),
+                MiddleBoss: Content.Load<Texture2D>("midBoss"),
+                BadBullet: Content.Load<Texture2D>("badMissile"),
+                GoodBullet: Content.Load<Texture2D>("goodMissile"),
+                MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
+                BaddieDie1: Content.Load<Texture2D>("baddieDie-1"),
+                BaddieDie2: Content.Load<Texture2D>("baddieDie-2"),
+                BaddieDie3: Content.Load<Texture2D>("baddieDie-3"),
+                BaddieDie4: Content.Load<Texture2D>("baddieDie-4"),
+                BaddieDie5: Content.Load<Texture2D>("baddieDie-5")
+            );
+
             MainContent.InitializeModels();
             MainContent.InitializeEvents();
+
             MainContent.Start();
         }
 
@@ -100,12 +121,29 @@ namespace bullethell.View {
 
 
 
+
+
             // draw each enemy
-            foreach (EnemyModel enemy in MainContent.EnemyShipList) {
+            foreach (EnemyModel enemy in MainContent.EnemyShipList.ToList()) {
+
+                // "Check each enemy bullet to see if it collides with a good bullet"
+                foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
+                    if (MainContent.IsColliding(enemy, goodBullet)) {
+                        MainContent.GoodBulletList.Remove(goodBullet);
+                        MainContent.EnemyShipList.Remove(enemy);
+                        // draw explosions lol
+                        MainContent.DrawMediumExplosion(enemy.Location);
+                        MainContent.Events.RemoveTaggedEvents(enemy);
+                    }
+
+                }
+
                 spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
-                    new Rectangle(0, 0, enemy.Texture.Width, enemy.Texture.Height), Color.White, enemy.Rotation,
+                    new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
                     new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
+
             }
+
 
             foreach (BulletModel gb in MainContent.GoodBulletList) {
                 spriteBatch.Draw(gb.Texture, gb.DrawingLocationVector,
@@ -128,12 +166,7 @@ namespace bullethell.View {
                         MainContent.GoodBulletList.Remove(goodBullet);
                         MainContent.EnemyBulletList.Remove(enemyBullet);
                         // draw explosions lol
-                        double currTime = MainContent.Events.TimeElapsed();
-                        Point collisionPoint = MainContent.CollisionPoint(enemyBullet, goodBullet);
-                        BaseModel explosion1 = (BaseModel)MainContent.TimeToLive(currTime, currTime + .2,
-                            new BaseModel(collisionPoint.X, collisionPoint.Y, 1, MainContent.BaddieDie1Texture));
-                        MainContent.Events.AddScheduledEvent(currTime, currTime + .2,
-                            () => explosion1.Move(Direction.Stay, Direction.Stay));
+                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemyBullet, goodBullet));
                     }
                 }
 
@@ -142,11 +175,7 @@ namespace bullethell.View {
                     MainContent.PlayerShip.TakeDamage();
                     MainContent.EnemyBulletList.Remove(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
-                    double currTime = MainContent.Events.TimeElapsed();
-                    BaseModel explosion1 = (BaseModel)MainContent.TimeToLive(currTime, currTime + .2,
-                        new BaseModel(collisionPoint.X, collisionPoint.Y, 1, MainContent.BaddieDie1Texture));
-                    MainContent.Events.AddScheduledEvent(currTime, currTime + .2,
-                        () => explosion1.Move(Direction.Stay, Direction.Stay));
+                    MainContent.DrawTinyExplosion(collisionPoint);
                 } else {
                     spriteBatch.Draw(enemyBullet.Texture, enemyBullet.DrawingLocationVector,
                         new Rectangle(0, 0, enemyBullet.Texture.Width, enemyBullet.Texture.Height), Color.White,
@@ -154,6 +183,9 @@ namespace bullethell.View {
                         new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
                 }
             }
+
+            spriteBatch.DrawString(font, "Remaining Enemies: " + MainContent.EnemyShipList.Count, new Vector2(25, 550),
+                Color.White);
 
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650),
                 Color.White);
@@ -165,13 +197,13 @@ namespace bullethell.View {
 
 
             if (MainContent.PlayerShip.IsDead()) {
-                EndGameLostState es = new EndGameLostState(graphicsDevice, MainContent, Content, Screens);
+                EndGameLostState es = new EndGameLostState(graphicsDevice, Content, Screens);
                 MainContent.Events.StopTimer();
                 Screens.Push(es);
             }
 
-            if (MainContent.Events.TimeElapsed() > 10) {
-                EndGameWonState es = new EndGameWonState(graphicsDevice, MainContent, Content, Screens);
+            if (MainContent.Events.TimeElapsed() > 120) {
+                EndGameWonState es = new EndGameWonState(graphicsDevice, Content, Screens);
                 MainContent.Events.StopTimer();
                 Screens.Push(es);
             }
@@ -182,9 +214,6 @@ namespace bullethell.View {
 
 
 
-        public override GameContent GetMainContent() {
-            return MainContent;
-        }
 
         public override Stack<GameState> GetScreens() {
             return Screens;

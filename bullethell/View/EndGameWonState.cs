@@ -15,7 +15,7 @@ namespace bullethell.View {
         private SpriteFont font;
 
 
-        public EndGameWonState(GraphicsDevice graphicsDevice, GameContent MainContent, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, MainContent, Content, Screens) {
+        public EndGameWonState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
             LoadContent();
         }
 
@@ -33,9 +33,8 @@ namespace bullethell.View {
 
         public override void Update(GameTime gameTime) {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
-                MainContent.Reset();
                 Screens.Clear();
-                MainMenuState m = new MainMenuState(graphicsDevice, MainContent, Content, new Stack<GameState>());
+                MainMenuState m = new MainMenuState(graphicsDevice, Content, new Stack<GameState>());
                 Screens.Push(m);
             }
         }
@@ -52,9 +51,6 @@ namespace bullethell.View {
 
 
 
-        public override GameContent GetMainContent() {
-            return MainContent;
-        }
 
         public override Stack<GameState> GetScreens() {
             return Screens;

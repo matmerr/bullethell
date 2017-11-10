@@ -16,15 +16,10 @@ namespace bullethell {
     public class BulletHell : Game {
         // Menu Items
 
-
-
-
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         private GameStateManager StateManager;
-
 
         public enum GameStates {
             Menu,
@@ -33,8 +28,6 @@ namespace bullethell {
             GameLost,
             GameWon
         }
-
-
 
         public BulletHell() {
             graphics = new GraphicsDeviceManager(this);
@@ -67,7 +60,7 @@ namespace bullethell {
 
 
             StateManager = new GameStateManager(Content);
-            StateManager.AddScreen(new MainMenuState(GraphicsDevice, StateManager.GetMainContent(), Content, StateManager.GetScreens()));
+            StateManager.AddScreen(new MainMenuState(GraphicsDevice, Content, StateManager.GetScreens()));
 
         }
 
@@ -88,10 +81,8 @@ namespace bullethell {
         protected override void Update(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
 
             StateManager.Update(gameTime);
 
@@ -105,7 +96,6 @@ namespace bullethell {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
             StateManager.Draw(spriteBatch);
 
             base.Draw(gameTime);

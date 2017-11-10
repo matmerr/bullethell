@@ -15,7 +15,7 @@ namespace bullethell.View {
 
         private MenuButton startButton;
 
-        public MainMenuState(GraphicsDevice graphicsDevice, GameContent MainContent, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, MainContent, Content, Screens) {
+        public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
             LoadContent();
         }
 
@@ -38,7 +38,7 @@ namespace bullethell.View {
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed) {
                 if (startButton.ClickedWithinBounds(mouseState) && gameState == BulletHell.GameStates.Menu) {
-                    InGameState gs = new InGameState(graphicsDevice, MainContent, Content, Screens);
+                    InGameState gs = new InGameState(graphicsDevice, Content, Screens);
                     Screens.Push(gs);
                 }
             }
@@ -50,9 +50,7 @@ namespace bullethell.View {
             spriteBatch.End();
         }
 
-        public override GameContent GetMainContent() {
-            return MainContent;
-        }
+
 
         public override Stack<GameState> GetScreens() {
             return Screens;
