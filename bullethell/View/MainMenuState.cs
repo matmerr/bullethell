@@ -14,6 +14,7 @@ namespace bullethell.View {
     class MainMenuState : GameState {
 
         private MenuButton startButton;
+        public KeyboardState oldKeyboardState;
 
         public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
             LoadContent();
@@ -35,13 +36,19 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
+            KeyboardState newKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed) {
-                if (startButton.ClickedWithinBounds(mouseState) && gameState == BulletHell.GameStates.Menu) {
+                if (startButton.ClickedWithinBounds(mouseState)) {
                     InGameState gs = new InGameState(graphicsDevice, Content, Screens);
                     Screens.Push(gs);
                 }
             }
+            if (oldKeyboardState.IsKeyUp(Keys.Enter) && newKeyboardState.IsKeyDown(Keys.Enter)) {
+                InGameState gs = new InGameState(graphicsDevice, Content, Screens);
+                Screens.Push(gs);
+            }
+            oldKeyboardState = newKeyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

@@ -228,16 +228,16 @@ namespace bullethell.Controller {
             Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
 
             double i;
-            for (i = 0; i < 10; i++) {
+            for (i = 0; i < 15; i++) {
                 int j = 1;
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy1, new BulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy1, new BulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy1, () => bullet.SetLocation(enemy1.GetLocation()));
-                        Events.AddScheduledTaggedEvent(i, 200, enemy1, () => bullet.MoveLinear());
+                        Events.AddScheduledTaggedEvent(i, i+10, enemy1, () => bullet.MoveLinear());
                     }
                     j += 20;
                 }
@@ -248,16 +248,16 @@ namespace bullethell.Controller {
             TimeToLive(0, 200, enemy2);
             Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
 
-            for (i = 0; i < 10; i++) {
+            for (i = 0; i < 15; i++) {
                 int j = 1;
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy2, new BulletModel(enemy2.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy2, new BulletModel(enemy2.GetLocation().X, enemy2.GetLocation().Y, 2, badBulletTexture));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy2, () => bullet.SetLocation(enemy2.GetLocation()));
-                        Events.AddScheduledTaggedEvent(i, 200, enemy2, () => bullet.MoveLinear());
+                        Events.AddScheduledTaggedEvent(i, i+10, enemy2, () => bullet.MoveLinear());
                     }
                     j += 20;
                 }
@@ -265,17 +265,30 @@ namespace bullethell.Controller {
 
 
             EnemyModel midBoss = new EnemyModel(250, 0, 1, baddie2ATexture);
+            midBoss.SetHealth(5);
             TimeToLive(10, 200, midBoss);
             Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
             i = 15;
             while (i < 30) {
                 //we will create an enemy with a time to live, then we will tell it what to do during its life
+                double j = 360%i;
+                while (j < 360) {
+                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy1, new BulletModel(250, 250, 2, badBulletTexture));
-                if (bullet != null) {
-                    Events.AddSingleTaggedEvent(i, midBoss, () => bullet.SetLocation(midBoss.GetLocation()));
-                    bullet.SetOrbitPoint(250, 251);
-                    Events.AddScheduledTaggedEvent(i, 120, midBoss, () => bullet.Spiral());
+                    BulletModel bullet1 = (BulletModel)TimeToLiveTagged(i, i+10, midBoss, new BulletModel(midBoss.GetLocation().X, midBoss.GetLocation().Y, 2, badBulletTexture));
+                    if (bullet1 != null) {
+                        bullet1.SetLinearTravelAngle(j);
+                        Events.AddSingleTaggedEvent(i, enemy2, () => bullet1.SetLocation(midBoss.GetLocation()));
+                        Events.AddScheduledTaggedEvent(i, i+10, midBoss, () => bullet1.MoveLinear());
+                    }
+                    j += 10;
+                }
+
+                BulletModel bullet2 = (BulletModel)TimeToLiveTagged(i, i+30, midBoss, new BulletModel(250, 250, 2, badBulletTexture));
+                if (bullet2 != null) {
+                    Events.AddSingleTaggedEvent(i, midBoss, () => bullet2.SetLocation(midBoss.GetLocation()));
+                    bullet2.SetOrbitPoint(250, 251);
+                    Events.AddScheduledTaggedEvent(i, i+30, midBoss, () => bullet2.Spiral());
                 }
                 i += .25;
             }
@@ -296,12 +309,11 @@ namespace bullethell.Controller {
 
 
         private double startwin = 0;
-
         public bool HasWon() {
             if (Events.TimeElapsed() > 10 && EnemyShipList.Count == 0) {
                 if (startwin == 0) {
                     startwin = Events.TimeElapsed();
-                } else if (Events.TimeElapsed() - startwin > 3) {
+                } else if (Events.TimeElapsed() - startwin > 2) {
                     return true;
                 }
             }

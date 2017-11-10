@@ -263,7 +263,7 @@ namespace bullethell.Models {
 
         public Point OrbitPoint;
 
-        public void SetLinearTravelAngle(int angle) {
+        public void SetLinearTravelAngle(double angle) {
             this.linearAngle = angle;
         }
 

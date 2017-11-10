@@ -57,8 +57,6 @@ namespace bullethell {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
             StateManager = new GameStateManager(Content);
             StateManager.AddScreen(new MainMenuState(GraphicsDevice, Content, StateManager.GetScreens()));
 
@@ -80,12 +78,9 @@ namespace bullethell {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             StateManager.Update(gameTime);
-
             base.Update(gameTime);
         }
 
@@ -95,9 +90,7 @@ namespace bullethell {
         //  / <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-
             StateManager.Draw(spriteBatch);
-
             base.Draw(gameTime);
         }
     }

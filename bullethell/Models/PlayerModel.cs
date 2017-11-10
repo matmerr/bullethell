@@ -13,7 +13,7 @@ namespace bullethell.Models {
 
 
         public PlayerModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
-            health = 100;
+            health = 20;
         }
 
         public int Health => health;

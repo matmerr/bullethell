@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace bullethell.View {
     class GameStateManager {
 
-        public GameContent MainContent;
         public Stack<GameState> Screens;
         private ContentManager Content;
 

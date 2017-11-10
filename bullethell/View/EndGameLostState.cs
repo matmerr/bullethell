@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
     class EndGameLostState : GameState {
-
+        private KeyboardState oldKeyboardState;
         private SpriteFont font;
 
 
@@ -32,11 +32,14 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+            KeyboardState newKeyboardState = Keyboard.GetState();
+            if (oldKeyboardState.IsKeyUp(Keys.Enter) && newKeyboardState.IsKeyDown(Keys.Enter)) {
                 Screens.Clear();
                 MainMenuState m = new MainMenuState(graphicsDevice, Content, new Stack<GameState>());
+                m.oldKeyboardState = newKeyboardState;
                 Screens.Push(m);
             }
+            oldKeyboardState = newKeyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -47,9 +50,6 @@ namespace bullethell.View {
                 Color.Azure);
             spriteBatch.End();
         }
-
-
-
 
 
         public override Stack<GameState> GetScreens() {

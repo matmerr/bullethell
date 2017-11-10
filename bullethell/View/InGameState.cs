@@ -120,9 +120,6 @@ namespace bullethell.View {
                 Color.White);
 
 
-
-
-
             // draw each enemy
             foreach (EnemyModel enemy in MainContent.EnemyShipList.ToList()) {
 
@@ -130,25 +127,26 @@ namespace bullethell.View {
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemy, goodBullet)) {
                         MainContent.GoodBulletList.Remove(goodBullet);
-                        MainContent.EnemyShipList.Remove(enemy);
-                        // draw explosions lol
-                        MainContent.DrawBigExplosion(enemy.Location);
+                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
+                        enemy.TakeDamage();
+                        if (enemy.IsDead()) {
+                            MainContent.EnemyShipList.Remove(enemy);
+                            // draw explosions lol
+                            if (enemy.Texture == MainContent.Baddie1BTexture || enemy.Texture == MainContent.Baddie2BTexture) {
+                                MainContent.DrawMediumExplosion(enemy.Location);
+                            } else if (enemy.Texture == MainContent.Baddie1ATexture || enemy.Texture == MainContent.Baddie2ATexture) {
+                                MainContent.DrawBigExplosion(enemy.Location);
+                            }
+                        }
                         MainContent.Events.RemoveTaggedEvents(enemy);
                     }
-
                 }
-
-
 
                 spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
                     new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
                     new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
 
             }
-
-
-
-
 
 
             foreach (BulletModel gb in MainContent.GoodBulletList) {
@@ -214,17 +212,11 @@ namespace bullethell.View {
                 Screens.Push(es);
             }
 
-
             spriteBatch.End();
         }
-
-
-
 
         public override Stack<GameState> GetScreens() {
             return Screens;
         }
-
-
     }
 }
