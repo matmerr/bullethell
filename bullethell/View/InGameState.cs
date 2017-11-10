@@ -35,7 +35,7 @@ namespace bullethell.View {
                 PlayerShip: Content.Load<Texture2D>("ship"),
                 Baddie1A: Content.Load<Texture2D>("baddie1-A"),
                 Baddie1B: Content.Load<Texture2D>("baddie1-B"),
-                Baddie2A: Content.Load<Texture2D>("baddie2-B"),
+                Baddie2A: Content.Load<Texture2D>("baddie2-A"),
                 Baddie2B: Content.Load<Texture2D>("baddie2-B"),
                 MiddleBoss: Content.Load<Texture2D>("midBoss"),
                 BadBullet: Content.Load<Texture2D>("badMissile"),
@@ -132,17 +132,23 @@ namespace bullethell.View {
                         MainContent.GoodBulletList.Remove(goodBullet);
                         MainContent.EnemyShipList.Remove(enemy);
                         // draw explosions lol
-                        MainContent.DrawMediumExplosion(enemy.Location);
+                        MainContent.DrawBigExplosion(enemy.Location);
                         MainContent.Events.RemoveTaggedEvents(enemy);
                     }
 
                 }
+
+
 
                 spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
                     new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
                     new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
 
             }
+
+
+
+
 
 
             foreach (BulletModel gb in MainContent.GoodBulletList) {
@@ -202,7 +208,7 @@ namespace bullethell.View {
                 Screens.Push(es);
             }
 
-            if (MainContent.Events.TimeElapsed() > 120) {
+            if (MainContent.HasWon()) {
                 EndGameWonState es = new EndGameWonState(graphicsDevice, Content, Screens);
                 MainContent.Events.StopTimer();
                 Screens.Push(es);

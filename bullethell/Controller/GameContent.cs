@@ -188,22 +188,22 @@ namespace bullethell.Controller {
             playerShip = new PlayerModel(250, 750, 2, playerShipTexture);
         }
 
-        // this is an example of how to give an enemy a time to live
-        public Object TimeToLive(double startLife, double endLife, BaseModel model) {
+
+        // give an enemy a time to live, with a tag
+        public Object TimeToLiveTagged(double startLife, double endLife, object tag, BaseModel model) {
             if (startLife > endLife) {
                 return null;
             }
-
             if (model is EnemyModel enemyModel) {
-                Events.AddSingleEvent(startLife, () => enemyShipList.Add(enemyModel));
-                Events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemyModel));
+                Events.AddSingleTaggedEvent(startLife, tag, () => enemyShipList.Add(enemyModel));
+                Events.AddSingleTaggedEvent(endLife, tag, () => enemyShipList.Remove(enemyModel));
             } else if (model is BulletModel bullet) {
                 if (bullet.Texture == goodBulletTexture) {
-                    Events.AddSingleEvent(startLife, () => goodBulletList.Add(bullet));
-                    Events.AddSingleEvent(endLife, () => goodBulletList.Remove(bullet));
+                    Events.AddSingleTaggedEvent(startLife, tag, () => goodBulletList.Add(bullet));
+                    Events.AddSingleTaggedEvent(endLife, tag, () => goodBulletList.Remove(bullet));
                 } else if (bullet.Texture == badBulletTexture) {
-                    Events.AddSingleEvent(startLife, () => enemyBulletList.Add((BulletModel)model));
-                    Events.AddSingleEvent(endLife, () => enemyBulletList.Remove((BulletModel)model));
+                    Events.AddSingleTaggedEvent(startLife, tag, () => enemyBulletList.Add((BulletModel)model));
+                    Events.AddSingleTaggedEvent(endLife, tag, () => enemyBulletList.Remove((BulletModel)model));
                 }
             } else {
                 Events.AddSingleEvent(startLife, () => miscModelList.Add(model));
@@ -212,7 +212,10 @@ namespace bullethell.Controller {
             return model;
         }
 
-
+        // this is an example of how to give an enemy a time to live
+        public Object TimeToLive(double startLife, double endLife, BaseModel model) {
+            return TimeToLiveTagged(startLife, endLife, "", model);
+        }
 
 
 
@@ -220,7 +223,7 @@ namespace bullethell.Controller {
         public void InitializeEvents() {
 
 
-            EnemyModel enemy1 = new EnemyModel(50, 0, 2, baddie2BTexture);
+            EnemyModel enemy1 = new EnemyModel(50, 0, 2, baddie1BTexture);
             TimeToLive(0, 200, enemy1);
             Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
 
@@ -230,7 +233,7 @@ namespace bullethell.Controller {
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy1, new BulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy1, () => bullet.SetLocation(enemy1.GetLocation()));
@@ -241,29 +244,42 @@ namespace bullethell.Controller {
             }
 
 
+            EnemyModel enemy2 = new EnemyModel(450, 0, 2, baddie1BTexture);
+            TimeToLive(0, 200, enemy2);
+            Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
+
+            for (i = 0; i < 10; i++) {
+                int j = 1;
+                while (j < 360) {
+                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
+
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy2, new BulletModel(enemy2.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
+                    if (bullet != null) {
+                        bullet.SetLinearTravelAngle(j);
+                        Events.AddSingleTaggedEvent(i, enemy2, () => bullet.SetLocation(enemy2.GetLocation()));
+                        Events.AddScheduledTaggedEvent(i, 200, enemy2, () => bullet.MoveLinear());
+                    }
+                    j += 20;
+                }
+            }
 
 
-            EnemyModel midBoss = new EnemyModel(250, 0, 1, baddie2BTexture);
+            EnemyModel midBoss = new EnemyModel(250, 0, 1, baddie2ATexture);
             TimeToLive(10, 200, midBoss);
             Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
             i = 15;
             while (i < 30) {
                 //we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(250, 250, 2, badBulletTexture));
+                BulletModel bullet = (BulletModel)TimeToLiveTagged(i, 200, enemy1, new BulletModel(250, 250, 2, badBulletTexture));
                 if (bullet != null) {
                     Events.AddSingleTaggedEvent(i, midBoss, () => bullet.SetLocation(midBoss.GetLocation()));
-                    Events.AddSingleTaggedEvent(i, midBoss, () => bullet.SetOrbitPoint(midBoss.GetLocation()));
+                    bullet.SetOrbitPoint(250, 251);
                     Events.AddScheduledTaggedEvent(i, 120, midBoss, () => bullet.Spiral());
                 }
-                i += .5;
-
+                i += .25;
             }
-
-
-
         }
-
 
         public void Reset() {
             Events.StopTimer();
@@ -276,6 +292,20 @@ namespace bullethell.Controller {
 
         public void Start() {
             Events.StartTimer();
+        }
+
+
+        private double startwin = 0;
+
+        public bool HasWon() {
+            if (Events.TimeElapsed() > 10 && EnemyShipList.Count == 0) {
+                if (startwin == 0) {
+                    startwin = Events.TimeElapsed();
+                } else if (Events.TimeElapsed() - startwin > 3) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
