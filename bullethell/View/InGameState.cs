@@ -16,7 +16,9 @@ namespace bullethell.View {
         private KeyboardState oldKeyboardState;
         private SpriteFont font;
 
-        public InGameState(GraphicsDevice graphicsDevice, GameContent MainContent, Stack<GameState> Screens) : base(graphicsDevice, MainContent, Screens) {
+
+        public InGameState(GraphicsDevice graphicsDevice, GameContent MainContent, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, MainContent, Content, Screens) {
+            LoadContent();
         }
 
 
@@ -24,12 +26,13 @@ namespace bullethell.View {
             throw new NotImplementedException();
         }
 
-        public override void LoadContent(ContentManager Content) {
+        public override void LoadContent() {
             font = Content.Load<SpriteFont>("HUD");
             MainContent.InitializeModels();
             MainContent.InitializeEvents();
             MainContent.Start();
         }
+
 
         public override void UnloadContent() {
             // unload any extra content
@@ -150,7 +153,6 @@ namespace bullethell.View {
                         enemyBullet.Rotation,
                         new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
                 }
-
             }
 
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650),
@@ -162,12 +164,23 @@ namespace bullethell.View {
                 MainContent.PlayerShip.DrawingLocation.Y, new Vector2(25, 700), Color.White);
 
 
+            if (MainContent.PlayerShip.IsDead()) {
+                EndGameLostState es = new EndGameLostState(graphicsDevice, MainContent, Content, Screens);
+                MainContent.Events.StopTimer();
+                Screens.Push(es);
+            }
+
+            if (MainContent.Events.TimeElapsed() > 10) {
+                EndGameWonState es = new EndGameWonState(graphicsDevice, MainContent, Content, Screens);
+                MainContent.Events.StopTimer();
+                Screens.Push(es);
+            }
+
+
             spriteBatch.End();
         }
 
-        public override BulletHell.GameStates GetState() {
-            return gameState;
-        }
+
 
         public override GameContent GetMainContent() {
             return MainContent;
@@ -176,7 +189,6 @@ namespace bullethell.View {
         public override Stack<GameState> GetScreens() {
             return Screens;
         }
-
 
 
     }

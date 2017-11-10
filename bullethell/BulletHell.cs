@@ -67,8 +67,7 @@ namespace bullethell {
 
 
             StateManager = new GameStateManager(Content);
-
-            StateManager.AddScreen(new InGameState(GraphicsDevice, StateManager.GetMainContent(), StateManager.GetScreens()));
+            StateManager.AddScreen(new MainMenuState(GraphicsDevice, StateManager.GetMainContent(), Content, StateManager.GetScreens()));
 
         }
 
@@ -92,32 +91,6 @@ namespace bullethell {
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
-
-
-
-            /*
-            if (gameState == GameStates.InGame) {
-                // this method calls all scheduled events in the game timeline
-                MainContent.Events.ExecuteScheduledEvents(); //Jomar's Comment: Much like the propertieschanged{} back in 321, super lit
-            }
-
-            // this is just an example of moving the good bullets
-
-            foreach (BulletModel gb in MainContent.GoodBulletList) {
-                gb.Move(Direction.N);
-            }
-            */
-            /*
-            // Here we handle mouse click logic
-            MouseState mouseState = Mouse.GetState();
-            if (mouseState.LeftButton == ButtonState.Pressed) {
-                if (startButton.ClickedWithinBounds(mouseState) && gameState == GameStates.Menu) {
-                    gameState = GameStates.InGame;
-                    MainContent.Start();
-                }
-            }*/
 
 
             StateManager.Update(gameTime);

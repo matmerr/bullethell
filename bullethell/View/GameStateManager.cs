@@ -15,6 +15,8 @@ namespace bullethell.View {
         public Stack<GameState> Screens;
         private ContentManager Content;
 
+        private int TopHash;
+
 
         public GameStateManager(ContentManager content) {
             this.Content = content;
@@ -37,22 +39,28 @@ namespace bullethell.View {
 
         public void AddScreen(GameState st) {
             Screens.Push(st);
-            Screens.Peek()?.LoadContent(Content);
+            TopHash = st.GetHashCode();
         }
 
         public void RemoveState() {
-            if (Screens.Peek() != null) {
+            if (Screens.Count > 0) {
                 MainContent = Screens.Pop().GetMainContent();
             }
         }
 
         public void Update(GameTime gameTime) {
-            Screens.Peek()?.Update(gameTime);
+            if (Screens.Count > 0) {
+                Screens.Peek()?.Update(gameTime);
+            }
             CheckLatestScreen();
+
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            Screens.Peek()?.Draw(spriteBatch);
+            if (Screens.Count > 0) {
+                Screens.Peek()?.Draw(spriteBatch);
+            }
+
         }
 
         public void UnloadContent() {
@@ -69,9 +77,10 @@ namespace bullethell.View {
 
 
         public void CheckLatestScreen() {
-            var top = Screens.Peek();
-            if (top != null) {
-                if (top.Screens.Count != Screens.Count) {
+
+            if (Screens.Count > 0) {
+                var top = Screens.Peek();
+                if (top.GetHashCode() != TopHash && top.Screens.Count > 0) {
                     Screens = top.GetScreens();
                     MainContent = top.GetMainContent();
                 }

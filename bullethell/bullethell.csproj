@@ -47,7 +47,6 @@
     <Compile Include="Models\EnemyModel.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
-    <Compile Include="Models\Movement Patterns\Spiral.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
@@ -55,6 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\GameContent.cs" />
     <Compile Include="Controller\GameEvents.cs" />
+    <Compile Include="View\EndGameLostState.cs" />
+    <Compile Include="View\EndGameWonState.cs" />
     <Compile Include="View\GameState.cs" />
     <Compile Include="View\GameStateManager.cs" />
     <Compile Include="View\InGameState.cs" />

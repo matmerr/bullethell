@@ -83,5 +83,13 @@ namespace bullethell.Controller {
             startTime = DateTime.Now;
             clock.Start();
         }
+
+        public void StopTimer() {
+            clock.Stop();
+        }
+
+        public void ClearEvents() {
+            eventTimesList.Clear();
+        }
     }
 }

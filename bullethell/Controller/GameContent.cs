@@ -159,13 +159,14 @@ namespace bullethell.Controller {
         // this is our timeline for the game.
         public void InitializeEvents() {
 
+            TimeToLive(0, 200, new EnemyModel(200, 400, 0, baddie1ATexture));
 
             for (int i = 0; i < 50; i++) {
                 int j = 1;
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(200 + j, 400 + i, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(200, 400, 2, badBulletTexture));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddScheduledEvent(i, 200, () => bullet.MoveLinear());
@@ -174,10 +175,17 @@ namespace bullethell.Controller {
                     j += 10;
                 }
             }
-
-
-
         }
+
+
+        public void Reset() {
+            Events.StopTimer();
+            Events.ClearEvents();
+            miscModelList.Clear();
+            enemyBulletList.Clear();
+            goodBulletList.Clear();
+        }
+
 
         public void Start() {
             Events.StartTimer();
