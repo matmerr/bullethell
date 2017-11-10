@@ -52,7 +52,7 @@ namespace bullethell.Models {
     }
 
 
-    class BaseModel {
+    public class BaseModel {
 
         // image texture for the model on the canvas
         protected Texture2D texture;

@@ -7,7 +7,7 @@ using System.Timers;
 using bullethell.Models;
 
 namespace bullethell.Controller {
-    class GameEvents {
+    public class GameEvents {
 
 
         class Event {

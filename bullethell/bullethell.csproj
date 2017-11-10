@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\GameContent.cs" />
     <Compile Include="Controller\GameEvents.cs" />
+    <Compile Include="View\GameState.cs" />
+    <Compile Include="View\GameStateManager.cs" />
+    <Compile Include="View\InGameState.cs" />
+    <Compile Include="View\MainMenuState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

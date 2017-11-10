@@ -7,8 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
-    class MidBossModel : EnemyModel {
-        private int health;
+    public class MidBossModel : EnemyModel {
 
         public MidBossModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
         }

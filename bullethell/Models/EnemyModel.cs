@@ -7,11 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
-
-    class EnemyModel : BaseModel {
-
-        private int health;
-
+    public class EnemyModel : BaseModel {
 
         public EnemyModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
         }

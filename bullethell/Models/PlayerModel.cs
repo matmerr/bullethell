@@ -7,14 +7,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
-    class PlayerModel : BaseModel {
+    public class PlayerModel : BaseModel {
 
         private int health;
-        private int score;
 
 
         public PlayerModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
-            health = 20;
+            health = 100;
         }
 
         public int Health => health;

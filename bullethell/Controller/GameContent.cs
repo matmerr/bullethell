@@ -10,11 +10,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Controller {
-    class GameContent {
+    public class GameContent {
         // Window Dimensions
         private int WindowHeight, WindowWidth;
-
-        private GameEvents events;
 
         public Texture2D playerShipTexture;
         private Texture2D midBossTexture;
@@ -44,7 +42,8 @@ namespace bullethell.Controller {
 
 
         // field encapsulation so we don't accidentally change stuff outside of this class
-        public GameEvents Events => events;
+        public GameEvents Events { get; }
+
         public PlayerModel PlayerShip => playerShip;
         public MidBossModel MidBoss => midBoss;
         public MainBossModel MainBoss => mainBoss;
@@ -68,7 +67,7 @@ namespace bullethell.Controller {
             badBulletTexture = BadBullet;
             mainBossTexture = MainBoss;
             baddieDie1Texture = BaddieDie1;
-            events = new GameEvents();
+            Events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
             goodBulletList = new List<BulletModel>();
@@ -135,21 +134,21 @@ namespace bullethell.Controller {
             }
 
             if (model is EnemyModel enemyModel) {
-                events.AddSingleEvent(startLife, () => enemyShipList.Add(enemyModel));
-                events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemyModel));
+                Events.AddSingleEvent(startLife, () => enemyShipList.Add(enemyModel));
+                Events.AddSingleEvent(endLife, () => enemyShipList.Remove(enemyModel));
             }
 
             if (model is BulletModel bullet) {
                 if (bullet.Texture == goodBulletTexture) {
-                    events.AddSingleEvent(startLife, () => goodBulletList.Add(bullet));
-                    events.AddSingleEvent(endLife, () => goodBulletList.Remove(bullet));
+                    Events.AddSingleEvent(startLife, () => goodBulletList.Add(bullet));
+                    Events.AddSingleEvent(endLife, () => goodBulletList.Remove(bullet));
                 } else if (bullet.Texture == badBulletTexture) {
-                    events.AddSingleEvent(startLife, () => enemyBulletList.Add((BulletModel)model));
-                    events.AddSingleEvent(endLife, () => enemyBulletList.Remove((BulletModel)model));
+                    Events.AddSingleEvent(startLife, () => enemyBulletList.Add((BulletModel)model));
+                    Events.AddSingleEvent(endLife, () => enemyBulletList.Remove((BulletModel)model));
                 }
             } else {
-                events.AddSingleEvent(startLife, () => miscModelList.Add(model));
-                events.AddSingleEvent(endLife, () => miscModelList.Remove(model));
+                Events.AddSingleEvent(startLife, () => miscModelList.Add(model));
+                Events.AddSingleEvent(endLife, () => miscModelList.Remove(model));
 
             }
 
@@ -169,7 +168,7 @@ namespace bullethell.Controller {
                     BulletModel bullet = (BulletModel)TimeToLive(i, 200, new BulletModel(200 + j, 400 + i, 2, badBulletTexture));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
-                        events.AddScheduledEvent(i, 200, () => bullet.MoveLinear());
+                        Events.AddScheduledEvent(i, 200, () => bullet.MoveLinear());
                     }
 
                     j += 10;
@@ -181,7 +180,7 @@ namespace bullethell.Controller {
         }
 
         public void Start() {
-            events.StartTimer();
+            Events.StartTimer();
         }
     }
 }

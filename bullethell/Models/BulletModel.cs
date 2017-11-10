@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
-    class BulletModel : BaseModel {
+    public class BulletModel : BaseModel {
         public BulletModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
         }
     }
