@@ -9,6 +9,16 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.View {
+
+
+    static class ScreenFactory{
+       
+    }
+
+
+
+
+
     class GameStateManager {
 
         public Stack<GameState> Screens;

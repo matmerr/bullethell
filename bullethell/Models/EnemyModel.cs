@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
     public class EnemyModel : BaseModel {
-        private int health = 1;
+        private int health;
 
         public EnemyModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
-
+            SetHealth(1);
         }
 
         public void SetHealth(int h) {

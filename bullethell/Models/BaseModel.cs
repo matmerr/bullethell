@@ -264,7 +264,7 @@ namespace bullethell.Models {
         public Point OrbitPoint;
 
         public void SetLinearTravelAngle(double angle) {
-            this.linearAngle = angle;
+            linearAngle = angle;
         }
 
         public void MoveLinear() {
@@ -314,24 +314,5 @@ namespace bullethell.Models {
             drawingLocation.X = location.X - texture.Width / 2;
             drawingLocation.Y = location.Y - texture.Height / 2;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 }

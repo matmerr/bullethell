@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using bullethell.Controller;
 using bullethell.Models;
+using bullethell.Models.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +23,7 @@ namespace bullethell.Controller {
         private Texture2D baddie2ATexture;
         private Texture2D baddie2BTexture;
         private Texture2D goodBulletTexture;
-        private Texture2D badBulletTexture;
+        private Texture2D enemyBulletTexture;
         private Texture2D mainBossTexture;
         private Texture2D baddieDie1Texture;
         private Texture2D baddieDie2Texture;
@@ -73,13 +74,13 @@ namespace bullethell.Controller {
                             Texture2D Baddie2A,
                             Texture2D Baddie2B,
                             Texture2D GoodBullet,
-                            Texture2D BadBullet,
+                            Texture2D EnemyBullet,
                             Texture2D MainBoss,
                             Texture2D BaddieDie1,
-            Texture2D BaddieDie2,
-            Texture2D BaddieDie3,
-            Texture2D BaddieDie4,
-            Texture2D BaddieDie5) {
+                            Texture2D BaddieDie2,
+                            Texture2D BaddieDie3,
+                            Texture2D BaddieDie4,
+                            Texture2D BaddieDie5) {
             playerShipTexture = PlayerShip;
             midBossTexture = MiddleBoss;
             baddie1ATexture = Baddie1A;
@@ -87,7 +88,7 @@ namespace bullethell.Controller {
             baddie2ATexture = Baddie2A;
             baddie2BTexture = Baddie2B;
             goodBulletTexture = GoodBullet;
-            badBulletTexture = BadBullet;
+            enemyBulletTexture = EnemyBullet;
             mainBossTexture = MainBoss;
             baddieDie1Texture = BaddieDie1;
             baddieDie2Texture = BaddieDie2;
@@ -175,7 +176,7 @@ namespace bullethell.Controller {
         }
 
         public BulletModel AddEnemyBullet(Point startingPoint, int rate) {
-            BulletModel lilEnemyBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, badBulletTexture);
+            BulletModel lilEnemyBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, enemyBulletTexture);
             enemyBulletList.Add(lilEnemyBullet);
             return lilEnemyBullet;
         }
@@ -201,7 +202,7 @@ namespace bullethell.Controller {
                 if (bullet.Texture == goodBulletTexture) {
                     Events.AddSingleTaggedEvent(startLife, tag, () => goodBulletList.Add(bullet));
                     Events.AddSingleTaggedEvent(endLife, tag, () => goodBulletList.Remove(bullet));
-                } else if (bullet.Texture == badBulletTexture) {
+                } else if (bullet.Texture == enemyBulletTexture) {
                     Events.AddSingleTaggedEvent(startLife, tag, () => enemyBulletList.Add((BulletModel)model));
                     Events.AddSingleTaggedEvent(endLife, tag, () => enemyBulletList.Remove((BulletModel)model));
                 }
@@ -223,7 +224,16 @@ namespace bullethell.Controller {
         public void InitializeEvents() {
 
 
-            EnemyModel enemy1 = new EnemyModel(50, 0, 2, baddie1BTexture);
+            ModelFactory modelFactory = new ModelFactory(PlayerShip : playerShipTexture,
+                Baddie1A: baddie1ATexture,
+                Baddie1B: baddie1BTexture,
+                Baddie2A: baddie2ATexture,
+                Baddie2B: baddie2BTexture,
+                GoodBullet: goodBulletTexture,
+                EnemyBullet: enemyBulletTexture);
+
+
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
             TimeToLive(0, 200, enemy1);
             Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
 
@@ -233,7 +243,7 @@ namespace bullethell.Controller {
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy1, new BulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy1, modelFactory.BuildEnemyBulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy1, () => bullet.SetLocation(enemy1.GetLocation()));
@@ -244,7 +254,7 @@ namespace bullethell.Controller {
             }
 
 
-            EnemyModel enemy2 = new EnemyModel(450, 0, 2, baddie1BTexture);
+            EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
             TimeToLive(0, 200, enemy2);
             Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
 
@@ -253,7 +263,7 @@ namespace bullethell.Controller {
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy2, new BulletModel(enemy2.GetLocation().X, enemy2.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy2, modelFactory.BuildEnemyBulletModel(enemy2.GetLocation().X, enemy2.GetLocation().Y));
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy2, () => bullet.SetLocation(enemy2.GetLocation()));
@@ -264,7 +274,7 @@ namespace bullethell.Controller {
             }
 
 
-            EnemyModel midBoss = new EnemyModel(250, 0, 1, baddie2ATexture);
+            EnemyModel midBoss = modelFactory.BuildMidBossModel(250,0);
             midBoss.SetHealth(5);
             TimeToLive(10, 200, midBoss);
             Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
@@ -275,7 +285,7 @@ namespace bullethell.Controller {
                 while (j < 360) {
                     //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
-                    BulletModel bullet1 = (BulletModel)TimeToLiveTagged(i, i+10, midBoss, new BulletModel(midBoss.GetLocation().X, midBoss.GetLocation().Y, 2, badBulletTexture));
+                    BulletModel bullet1 = (BulletModel)TimeToLiveTagged(i, i+10, midBoss, modelFactory.BuildEnemyBulletModel(midBoss.GetLocation().X, midBoss.GetLocation().Y));
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(j);
                         Events.AddSingleTaggedEvent(i, enemy2, () => bullet1.SetLocation(midBoss.GetLocation()));
@@ -284,7 +294,7 @@ namespace bullethell.Controller {
                     j += 10;
                 }
 
-                BulletModel bullet2 = (BulletModel)TimeToLiveTagged(i, i+30, midBoss, new BulletModel(250, 250, 2, badBulletTexture));
+                BulletModel bullet2 = (BulletModel)TimeToLiveTagged(i, i+30, midBoss, modelFactory.BuildEnemyBulletModel(250,250));
                 if (bullet2 != null) {
                     Events.AddSingleTaggedEvent(i, midBoss, () => bullet2.SetLocation(midBoss.GetLocation()));
                     bullet2.SetOrbitPoint(250, 251);

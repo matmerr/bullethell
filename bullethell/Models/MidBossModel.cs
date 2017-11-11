@@ -10,6 +10,8 @@ namespace bullethell.Models {
     public class MidBossModel : EnemyModel {
 
         public MidBossModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
+            SetHealth(5);
+
         }
     }
 }

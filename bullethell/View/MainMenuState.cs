@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
+
+
     class MainMenuState : GameState {
 
         private MenuButton startButton;

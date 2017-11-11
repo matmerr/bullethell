@@ -38,7 +38,7 @@ namespace bullethell.View {
                 Baddie2A: Content.Load<Texture2D>("baddie2-A"),
                 Baddie2B: Content.Load<Texture2D>("baddie2-B"),
                 MiddleBoss: Content.Load<Texture2D>("midBoss"),
-                BadBullet: Content.Load<Texture2D>("badMissile"),
+                EnemyBullet: Content.Load<Texture2D>("badMissile"),
                 GoodBullet: Content.Load<Texture2D>("goodMissile"),
                 MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
                 BaddieDie1: Content.Load<Texture2D>("baddieDie-1"),
@@ -145,7 +145,6 @@ namespace bullethell.View {
                 spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
                     new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
                     new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
-
             }
 
 
@@ -190,7 +189,6 @@ namespace bullethell.View {
 
             spriteBatch.DrawString(font, "Remaining Enemies: " + MainContent.EnemyShipList.Count, new Vector2(25, 550),
                 Color.White);
-
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650),
                 Color.White);
             spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750),

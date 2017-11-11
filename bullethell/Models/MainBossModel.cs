@@ -10,6 +10,7 @@ namespace bullethell.Models {
     public class MainBossModel : EnemyModel {
 
         public MainBossModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
+            SetHealth(10);
         }
     }
 }

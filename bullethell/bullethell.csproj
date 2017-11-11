@@ -45,6 +45,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\BulletModel.cs" />
     <Compile Include="Models\EnemyModel.cs" />
+    <Compile Include="Models\Factories\ModelFactory.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
