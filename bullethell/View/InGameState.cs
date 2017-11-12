@@ -14,11 +14,10 @@ namespace bullethell.View {
     class InGameState : GameState {
 
         private GameContent MainContent;
-        private KeyboardState oldKeyboardState;
         private SpriteFont font;
 
 
-        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
+        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 
@@ -60,7 +59,7 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
-            KeyboardState newKeyboardState = Keyboard.GetState();
+            NewKeyboardState = Keyboard.GetState();
 
             int direction = 0;
             /*
@@ -90,11 +89,11 @@ namespace bullethell.View {
 
             // TOGGLE SPEED
             // we have to check the key is down, and not just being spammed
-            if (oldKeyboardState.IsKeyUp(Keys.LeftShift) && newKeyboardState.IsKeyDown(Keys.LeftShift)) {
+            if (OldKeyboardState.IsKeyUp(Keys.LeftShift) && NewKeyboardState.IsKeyDown(Keys.LeftShift)) {
                 MainContent.PlayerShip.ToggleRate(5);
             }
 
-            if (oldKeyboardState.IsKeyUp(Keys.Space) && newKeyboardState.IsKeyDown(Keys.Space)) {
+            if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
                 MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
             }
 
@@ -104,7 +103,7 @@ namespace bullethell.View {
             }
 
             // update the keyboard state
-            oldKeyboardState = newKeyboardState;
+            OldKeyboardState = NewKeyboardState;
 
             MainContent.Events.ExecuteScheduledEvents();
 
@@ -199,13 +198,13 @@ namespace bullethell.View {
 
 
             if (MainContent.PlayerShip.IsDead()) {
-                EndGameLostState es = new EndGameLostState(graphicsDevice, Content, Screens);
+                EndGameLostState es = new EndGameLostState(graphicsDevice, Content, ref Screens);
                 MainContent.Events.StopTimer();
                 Screens.Push(es);
             }
 
             if (MainContent.HasWon()) {
-                EndGameWonState es = new EndGameWonState(graphicsDevice, Content, Screens);
+                EndGameWonState es = new EndGameWonState(graphicsDevice, Content, ref Screens);
                 MainContent.Events.StopTimer();
                 Screens.Push(es);
             }
@@ -213,8 +212,5 @@ namespace bullethell.View {
             spriteBatch.End();
         }
 
-        public override Stack<GameState> GetScreens() {
-            return Screens;
-        }
     }
 }

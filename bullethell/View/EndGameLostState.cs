@@ -11,11 +11,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
     class EndGameLostState : GameState {
-        private KeyboardState oldKeyboardState;
+
         private SpriteFont font;
 
 
-        public EndGameLostState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
+        public EndGameLostState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 
@@ -32,14 +32,15 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
-            KeyboardState newKeyboardState = Keyboard.GetState();
-            if (oldKeyboardState.IsKeyUp(Keys.Enter) && newKeyboardState.IsKeyDown(Keys.Enter)) {
-                Screens.Clear();
-                MainMenuState m = new MainMenuState(graphicsDevice, Content, new Stack<GameState>());
-                m.oldKeyboardState = newKeyboardState;
-                Screens.Push(m);
+            NewKeyboardState = Keyboard.GetState();
+            if (OldKeyboardState.IsKeyUp(Keys.Enter) && NewKeyboardState.IsKeyDown(Keys.Enter)) {
+                // pop everything until main menu
+                while( Screens.Count > 1) {
+                    Screens.Pop();
+                } 
             }
-            oldKeyboardState = newKeyboardState;
+            OldKeyboardState = NewKeyboardState;
+            Screens.Peek().OldKeyboardState = NewKeyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -51,9 +52,5 @@ namespace bullethell.View {
             spriteBatch.End();
         }
 
-
-        public override Stack<GameState> GetScreens() {
-            return Screens;
-        }
     }
 }

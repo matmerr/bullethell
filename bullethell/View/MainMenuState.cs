@@ -16,13 +16,11 @@ namespace bullethell.View {
     class MainMenuState : GameState {
 
         private MenuButton startButton;
-        public KeyboardState oldKeyboardState;
 
-        public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) : base(graphicsDevice, Content, Screens) {
+
+        public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
-
-
 
         public override void Initialize() {
             // initialize any thing on this screen
@@ -38,19 +36,21 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
-            KeyboardState newKeyboardState = Keyboard.GetState();
+            NewKeyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             if (mouseState.LeftButton == ButtonState.Pressed) {
                 if (startButton.ClickedWithinBounds(mouseState)) {
-                    InGameState gs = new InGameState(graphicsDevice, Content, Screens);
+                    OldKeyboardState = NewKeyboardState;
+                    InGameState gs = new InGameState(graphicsDevice, Content, ref Screens);
                     Screens.Push(gs);
                 }
             }
-            if (oldKeyboardState.IsKeyUp(Keys.Enter) && newKeyboardState.IsKeyDown(Keys.Enter)) {
-                InGameState gs = new InGameState(graphicsDevice, Content, Screens);
+            if (OldKeyboardState.IsKeyUp(Keys.Enter) && NewKeyboardState.IsKeyDown(Keys.Enter)) {
+                OldKeyboardState = NewKeyboardState;
+                InGameState gs = new InGameState(graphicsDevice, Content, ref Screens);
                 Screens.Push(gs);
             }
-            oldKeyboardState = newKeyboardState;
+            OldKeyboardState = NewKeyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -58,14 +58,5 @@ namespace bullethell.View {
             spriteBatch.Draw(startButton.Texture, startButton.Location.ToVector2(), Color.White);
             spriteBatch.End();
         }
-
-
-
-        public override Stack<GameState> GetScreens() {
-            return Screens;
-        }
-
-
-
     }
 }

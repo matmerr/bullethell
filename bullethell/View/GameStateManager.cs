@@ -10,33 +10,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.View {
 
-
-    static class ScreenFactory{
-       
-    }
-
-
-
-
-
     class GameStateManager {
 
         public Stack<GameState> Screens;
-        private ContentManager Content;
-
-        private int TopHash;
 
 
-        public GameStateManager(ContentManager content) {
-            this.Content = content;
 
-            Screens = new Stack<GameState>();
+        public GameStateManager(ref Stack<GameState> screens) {
+            this.Screens = screens;
         }
 
 
         public void AddScreen(GameState st) {
             Screens.Push(st);
-            TopHash = st.GetHashCode();
         }
 
         public void RemoveState() {
@@ -47,8 +33,6 @@ namespace bullethell.View {
             if (Screens.Count > 0) {
                 Screens.Peek()?.Update(gameTime);
             }
-            CheckLatestScreen();
-
         }
 
         public void Draw(SpriteBatch spriteBatch) {
@@ -60,23 +44,6 @@ namespace bullethell.View {
 
         public void UnloadContent() {
             Screens.Peek()?.UnloadContent();
-        }
-
-
-
-        public Stack<GameState> GetScreens() {
-            return Screens;
-        }
-
-
-        public void CheckLatestScreen() {
-
-            if (Screens.Count > 0) {
-                var top = Screens.Peek();
-                if (top.GetHashCode() != TopHash && top.Screens.Count > 0) {
-                    Screens = top.GetScreens();
-                }
-            }
         }
     }
 }

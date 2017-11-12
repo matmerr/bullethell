@@ -7,6 +7,7 @@ using bullethell.Controller;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
     public abstract class GameState {
@@ -14,8 +15,10 @@ namespace bullethell.View {
         protected ContentManager Content;
         protected BulletHell.GameStates gameState;
         public Stack<GameState> Screens;
+        public KeyboardState OldKeyboardState;
+        public KeyboardState NewKeyboardState;
 
-        protected GameState(GraphicsDevice graphicsDevice, ContentManager Content, Stack<GameState> Screens) {
+        protected GameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) {
             this.graphicsDevice = graphicsDevice;
             this.Content = Content;
             this.Screens = Screens;
@@ -26,6 +29,5 @@ namespace bullethell.View {
         public abstract void UnloadContent();
         public abstract void Update(GameTime gameTime);
         public abstract void Draw(SpriteBatch spriteBatch);
-        public abstract Stack<GameState> GetScreens();
     }
 }
