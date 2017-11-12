@@ -13,8 +13,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Controller {
     public class GameContent {
-        // Window Dimensions
-        private int WindowHeight, WindowWidth;
+
+        private ModelFactory modelFactory;
+        public ModelFactory ModelFactory => modelFactory;
 
         public Texture2D playerShipTexture;
         private Texture2D midBossTexture;
@@ -31,7 +32,6 @@ namespace bullethell.Controller {
         private Texture2D baddieDie4Texture;
         private Texture2D baddieDie5Texture;
 
-
         public Texture2D PlayerShipTexture => playerShipTexture;
         public Texture2D MidBossTexture => midBossTexture;
         public Texture2D Baddie1ATexture => baddie1ATexture;
@@ -45,7 +45,6 @@ namespace bullethell.Controller {
         public Texture2D BaddieDie3Texture => baddieDie3Texture;
         public Texture2D BaddieDie4Texture => baddieDie4Texture;
         public Texture2D BaddieDie5Texture => baddieDie5Texture;
-
 
         // Notable Players
         private PlayerModel playerShip;
@@ -96,6 +95,14 @@ namespace bullethell.Controller {
             baddieDie4Texture = BaddieDie4;
             baddieDie5Texture = BaddieDie5;
 
+            modelFactory = new ModelFactory(PlayerShip: playerShipTexture,
+                Baddie1A: baddie1ATexture,
+                Baddie1B: baddie1BTexture,
+                Baddie2A: baddie2ATexture,
+                Baddie2B: baddie2BTexture,
+                GoodBullet: goodBulletTexture,
+                EnemyBullet: enemyBulletTexture);
+
             Events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
@@ -103,10 +110,6 @@ namespace bullethell.Controller {
             miscModelList = new List<BaseModel>();
         }
 
-        public void SetWindowDimensions(int height, int width) {
-            WindowHeight = height;
-            WindowWidth = width;
-        }
 
         public bool IsColliding(BaseModel a, BaseModel b) {
             Rectangle ra = new Rectangle(a.DrawingLocation.X, a.DrawingLocation.Y, a.Texture.Width, a.Texture.Height);
@@ -165,7 +168,6 @@ namespace bullethell.Controller {
             BaseModel explosion5 = (BaseModel)TimeToLive(currTime, currTime + 1,
                 new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie5Texture));
             Events.AddScheduledEvent(currTime, currTime + 1, () => explosion5.Move(Direction.Stay, Direction.Stay));
-
         }
 
 
@@ -218,92 +220,6 @@ namespace bullethell.Controller {
             return TimeToLiveTagged(startLife, endLife, "", model);
         }
 
-
-
-        // this is our timeline for the game.
-        public void InitializeEvents() {
-
-
-            ModelFactory modelFactory = new ModelFactory(PlayerShip : playerShipTexture,
-                Baddie1A: baddie1ATexture,
-                Baddie1B: baddie1BTexture,
-                Baddie2A: baddie2ATexture,
-                Baddie2B: baddie2BTexture,
-                GoodBullet: goodBulletTexture,
-                EnemyBullet: enemyBulletTexture);
-
-
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
-            TimeToLive(0, 200, enemy1);
-            Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
-
-            double i;
-            for (i = 0; i < 15; i++) {
-                int j = 1;
-                while (j < 360) {
-                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
-
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy1, modelFactory.BuildEnemyBulletModel(enemy1.GetLocation().X, enemy1.GetLocation().Y));
-                    if (bullet != null) {
-                        bullet.SetLinearTravelAngle(j);
-                        Events.AddSingleTaggedEvent(i, enemy1, () => bullet.SetLocation(enemy1.GetLocation()));
-                        Events.AddScheduledTaggedEvent(i, i+10, enemy1, () => bullet.MoveLinear());
-                    }
-                    j += 20;
-                }
-            }
-
-
-            EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
-            TimeToLive(0, 200, enemy2);
-            Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
-
-            for (i = 0; i < 15; i++) {
-                int j = 1;
-                while (j < 360) {
-                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
-
-                    BulletModel bullet = (BulletModel)TimeToLiveTagged(i, i+10, enemy2, modelFactory.BuildEnemyBulletModel(enemy2.GetLocation().X, enemy2.GetLocation().Y));
-                    if (bullet != null) {
-                        bullet.SetLinearTravelAngle(j);
-                        Events.AddSingleTaggedEvent(i, enemy2, () => bullet.SetLocation(enemy2.GetLocation()));
-                        Events.AddScheduledTaggedEvent(i, i+10, enemy2, () => bullet.MoveLinear());
-                    }
-                    j += 20;
-                }
-            }
-
-
-            EnemyModel midBoss = modelFactory.BuildMidBossModel(250,0);
-            midBoss.SetHealth(5);
-            TimeToLive(10, 200, midBoss);
-            Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
-            i = 15;
-            while (i < 30) {
-                //we will create an enemy with a time to live, then we will tell it what to do during its life
-                double j = 360%i;
-                while (j < 360) {
-                    //here we will create an enemy with a time to live, then we will tell it what to do during its life
-
-                    BulletModel bullet1 = (BulletModel)TimeToLiveTagged(i, i+10, midBoss, modelFactory.BuildEnemyBulletModel(midBoss.GetLocation().X, midBoss.GetLocation().Y));
-                    if (bullet1 != null) {
-                        bullet1.SetLinearTravelAngle(j);
-                        Events.AddSingleTaggedEvent(i, enemy2, () => bullet1.SetLocation(midBoss.GetLocation()));
-                        Events.AddScheduledTaggedEvent(i, i+10, midBoss, () => bullet1.MoveLinear());
-                    }
-                    j += 10;
-                }
-
-                BulletModel bullet2 = (BulletModel)TimeToLiveTagged(i, i+30, midBoss, modelFactory.BuildEnemyBulletModel(250,250));
-                if (bullet2 != null) {
-                    Events.AddSingleTaggedEvent(i, midBoss, () => bullet2.SetLocation(midBoss.GetLocation()));
-                    bullet2.SetOrbitPoint(250, 251);
-                    Events.AddScheduledTaggedEvent(i, i+30, midBoss, () => bullet2.Spiral());
-                }
-                i += .25;
-            }
-        }
-
         public void Reset() {
             Events.StopTimer();
             Events.ClearEvents();
@@ -311,7 +227,6 @@ namespace bullethell.Controller {
             enemyBulletList.Clear();
             goodBulletList.Clear();
         }
-
 
         public void Start() {
             Events.StartTimer();
@@ -328,6 +243,31 @@ namespace bullethell.Controller {
                 }
             }
             return false;
+        }
+
+
+
+        // this is our timeline for the game.
+        public void InitializeEvents() {
+
+            FiringPatternController FiringPattern = new FiringPatternController(this);
+
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
+            TimeToLive(0, 200, enemy1);
+            Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
+            FiringPattern.From(enemy1).between(0,13).Circle();
+            
+
+            EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
+            TimeToLive(0, 200, enemy2);
+            Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
+            FiringPattern.From(enemy2).between(0,13).Circle();
+
+
+            EnemyModel midBoss = modelFactory.BuildMidBossModel(250,0);
+            TimeToLive(10, 200, midBoss);
+            Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
+            FiringPattern.From(midBoss).between(15,30).CircleSpiral();
         }
     }
 }

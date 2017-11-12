@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models.Factories {
-    class ModelFactory {
+    public class ModelFactory {
 
         public Texture2D playerShipTexture;
         private Texture2D baddie1ATexture;

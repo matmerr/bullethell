@@ -80,6 +80,8 @@ namespace bullethell.Models {
         private double subY;
         private double subRate;
 
+        
+
         // the when we toggle up a rate, we have the start rate saved
         protected double startingRate;
 
