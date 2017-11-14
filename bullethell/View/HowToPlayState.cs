@@ -11,7 +11,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
     class HowToPlayState : GameState{
+        private SpriteFont font;
+
         public HowToPlayState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+            LoadContent();
         }
 
         public override void Initialize() {
@@ -19,7 +22,7 @@ namespace bullethell.View {
         }
 
         public override void LoadContent() {
-            // load any images
+            font = Content.Load<SpriteFont>("HUD");
         }
 
         public override void UnloadContent() {
@@ -39,7 +42,18 @@ namespace bullethell.View {
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
-            // draw things
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, "BUTTON LAYOUT", new Vector2(10, 25), Color.LimeGreen);
+            spriteBatch.DrawString(font, "- Space Bar:                      Fire Bullets", new Vector2(10, 75), Color.White);
+            spriteBatch.DrawString(font, "- Directional Arrows:         Move player", new Vector2(10, 95), Color.White);
+            spriteBatch.DrawString(font, "- Shift Key:                          Toggle Slow/Fast Mode", new Vector2(10, 115), Color.White);
+            spriteBatch.DrawString(font, "- Esc Key:                            Return to main menu", new Vector2(10, 135), Color.White);
+            spriteBatch.DrawString(font, "GAME DESCRIPTION", new Vector2(10, 230), Color.LimeGreen);
+            spriteBatch.DrawString(font, "The game will progress until either the player is out of lives, or until all", new Vector2(10, 250), Color.White);
+            spriteBatch.DrawString(font, "scheduled enemies have been killed or lived out their life expectancy.", new Vector2(10, 270), Color.White);
+            spriteBatch.DrawString(font, "Press 'Esc' to return to the main menu.", new Vector2(10, 500), Color.White);
+            spriteBatch.End();
         }
 
         public override StatsModel GetStats() {
