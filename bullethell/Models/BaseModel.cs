@@ -18,21 +18,53 @@ namespace bullethell.Models {
         public const int Right = 1;
         public const int Left = -1;
         public const int Stay = 0;
+
+        public const int E = 0;
+        public const int NE = 45;
+        public const int N = 90;
+        public const int NW = 135;
+        public const int W = 180;
+        public const int SW = 225;
+        public const int S = 270;
+        public const int SE = 315;
+
+
+        /*
+         * Right: 1
+         * Up: 2
+         * Left: 4
+         * Down: 8*/
+        // takes a sum of encoded keypresses, returns an angle
+        public static int ConvertKeyDirection(int sum) {
+            if (sum == 1) return E;
+            if (sum == 2) return N;
+            if (sum == 4) return W;
+            if (sum == 8) return S;
+
+            if (sum == 3) return NE;
+            if (sum == 6) return NW;
+            if (sum == 12) return SW;
+            if (sum == 9) return SE;
+
+
+            return -1;
+        }
     }
 
-    abstract class BaseModel {
 
-        // image sprite for the model on the canvas
-        protected Texture2D sprite;
+    public class BaseModel {
+
+        // image texture for the model on the canvas
+        protected Texture2D texture;
 
         // coordinates for the model on the canvas
         protected Point location;
         protected Point drawingLocation;
-        protected Point dimensions;
+        //protected Point dimensions;
         protected Point center;
 
-
-        protected double trajectoryAngle;
+        // we need to keep track of 
+        protected double moveFlexAngle;
 
         // speed at which the xPos or yPos change
         protected double rate;
@@ -48,35 +80,42 @@ namespace bullethell.Models {
         private double subY;
         private double subRate;
 
+        protected string name;
+        public string Name => name;
+        
+
         // the when we toggle up a rate, we have the start rate saved
         protected double startingRate;
 
         // Setters / Getters
-        public Texture2D Sprite => sprite;
+        public Texture2D Texture => texture;
+
+        // Monogame location center of 
         public Point Location => location;
+
+        // location of the center of the texture
         public Point DrawingLocation => drawingLocation;
-        public Point Dimensions => dimensions;
+
+        //public Point Dimensions => dimensions;
         public Point Center => center;
         public float Rotation => rotation;
         public float Scale => scale;
-        public double TrajectoryAngle => trajectoryAngle;
+        public double MoveFlexAngle => moveFlexAngle;
 
+
+        public Vector2 DrawingLocationVector => drawingLocation.ToVector2();
 
         // constructor which is required for all classes
-        public BaseModel(int startX, int startY, double startRate, Texture2D startSprite) {
-            sprite = startSprite;
-            dimensions.X = sprite.Height;
-            dimensions.Y = sprite.Width;
+        public BaseModel(int startX, int startY, double startRate, Texture2D startTexture) {
+            texture = startTexture;
             location.X = startX;
             location.Y = startY;
-            drawingLocation.X = location.X - dimensions.X / 2;
-            drawingLocation.Y = location.Y - dimensions.Y / 2;
-
-            center.X = dimensions.X / 2;
-            center.Y = dimensions.Y / 2;
+            drawingLocation.X = location.X - texture.Width / 2;
+            drawingLocation.Y = location.Y - texture.Height / 2;
             rate = startRate;
             startingRate = startRate;
-            sprite = startSprite;
+            texture = startTexture;
+            name = "Base Model";
         }
 
         // increment/decrement the X position and Y position based on _rate
@@ -87,8 +126,8 @@ namespace bullethell.Models {
             if ((int)subRate != 0) {
                 location.Y += Y * (int)rate;
                 location.X += X * (int)rate;
-                drawingLocation.X = location.X - dimensions.X / 2;
-                drawingLocation.Y = location.Y - dimensions.Y / 2;
+                drawingLocation.X = location.X - texture.Width / 2;
+                drawingLocation.Y = location.Y - texture.Height / 2;
                 subRate = subRate % (int)subRate;
             }
         }
@@ -121,29 +160,31 @@ namespace bullethell.Models {
 
             double distance = Math.Sqrt(Math.Pow(finalX - location.X, 2) + Math.Pow(finalY - location.Y, 2));
 
-            trajectoryAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
-            trajectoryAngle = trajectoryAngle * 180 / Math.PI;
-            trajectoryAngle *= -1;
+            moveFlexAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
+            moveFlexAngle = moveFlexAngle * 180 / Math.PI;
+            moveFlexAngle *= -1;
+
 
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
-
             } else {
-                if (Location.X < finalX) {
-                    Move(trajectoryAngle);
-                } else if (Location.X > finalX) {
-                    Move(trajectoryAngle);
+                if (location.X < finalX) {
+                    Move(moveFlexAngle);
+                } else if (location.X > finalX) {
+                    Move(moveFlexAngle);
                 }
+                return;
             }
 
             if (Math.Abs(location.Y - finalY) < rate) {
                 location.Y = finalY;
             } else {
-                if (Location.Y < finalY) {
-                    Move(trajectoryAngle);
-                } else if (Location.Y > finalY) {
-                    Move(trajectoryAngle);
+                if (location.Y < finalY) {
+                    Move(moveFlexAngle);
+                } else if (location.Y > finalY) {
+                    Move(moveFlexAngle);
                 }
+                return;
             }
         }
 
@@ -157,22 +198,20 @@ namespace bullethell.Models {
             // we'll just call it good, otherwise we'll rubberband back and forth
             if (Math.Abs(location.X - finalX) < rate) {
                 location.X = finalX;
-
             } else {
-                if (Location.X < finalX) {
-                    Move(Direction.Right, Direction.Stay);
-                } else if (Location.X > finalX) {
-                    Move(Direction.Left, Direction.Stay);
+                if (location.X < finalX) {
+                    Move(0);
+                } else if (location.X > finalX) {
+                    Move(180);
                 }
             }
-
             if (Math.Abs(location.Y - finalY) < rate) {
                 location.Y = finalY;
             } else {
-                if (Location.Y < finalY) {
-                    Move(Direction.Stay, Direction.Down);
-                } else if (Location.Y > finalY) {
-                    Move(Direction.Stay, Direction.Up);
+                if (location.Y < finalY) {
+                    Move(270);
+                } else if (location.Y > finalY) {
+                    Move(90);
                 }
             }
         }
@@ -214,9 +253,69 @@ namespace bullethell.Models {
                 location.Y -= (int)subY;
                 subY = subY % (int)subY;
             }
-            drawingLocation.X = location.X - dimensions.X / 2;
-            drawingLocation.Y = location.Y - dimensions.Y / 2;
+            drawingLocation.X = location.X - texture.Width / 2;
+            drawingLocation.Y = location.Y - texture.Height / 2;
+        }
+
+
+
+        private double orbitRadius;
+        private double orbitAngle;
+
+        private double linearAngle;
+
+        public Point OrbitPoint;
+
+        public void SetLinearTravelAngle(double angle) {
+            linearAngle = angle;
+        }
+
+        public void MoveLinear() {
+            Move(linearAngle);
+        }
+
+        public void SetOrbitPoint(Point p) {
+            SetOrbitPoint(p.X, p.Y);
+        }
+        public void SetOrbitPoint(int orbitX, int orbitY) {
+            OrbitPoint.X = orbitX;
+            OrbitPoint.Y = orbitY;
+            // distance formula:
+            orbitRadius = Math.Sqrt(Math.Pow(OrbitPoint.X - location.X, 2) + Math.Pow(OrbitPoint.Y - location.Y, 2));
+
+            // this is in radians:
+            orbitAngle = Math.Atan2(location.Y - OrbitPoint.Y, location.X - OrbitPoint.X) - Math.Atan2(0, orbitRadius);
+
+        }
+
+        public void MoveOrbit() {
+            orbitAngle += rate * 1 / 25;
+            location.X = (int)(OrbitPoint.X + Math.Cos(orbitAngle) * (int)orbitRadius);
+            location.Y = (int)(OrbitPoint.Y + Math.Sin(orbitAngle) * (int)orbitRadius);
+            drawingLocation.X = location.X - Texture.Height / 2;
+            drawingLocation.Y = location.Y - Texture.Width / 2;
+        }
+
+        public void Spiral() {
+            orbitRadius += rate / 15;
+            MoveOrbit();
+        }
+
+        public void StopOrbit() {
+            orbitRadius = 1;
+            orbitAngle = 0;
+        }
+
+
+        public Point GetLocation() {
+            return location;
+        }
+
+        public void SetLocation(Point p) {
+            location.X = p.X;
+            location.Y = p.Y;
+            drawingLocation.X = location.X - texture.Width / 2;
+            drawingLocation.Y = location.Y - texture.Height / 2;
         }
     }
-
 }

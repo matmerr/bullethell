@@ -1,22 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using bullethell.Models;
 
-namespace bullethell.Story {
-    class GameEvents {
+namespace bullethell.Controller {
+    public class GameEvents {
 
 
         class Event {
+            private int tag;
             private Action gameEvent;
-            private int startTime;
-            private int endTime;
+            private double startTime;
+            private double endTime;
             public bool HasFired;
 
-            public Event(int start, int end, Action GameEvent) {
+            public int Tag => tag;
+
+            public Event(double start, double end, Action GameEvent) {
+                tag = -1;
+                startTime = start;
+                endTime = end;
+                HasFired = false;
+                gameEvent = GameEvent;
+            }
+
+            public Event(double start, double end, int actionTag, Action GameEvent) {
+                tag = actionTag;
                 startTime = start;
                 endTime = end;
                 HasFired = false;
@@ -24,8 +37,8 @@ namespace bullethell.Story {
             }
 
             public Action GameEvent => gameEvent;
-            public int StartTime => startTime;
-            public int EndTime => endTime;
+            public double StartTime => startTime;
+            public double EndTime => endTime;
         }
 
         private Timer clock = new Timer();
@@ -43,13 +56,35 @@ namespace bullethell.Story {
             return (DateTime.Now - startTime).TotalSeconds;
         }
 
+       
+
         // add a tuple event to the list of actions
-        public void AddScheduledEvent(int startTime, int endTime, Action gameEvent) {
-            Event tempEvent = new Event(startTime, endTime, gameEvent);
+        public void AddScheduledTaggedEvent(double startTime, double endTime, object tag, Action gameEvent) {
+            if (startTime <= endTime) {
+                Event tempEvent = new Event(startTime, endTime, tag.GetHashCode(), gameEvent);
+                eventTimesList.Add(tempEvent);
+            }
+        }
+
+        public void AddSingleTaggedEvent(double startTime, object tag, Action gameEvent) {
+            // a single event is where the start and end times are the same
+            Event tempEvent = new Event(startTime, startTime, tag.GetHashCode(), gameEvent);
             eventTimesList.Add(tempEvent);
         }
 
-        public void AddSingleEvent(int startTime, Action gameEvent) {
+        public void RemoveTaggedEvents(object tag) {
+            eventTimesList.RemoveAll(e => e.Tag == tag.GetHashCode() && e.StartTime > TimeElapsed());
+        }
+
+        // add a tuple event to the list of actions
+        public void AddScheduledEvent(double startTime, double endTime, Action gameEvent) {
+            if (startTime <= endTime) {
+                Event tempEvent = new Event(startTime, endTime, gameEvent);
+                eventTimesList.Add(tempEvent);
+            }
+        }
+
+        public void AddSingleEvent(double startTime, Action gameEvent) {
             // a single event is where the start and end times are the same
             Event tempEvent = new Event(startTime, startTime, gameEvent);
             eventTimesList.Add(tempEvent);
@@ -71,6 +106,7 @@ namespace bullethell.Story {
                 // so it's not a single event, let's execute it if it's within the window
                 else if (currTime >= ev.StartTime && currTime < ev.EndTime) {
                     ev.GameEvent();
+
                 }
             }
         }
@@ -80,6 +116,14 @@ namespace bullethell.Story {
             eventTimesList.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
             startTime = DateTime.Now;
             clock.Start();
+        }
+
+        public void StopTimer() {
+            clock.Stop();
+        }
+
+        public void ClearEvents() {
+            eventTimesList.Clear();
         }
     }
 }
