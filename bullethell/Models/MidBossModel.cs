@@ -11,7 +11,7 @@ namespace bullethell.Models {
 
         public MidBossModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
             SetHealth(5);
-
+            name = "Mid Boss";
         }
     }
 }

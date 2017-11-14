@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using bullethell.Controller;
+using bullethell.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -45,12 +46,28 @@ namespace bullethell.View {
 
         public override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin();
+            StatsModel gameStats = Screens.ToArray()[Screens.Count - 2].GetStats();
+             
             spriteBatch.DrawString(font, "You Died! ", new Vector2(25, 550),
                 Color.Red);
+            spriteBatch.DrawString(font, "Bullets Fired " + gameStats.TotalBulletsFired, new Vector2(25, 600),
+                Color.Azure);
+            spriteBatch.DrawString(font, "Enemies Destroyed " + gameStats.TotalEnemiesDestroyed, new Vector2(25, 650),
+                Color.Azure);
+            spriteBatch.DrawString(font, "Accuracy " + gameStats.GetBulletAccuracy(), new Vector2(25, 700),
+                Color.Azure);
             spriteBatch.DrawString(font, "Press Enter To Continue", new Vector2(25, 750),
                 Color.Azure);
             spriteBatch.End();
         }
 
+        public override StatsModel GetStats() {
+            return Stats;
+        }
+
+        public override Rectangle GetWindowBounds() {
+            return new Rectangle(graphicsDevice.Viewport.X, graphicsDevice.Viewport.Y, graphicsDevice.Viewport.Width,
+                graphicsDevice.Viewport.Height);
+        }
     }
 }

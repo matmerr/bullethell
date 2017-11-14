@@ -29,16 +29,20 @@ namespace bullethell.View {
 
         }
 
-        public void Update(GameTime gameTime) {
+        public bool Update(GameTime gameTime) {
             if (Screens.Count > 0) {
                 Screens.Peek()?.Update(gameTime);
+                return true;
             }
+            return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch) {
+        public bool Draw(SpriteBatch spriteBatch) {
             if (Screens.Count > 0) {
                 Screens.Peek()?.Draw(spriteBatch);
+                return true;
             }
+            return false;
 
         }
 

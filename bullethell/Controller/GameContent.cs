@@ -17,6 +17,8 @@ namespace bullethell.Controller {
         private ModelFactory modelFactory;
         public ModelFactory ModelFactory => modelFactory;
 
+        private Rectangle viewport;
+
         public Texture2D playerShipTexture;
         private Texture2D midBossTexture;
         private Texture2D baddie1ATexture;
@@ -102,6 +104,7 @@ namespace bullethell.Controller {
                 Baddie2B: baddie2BTexture,
                 GoodBullet: goodBulletTexture,
                 EnemyBullet: enemyBulletTexture);
+
 
             Events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
@@ -233,6 +236,7 @@ namespace bullethell.Controller {
         }
 
 
+
         private double startwin = 0;
         public bool HasWon() {
             if (Events.TimeElapsed() > 10 && EnemyShipList.Count == 0) {
@@ -248,19 +252,21 @@ namespace bullethell.Controller {
 
 
         // this is our timeline for the game.
-        public void InitializeEvents() {
+        public void InitializeEvents(Rectangle v) {
+
+            viewport = v;
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
-
+            /*
             EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
-            TimeToLive(0, 200, enemy1);
-            Events.AddScheduledEvent(0, 120, () => enemy1.MoveToPointFlex(450, 450));
+            TimeToLive(0, 120, enemy1);
+            Events.AddScheduledEvent(0, 10, () => enemy1.MoveToPointFlex(450, 450));
             FiringPattern.From(enemy1).between(0,13).Circle();
             
 
             EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
-            TimeToLive(0, 200, enemy2);
-            Events.AddScheduledEvent(0, 120, () => enemy2.MoveToPointFlex(50, 450));
+            TimeToLive(0, 120, enemy2);
+            Events.AddScheduledEvent(0, 10, () => enemy2.MoveToPointFlex(50, 450));
             FiringPattern.From(enemy2).between(0,13).Circle();
 
 
@@ -268,6 +274,11 @@ namespace bullethell.Controller {
             TimeToLive(10, 200, midBoss);
             Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
             FiringPattern.From(midBoss).between(15,30).CircleSpiral();
+            */
+            EnemyModel enemy3 = modelFactory.BuildEnemyModel(225, 100);
+            TimeToLive(0, 120, enemy3);
+            FiringPattern.From(enemy3).between(0, 20).Spray(225,225,315);
+            FiringPattern.From(enemy3).between(0, 20).Trident();
         }
     }
 }

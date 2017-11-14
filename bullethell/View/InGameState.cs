@@ -48,7 +48,7 @@ namespace bullethell.View {
             );
 
             MainContent.InitializeModels();
-            MainContent.InitializeEvents();
+            MainContent.InitializeEvents(GetWindowBounds());
 
             MainContent.Start();
         }
@@ -95,8 +95,12 @@ namespace bullethell.View {
 
             if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
                 MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
+                Stats.BulletFired();
             }
-
+            if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {
+                Screens.Pop();
+                Screens.Peek().OldKeyboardState = this.NewKeyboardState;
+            }
 
             foreach (BulletModel gb in MainContent.GoodBulletList) {
                 gb.Move(Direction.Stay, Direction.Up);
@@ -130,6 +134,7 @@ namespace bullethell.View {
                         enemy.TakeDamage();
                         if (enemy.IsDead()) {
                             MainContent.EnemyShipList.Remove(enemy);
+                             Stats.EnemyDestroyed();
                             // draw explosions lol
                             if (enemy.Texture == MainContent.Baddie1BTexture || enemy.Texture == MainContent.Baddie2BTexture) {
                                 MainContent.DrawMediumExplosion(enemy.Location);
@@ -209,8 +214,16 @@ namespace bullethell.View {
                 Screens.Push(es);
             }
 
+
             spriteBatch.End();
         }
+        public override StatsModel GetStats() {
+            return Stats;
+        }
 
+        public override Rectangle GetWindowBounds() {
+            return new Rectangle(graphicsDevice.Viewport.X, graphicsDevice.Viewport.Y, graphicsDevice.Viewport.Width,
+                graphicsDevice.Viewport.Height);
+        }
     }
 }

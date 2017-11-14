@@ -80,6 +80,8 @@ namespace bullethell.Models {
         private double subY;
         private double subRate;
 
+        protected string name;
+        public string Name => name;
         
 
         // the when we toggle up a rate, we have the start rate saved
@@ -101,9 +103,7 @@ namespace bullethell.Models {
         public double MoveFlexAngle => moveFlexAngle;
 
 
-
         public Vector2 DrawingLocationVector => drawingLocation.ToVector2();
-
 
         // constructor which is required for all classes
         public BaseModel(int startX, int startY, double startRate, Texture2D startTexture) {
@@ -115,6 +115,7 @@ namespace bullethell.Models {
             rate = startRate;
             startingRate = startRate;
             texture = startTexture;
+            name = "Base Model";
         }
 
         // increment/decrement the X position and Y position based on _rate

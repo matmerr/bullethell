@@ -1,5 +1,7 @@
-﻿using System.Security.Permissions;
+﻿using System;
+using System.Security.Permissions;
 using bullethell.Models;
+using bullethell.View;
 
 namespace bullethell.Controller {
 
@@ -15,6 +17,53 @@ namespace bullethell.Controller {
                 this.stop = stop;
                 this.fromModel = fromModel;
                 this.MainContent = MainContent;
+            }
+
+            public void HeatSeeking() {
+            for (double i = start; i < stop; i += .1) {
+                BulletModel bullet1 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
+                MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet1.MoveToPointFlex(MainContent.PlayerShip.GetLocation()));
+
+            }
+        }
+
+            public void Trident() {
+
+                for (double i = start; i < stop; i += .25) {
+                    BulletModel bullet1 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                    bullet1.SetLinearTravelAngle(225);
+                    MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
+                    MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet1.MoveLinear());
+
+                    BulletModel bullet2 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                    bullet2.SetLinearTravelAngle(270);
+                    MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet2.SetLocation(fromModel.GetLocation()));
+                    MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet2.MoveLinear());
+
+                    BulletModel bullet3 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                    bullet3.SetLinearTravelAngle(315);
+                    MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet3.SetLocation(fromModel.GetLocation()));
+                    MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet3.MoveLinear());
+            }
+        }
+
+        public void Spray(int startDegree, int min, int max) {
+                int jAngle = startDegree;
+                int direction = 10;
+                
+                for (double i = start; i < stop; i += .1) {
+                    BulletModel bullet1 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                    if (bullet1 != null) {
+                        bullet1.SetLinearTravelAngle(jAngle);
+                        MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
+                        MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet1.MoveLinear());
+                        if (jAngle >= max + Math.Abs(direction) || jAngle <= min - Math.Abs(direction)) {
+                            direction *= -1;
+                        }
+                        jAngle += direction;
+                    }
+                }
             }
 
 

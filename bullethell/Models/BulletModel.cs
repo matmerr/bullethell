@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace bullethell.Models {
     public class BulletModel : BaseModel {
         public BulletModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
+            name = "Bullet";
         }
     }
 }

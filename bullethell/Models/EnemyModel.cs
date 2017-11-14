@@ -12,6 +12,7 @@ namespace bullethell.Models {
 
         public EnemyModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
             SetHealth(1);
+            name = "Enemy";
         }
 
         public void SetHealth(int h) {

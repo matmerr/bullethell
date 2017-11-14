@@ -78,9 +78,10 @@ namespace bullethell {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+
+            if (StateManager.Update(gameTime) == false) {
                 Exit();
-            StateManager.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -90,7 +91,9 @@ namespace bullethell {
         //  / <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-            StateManager.Draw(spriteBatch);
+            if (StateManager.Draw(spriteBatch) == false) {
+                Exit();
+            }
             base.Draw(gameTime);
         }
     }

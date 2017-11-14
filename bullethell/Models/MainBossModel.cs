@@ -11,6 +11,7 @@ namespace bullethell.Models {
 
         public MainBossModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
             SetHealth(10);
+            name = "Main Boss";
         }
     }
 }

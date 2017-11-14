@@ -49,6 +49,7 @@
     <Compile Include="Controller\FiringPatternController.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
+    <Compile Include="Models\StatsModel.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="View\EndGameWonState.cs" />
     <Compile Include="View\GameState.cs" />
     <Compile Include="View\GameStateManager.cs" />
+    <Compile Include="View\HowToPlayState.cs" />
     <Compile Include="View\InGameState.cs" />
     <Compile Include="View\MainMenuState.cs" />
   </ItemGroup>
@@ -84,7 +86,6 @@
     <Content Include="Content\goodMissile.png" />
     <Content Include="Content\midBoss.png" />
     <Content Include="Content\ship.png" />
-    <Content Include="Content\startButton.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
