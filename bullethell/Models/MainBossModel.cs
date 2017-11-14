@@ -13,5 +13,10 @@ namespace bullethell.Models {
             SetHealth(10);
             name = "Main Boss";
         }
+
+        public MainBossModel(Point start, double startRate, Texture2D startTexture) : base(start, startRate, startTexture) {
+            SetHealth(10);
+            name = "Main Boss";
+        }
     }
 }

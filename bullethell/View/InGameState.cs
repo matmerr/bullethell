@@ -47,7 +47,7 @@ namespace bullethell.View {
                 BaddieDie5: Content.Load<Texture2D>("baddieDie-5")
             );
 
-            MainContent.InitializeModels();
+            MainContent.InitializeModels(GetWindowBounds());
             MainContent.InitializeEvents(GetWindowBounds());
 
             MainContent.Start();
@@ -90,11 +90,12 @@ namespace bullethell.View {
             // TOGGLE SPEED
             // we have to check the key is down, and not just being spammed
             if (OldKeyboardState.IsKeyUp(Keys.LeftShift) && NewKeyboardState.IsKeyDown(Keys.LeftShift)) {
-                MainContent.PlayerShip.ToggleRate(5);
+                MainContent.PlayerShip.ToggleRate(2);
             }
 
+            // fire a bullet
             if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
-                MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
+                MainContent.AddGoodBullet(MainContent.PlayerShip.Center, 2);
                 Stats.BulletFired();
             }
             if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {
@@ -119,36 +120,41 @@ namespace bullethell.View {
 
             // player 
             spriteBatch.Draw(MainContent.PlayerShip.Texture,
-                new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Texture.Bounds.Size),
+                new Rectangle(MainContent.PlayerShip.Location, MainContent.PlayerShip.Texture.Bounds.Size),
                 Color.White);
 
 
             // draw each enemy
             foreach (EnemyModel enemy in MainContent.EnemyShipList.ToList()) {
-
-                // "Check each enemy bullet to see if it collides with a good bullet"
-                foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
-                    if (MainContent.IsColliding(enemy, goodBullet)) {
-                        MainContent.GoodBulletList.Remove(goodBullet);
-                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
+                if (MainContent.RemoveIfOffScreen(enemy) == false) {
+                    if (MainContent.IsColliding(enemy, MainContent.PlayerShip)) {
+                        MainContent.PlayerShip.TakeDamage();
                         enemy.TakeDamage();
                         if (enemy.IsDead()) {
-                            MainContent.EnemyShipList.Remove(enemy);
-                             Stats.EnemyDestroyed();
-                            // draw explosions lol
-                            if (enemy.Texture == MainContent.Baddie1BTexture || enemy.Texture == MainContent.Baddie2BTexture) {
-                                MainContent.DrawMediumExplosion(enemy.Location);
-                            } else if (enemy.Texture == MainContent.Baddie1ATexture || enemy.Texture == MainContent.Baddie2ATexture) {
-                                MainContent.DrawBigExplosion(enemy.Location);
-                            }
+                            Stats.EnemyDestroyed();
+                            MainContent.RemoveEnemy(enemy);
                         }
-                        MainContent.Events.RemoveTaggedEvents(enemy);
+                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, MainContent.PlayerShip));
                     }
+                    // "Check each enemy bullet to see if it collides with a good bullet"
+                    foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
+                        if (MainContent.IsColliding(enemy, goodBullet)) {
+                            MainContent.GoodBulletList.Remove(goodBullet);
+                            MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
+                            enemy.TakeDamage();
+                            if (enemy.IsDead()) {
+                                Stats.EnemyDestroyed();
+                                MainContent.RemoveEnemy(enemy);
+                            }
+                            MainContent.Events.RemoveTaggedEvents(enemy);
+                        }
+                    }
+
+                    spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
+                        new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
+                        new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
                 }
 
-                spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
-                    new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
-                    new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
             }
 
 
@@ -199,19 +205,32 @@ namespace bullethell.View {
                     Color.White);
                 j -= 25;
             }
-            spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650),
+            spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 675),
+                Color.Aqua);
+            spriteBatch.DrawString(font, "Lives Remaining: " + MainContent.PlayerShip.Lives, new Vector2(25, 700),
+                Color.DeepPink);
+            spriteBatch.DrawString(font, "Time Elapsed: " + MainContent.Events.TimeElapsed(), new Vector2(25, 750),
                 Color.White);
-            spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750),
-                Color.White);
-            spriteBatch.DrawString(font,
-                "ship location: X " + MainContent.PlayerShip.DrawingLocation.X + " Y " +
-                MainContent.PlayerShip.DrawingLocation.Y, new Vector2(25, 700), Color.White);
+
+
+            if (MainContent.PlayerShip.IsInvincible) {
+                spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2((GetWindowBounds().Width/2)-50, 3*(GetWindowBounds().Height/4)),
+                    Color.Red);
+
+            }
 
 
             if (MainContent.PlayerShip.IsDead()) {
-                EndGameLostState es = new EndGameLostState(graphicsDevice, Content, ref Screens);
-                MainContent.Events.StopTimer();
-                Screens.Push(es);
+                MainContent.PlayerShip.Lives -= 1;
+                if (MainContent.PlayerShip.Lives == 0) {
+                    EndGameLostState es = new EndGameLostState(graphicsDevice, Content, ref Screens);
+                    MainContent.Events.StopTimer();
+                    Screens.Push(es);
+                }
+                else {
+                    MainContent.PlayerShip.Respawn();
+                    MainContent.EnablePlayerInvincibility();
+                }
             }
 
             if (MainContent.HasWon()) {

@@ -10,16 +10,29 @@ namespace bullethell.Models {
     public class PlayerModel : BaseModel {
 
         private int health;
+        public int Lives;
+
+        private int initX, initY;
+        private bool isInvincible;
+        
 
 
         public PlayerModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
-            health = 20;
+            health = 10;
+            Lives = 3;
+            initX = startX;
+            initY = startY;
+            isInvincible = false;
         }
 
         public int Health => health;
 
+        public bool IsInvincible => isInvincible;
+
         public void TakeDamage() {
-            health -= 1;
+            if (!isInvincible) {
+                health -= 1;
+            }
         }
 
         public bool IsDead() {
@@ -29,6 +42,17 @@ namespace bullethell.Models {
             return true;
         }
 
+        public void Respawn() {
+            health = 10;
+            center.X = initX;
+            center.Y = initY;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
+        }
+
+        public void ToggleInvincibility() {
+            isInvincible = !isInvincible;
+        }
     }
 
 }
