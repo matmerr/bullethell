@@ -190,9 +190,15 @@ namespace bullethell.View {
                         new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
                 }
             }
-
-            spriteBatch.DrawString(font, "Remaining Enemies: " + MainContent.EnemyShipList.Count, new Vector2(25, 550),
-                Color.White);
+            int j = 600;
+            foreach (EnemyModel en in MainContent.EnemyShipList){
+                if (j < 300) {
+                    break;
+                }
+                spriteBatch.DrawString(font, en.Name + " Health: " + en.Health, new Vector2(25, j),
+                    Color.White);
+                j -= 25;
+            }
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 650),
                 Color.White);
             spriteBatch.DrawString(font, "Time Elapsed " + MainContent.Events.TimeElapsed(), new Vector2(25, 750),

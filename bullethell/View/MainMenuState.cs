@@ -55,7 +55,9 @@ namespace bullethell.View {
                 InGameState gs = new InGameState(graphicsDevice, Content, ref Screens);
                 Screens.Push(gs);
             } else if (howToPlayButton.ClickedWithinBounds(mouseState)) {
-                // switch to how to play instructions
+                OldKeyboardState = NewKeyboardState;
+                HowToPlayState hs = new HowToPlayState(graphicsDevice, Content, ref Screens);
+                Screens.Push(hs);
             } else if (optionsButton.ClickedWithinBounds(mouseState)) {
                 // switch to options screen
             } else if (quitButton.ClickedWithinBounds(mouseState)) {

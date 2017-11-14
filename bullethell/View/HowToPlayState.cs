@@ -7,6 +7,7 @@ using bullethell.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
     class HowToPlayState : GameState{
@@ -14,31 +15,40 @@ namespace bullethell.View {
         }
 
         public override void Initialize() {
-            throw new NotImplementedException();
+            // initialize anything ahead of time
         }
 
         public override void LoadContent() {
-            throw new NotImplementedException();
+            // load any images
         }
 
         public override void UnloadContent() {
-            throw new NotImplementedException();
+            
         }
 
         public override void Update(GameTime gameTime) {
-            throw new NotImplementedException();
+            NewKeyboardState = Keyboard.GetState();
+            // update stuff here
+
+
+            if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {
+                Screens.Pop();
+                Screens.Peek().OldKeyboardState = this.NewKeyboardState;
+            }
+            OldKeyboardState = NewKeyboardState;
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
-            throw new NotImplementedException();
+            // draw things
         }
 
         public override StatsModel GetStats() {
-            throw new NotImplementedException();
+            return Stats;
         }
 
         public override Rectangle GetWindowBounds() {
-            throw new NotImplementedException();
+            return new Rectangle(graphicsDevice.Viewport.X, graphicsDevice.Viewport.Y, graphicsDevice.Viewport.Width,
+                graphicsDevice.Viewport.Height);
         }
     }
 }

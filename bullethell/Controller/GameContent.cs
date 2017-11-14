@@ -257,28 +257,45 @@ namespace bullethell.Controller {
             viewport = v;
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
-            /*
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
-            TimeToLive(0, 120, enemy1);
-            Events.AddScheduledEvent(0, 10, () => enemy1.MoveToPointFlex(450, 450));
-            FiringPattern.From(enemy1).between(0,13).Circle();
             
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
+            TimeToLive(0, 18, enemy1);
+            Events.AddScheduledEvent(0, 10, () => enemy1.MoveToPointFlex(450, 450));
+            FiringPattern.From(enemy1).between(0,15).Circle();
+            Events.AddScheduledEvent(15, 18, () => enemy1.MoveToPointFlex(viewport.Width + 10,450));
+
 
             EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
-            TimeToLive(0, 120, enemy2);
+            TimeToLive(0, 18, enemy2);
             Events.AddScheduledEvent(0, 10, () => enemy2.MoveToPointFlex(50, 450));
-            FiringPattern.From(enemy2).between(0,13).Circle();
+            FiringPattern.From(enemy2).between(0,15).Circle();
+            Events.AddScheduledEvent(15, 18, () => enemy2.MoveToPointFlex(-10, 450));
 
 
-            EnemyModel midBoss = modelFactory.BuildMidBossModel(250,0);
-            TimeToLive(10, 200, midBoss);
-            Events.AddScheduledEvent(10, 120, () => midBoss.MoveToPointFlex(250, 250));
-            FiringPattern.From(midBoss).between(15,30).CircleSpiral();
-            */
-            EnemyModel enemy3 = modelFactory.BuildEnemyModel(225, 100);
-            TimeToLive(0, 120, enemy3);
-            FiringPattern.From(enemy3).between(0, 20).Spray(225,225,315);
-            FiringPattern.From(enemy3).between(0, 20).Trident();
+            EnemyModel midBoss1 = modelFactory.BuildMidBossModel(50,0);
+            TimeToLive(13, 30, midBoss1);
+            Events.AddScheduledEvent(13, 20, () => midBoss1.MoveToPointFlex(150, 150));
+            FiringPattern.From(midBoss1).between(13, 27).Spray(225, 225, 315);
+            Events.AddScheduledEvent(25, 30, () => midBoss1.MoveToPointFlex(viewport.Width + 10, 450));
+
+
+            EnemyModel midBoss2 = modelFactory.BuildMidBossModel(450, 0);
+            TimeToLive(13, 30, midBoss2);
+            Events.AddScheduledEvent(13, 20, () => midBoss2.MoveToPointFlex(350, 150));
+            FiringPattern.From(midBoss2).between(13, 27).Spray(225, 225, 315);
+            Events.AddScheduledEvent(25, 30, () => midBoss2.MoveToPointFlex(-10, 450));
+
+            EnemyModel midBoss3 = modelFactory.BuildMidBossModel(250, 0);
+            TimeToLive(13, 30, midBoss3);
+            Events.AddScheduledEvent(13, 20, () => midBoss3.MoveToPointFlex(250, 150));
+            FiringPattern.From(midBoss3).between(13, 27).Spray(225, 225, 315);
+            Events.AddScheduledEvent(25, 30, () => midBoss3.MoveToPointFlex(250, -10));
+
+            EnemyModel mainBoss = modelFactory.BuildMainBossModel(250,0);
+            TimeToLive(25, 50, mainBoss);
+            Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(250, 250));
+            FiringPattern.From(mainBoss).between(28,35).CircleSpiral();
+            Events.AddScheduledEvent(60, 65, () => mainBoss.MoveToPointFlex(250, -10));
         }
     }
 }

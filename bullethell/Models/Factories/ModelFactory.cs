@@ -51,7 +51,11 @@ namespace bullethell.Models.Factories {
         }
 
         public MidBossModel BuildMidBossModel(int x, int y) {
-            return new MidBossModel(x,y,2,baddie2ATexture);
+            return new MidBossModel(x,y,2,baddie2BTexture);
+        }
+
+        public MainBossModel BuildMainBossModel(int x, int y) {
+            return new MainBossModel(x,y,3,baddie2ATexture);
         }
     }
 }
