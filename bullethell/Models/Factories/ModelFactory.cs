@@ -38,6 +38,10 @@ namespace bullethell.Models.Factories {
 
         }
 
+        public PlayerModel BuildPlayerModel(int x, int y) {
+            return new PlayerModel(x,y,3,playerShipTexture);
+        }
+
         public EnemyModel BuildEnemyModel(int x, int y) {
             return new EnemyModel(x, y, 1, baddie1BTexture);
         }

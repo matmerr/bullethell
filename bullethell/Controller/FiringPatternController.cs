@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Permissions;
 using bullethell.Models;
 using bullethell.View;
+using Microsoft.Xna.Framework;
 
 namespace bullethell.Controller {
 
@@ -67,32 +69,23 @@ namespace bullethell.Controller {
             }
 
 
-            public void CircleSpiral() {
-                double i = start;
-                while (i < stop) {
-                    //we will create an enemy with a time to live, then we will tell it what to do during its life
-                    double j = 360 % i;
-                    while (j < 360) {
-                        //here we will create an enemy with a time to live, then we will tell it what to do during its life
+            public void Spiral(int numSpokes, int direction) {
 
-                        BulletModel bullet1 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
+                for (double i = 0; i < 360; i += (360 / numSpokes)) {
+                    double jAngle = i;
+                    for (double j = start; j < stop; j += .1) {
+                        BulletModel bullet1 = (BulletModel)MainContent.TimeToLiveTagged(j, j + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
                         if (bullet1 != null) {
-                            bullet1.SetLinearTravelAngle(j);
-                            MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
-                            MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet1.MoveLinear());
-                        }
-                        j += 10;
-                    }
+                            bullet1.SetLinearTravelAngle(jAngle);
+                            MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
+                            MainContent.Events.AddScheduledTaggedEvent(j, j + bulletlife, fromModel, () => bullet1.MoveLinear());
+                            jAngle += 5 * direction;
+                            jAngle %= 360;
 
-                    BulletModel bullet2 = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(250, 250));
-                    if (bullet2 != null) {
-                        MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet2.SetLocation(fromModel.GetLocation()));
-                        bullet2.SetOrbitPoint(250, 251);
-                        MainContent.Events.AddScheduledTaggedEvent(i, i + bulletlife, fromModel, () => bullet2.Spiral());
+                        }
                     }
-                    i += .25;
-                }
             }
+        }
 
 
             public void Circle() {
@@ -103,7 +96,6 @@ namespace bullethell.Controller {
                         //here we will create an enemy with a time to live, then we will tell it what to do during its life
 
                         BulletModel bullet = (BulletModel)MainContent.TimeToLiveTagged(i, i + bulletlife, fromModel, MainContent.ModelFactory.BuildEnemyBulletModel(fromModel.GetLocation().X, fromModel.GetLocation().Y));
-
 
                         if (bullet != null) {
                             bullet.SetLinearTravelAngle(j);

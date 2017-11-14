@@ -285,7 +285,14 @@ namespace bullethell.Models {
 
             // this is in radians:
             orbitAngle = Math.Atan2(location.Y - OrbitPoint.Y, location.X - OrbitPoint.X) - Math.Atan2(0, orbitRadius);
+        }
 
+        public void SetOrbitAngle(double angle) {
+            orbitAngle = angle;
+        }
+
+        public void SetOrbitRadius(double radius) {
+            orbitRadius = radius;
         }
 
         public void MoveOrbit() {
@@ -297,7 +304,7 @@ namespace bullethell.Models {
         }
 
         public void Spiral() {
-            orbitRadius += rate / 15;
+            //orbitRadius += rate / 15;
             MoveOrbit();
         }
 
