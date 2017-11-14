@@ -44,10 +44,10 @@ namespace bullethell.Models {
 
         public void Respawn() {
             health = 10;
-            location.X = initX;
-            location.Y = initY;
-            drawingLocation.X = location.X - texture.Width / 2;
-            drawingLocation.Y = location.Y - texture.Height / 2;
+            center.X = initX;
+            center.Y = initY;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
         }
 
         public void ToggleInvincibility() {

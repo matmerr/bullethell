@@ -13,5 +13,10 @@ namespace bullethell.Models {
             SetHealth(5);
             name = "Mid Boss";
         }
+
+        public MidBossModel(Point start, double startRate, Texture2D startTexture) : base(start, startRate, startTexture) {
+            SetHealth(5);
+            name = "Mid Boss";
+        }
     }
 }

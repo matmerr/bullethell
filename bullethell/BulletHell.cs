@@ -44,8 +44,8 @@ namespace bullethell {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             //gameState = GameStates.Menu;
-            graphics.PreferredBackBufferWidth = 500;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 1000;
             graphics.ApplyChanges();
             base.Initialize();
         }

@@ -120,8 +120,8 @@ namespace bullethell.Controller {
             int bHitBoxWidth = b.Texture.Width - (b.Texture.Width / 3);
             int aHitBoxHeight =  a.Texture.Height - (a.Texture.Height/ 3);
             int bHitBoxHeight = b.Texture.Height - (a.Texture.Height / 3);
-            Rectangle ra = new Rectangle(a.DrawingLocation.X, a.DrawingLocation.Y, aHitBoxWidth, aHitBoxHeight);
-            Rectangle rb = new Rectangle(b.DrawingLocation.X, b.DrawingLocation.Y, bHitBoxWidth, bHitBoxHeight);
+            Rectangle ra = new Rectangle(a.Center.X, a.Center.Y, aHitBoxWidth, aHitBoxHeight);
+            Rectangle rb = new Rectangle(b.Center.X, b.Center.Y, bHitBoxWidth, bHitBoxHeight);
             return ra.Intersects(rb);
         }
 
@@ -130,13 +130,12 @@ namespace bullethell.Controller {
             int bHitBoxWidth = b.Texture.Width - (b.Texture.Width / 3);
             int aHitBoxHeight = a.Texture.Height - (a.Texture.Height / 3);
             int bHitBoxHeight = b.Texture.Height - (a.Texture.Height / 3);
-            Rectangle ra = new Rectangle(a.DrawingLocation.X, a.DrawingLocation.Y, aHitBoxWidth, aHitBoxHeight);
-            Rectangle rb = new Rectangle(b.DrawingLocation.X, b.DrawingLocation.Y, bHitBoxWidth, bHitBoxHeight);
+            Rectangle ra = new Rectangle(a.Center.X, a.Center.Y, aHitBoxWidth, aHitBoxHeight);
+            Rectangle rb = new Rectangle(b.Center.X, b.Center.Y, bHitBoxWidth, bHitBoxHeight);
             if (ra.Intersects(rb)) {
                 Rectangle rect = Rectangle.Intersect(ra, rb);
-                return rect.Center;
-                //return new Point(rect.Center.X - rect.Width / 2,
-                //rect.Center.Y - rect.Height / 2);
+                //return rect.Location;
+                return new Point(rect.Location.X - rect.Width,rect.Location.Y - rect.Height);
             }
             return new Point(0, 0);
         }
@@ -145,6 +144,15 @@ namespace bullethell.Controller {
             EnemyShipList.Remove(enemy);
             Events.RemoveTaggedEvents(enemy);
             DrawEnemyExplosion(enemy);
+        }
+
+        public bool RemoveIfOffScreen(EnemyModel Model) {
+            if (!viewport.Contains(Model.GetLocation())) {
+                EnemyShipList.Remove(Model);
+                Events.RemoveTaggedEvents(Model);
+                return true;
+            }
+            return false;
         }
 
         public void DrawEnemyExplosion(BaseModel enemy) {
@@ -213,9 +221,9 @@ namespace bullethell.Controller {
 
         // here we will initalize the specific models that are used, as well as add any "bulk models"
         // to lists
-        public void InitializeModels() {
+        public void InitializeModels(Rectangle viewport) {
             // set starting player point
-            playerShip = modelFactory.BuildPlayerModel(250, 750);
+            playerShip = modelFactory.BuildPlayerModel(viewport.Width/2, 7*(viewport.Height/8));
         }
 
 
@@ -283,45 +291,62 @@ namespace bullethell.Controller {
 
             viewport = v;
 
+            Point EntryPointTopLeftCorner = new Point(1, 2);
+            Point EntryPointTopRightCorner = new Point(viewport.Width, 1);
+            Point EntryPointTopMiddle = new Point(viewport.Width / 2,1);
+
+            Point ExitPointTopLeftCorner = new Point(-10, -10);
+            Point ExitPointTopRightCorner = new Point(viewport.Width, -10);
+            Point ExitPointTopMiddle = new Point(viewport.Width / 2, -10);
+
+            Point ExitPointLeftSide = new Point(-10, viewport.Height/4);
+            Point ExitPointRightSide = new Point(viewport.Width+10, viewport.Height / 4);
+
+            Point FiringPointMidLeft = new Point(viewport.Width / 4, (viewport.Height / 3));
+            Point FiringPointMidMiddle = new Point(2 * (viewport.Width / 4), (viewport.Height) / 3);
+            Point FiringPointMidRight = new Point(3 * (viewport.Width / 4), (viewport.Height) / 3);
+
+            Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
+
             FiringPatternController FiringPattern = new FiringPatternController(this);
             
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(50, 0);
-            TimeToLive(0, 18, enemy1);
-            Events.AddScheduledEvent(0, 10, () => enemy1.MoveToPointFlex(450, 450));
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(EntryPointTopLeftCorner);
+            TimeToLive(0, 25, enemy1);
+            Events.AddScheduledEvent(0, 15, () => enemy1.MoveToPointFlex(FiringPointMidRight));
             FiringPattern.From(enemy1).between(0,15).Circle();
-            Events.AddScheduledEvent(15, 18, () => enemy1.MoveToPointFlex(viewport.Width + 10,450));
+            Events.AddScheduledEvent(15, 25, () => enemy1.MoveToPointFlex(ExitPointRightSide));
 
 
-            EnemyModel enemy2 = modelFactory.BuildEnemyModel(450, 0);
-            TimeToLive(0, 18, enemy2);
-            Events.AddScheduledEvent(0, 10, () => enemy2.MoveToPointFlex(50, 450));
+            EnemyModel enemy2 = modelFactory.BuildEnemyModel(EntryPointTopRightCorner);
+            TimeToLive(0, 25, enemy2);
+            Events.AddScheduledEvent(0, 15, () => enemy2.MoveToPointFlex(FiringPointMidLeft));
             FiringPattern.From(enemy2).between(0,15).Circle();
-            Events.AddScheduledEvent(15, 18, () => enemy2.MoveToPointFlex(-10, 450));
+            Events.AddScheduledEvent(15, 25, () => enemy2.MoveToPointFlex(ExitPointLeftSide));
 
 
-            EnemyModel midBoss1 = modelFactory.BuildMidBossModel(50,0);
+            EnemyModel midBoss1 = modelFactory.BuildMidBossModel(EntryPointTopLeftCorner);
             TimeToLive(13, 30, midBoss1);
-            Events.AddScheduledEvent(13, 20, () => midBoss1.MoveToPointFlex(150, 150));
+            Events.AddScheduledEvent(13, 20, () => midBoss1.MoveToPointFlex(FiringPointMidLeft));
             FiringPattern.From(midBoss1).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss1.MoveToPointFlex(-10, 450));
+            Events.AddScheduledEvent(25, 30, () => midBoss1.MoveToPointFlex(ExitPointTopLeftCorner));
 
 
-            EnemyModel midBoss2 = modelFactory.BuildMidBossModel(450, 0);
+            EnemyModel midBoss2 = modelFactory.BuildMidBossModel(EntryPointTopMiddle);
             TimeToLive(13, 30, midBoss2);
-            Events.AddScheduledEvent(13, 20, () => midBoss2.MoveToPointFlex(350, 150));
+            Events.AddScheduledEvent(13, 20, () => midBoss2.MoveToPointFlex(FiringPointMidMiddle));
             FiringPattern.From(midBoss2).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss2.MoveToPointFlex(viewport.Width + 10, 450));
+            Events.AddScheduledEvent(25, 30, () => midBoss2.MoveToPointFlex(ExitPointTopMiddle));
 
-            EnemyModel midBoss3 = modelFactory.BuildMidBossModel(250, 0);
+            EnemyModel midBoss3 = modelFactory.BuildMidBossModel(EntryPointTopRightCorner);
             TimeToLive(13, 30, midBoss3);
-            Events.AddScheduledEvent(13, 20, () => midBoss3.MoveToPointFlex(250, 150));
+            Events.AddScheduledEvent(13, 20, () => midBoss3.MoveToPointFlex(FiringPointMidRight));
             FiringPattern.From(midBoss3).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss3.MoveToPointFlex(250, -10));
+            Events.AddScheduledEvent(25, 30, () => midBoss3.MoveToPointFlex(ExitPointTopRightCorner));
 
             
-            EnemyModel mainBoss = modelFactory.BuildMainBossModel(250,0);
+            EnemyModel mainBoss = modelFactory.BuildMainBossModel(EntryPointTopMiddle);
             TimeToLive(25, 55, mainBoss);
-            Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(250, 250));
+            Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(FiringPointCenter));
             FiringPattern.From(mainBoss).between(28, 30).Spiral(2, Direction.Right);
             FiringPattern.From(mainBoss).between(30, 32).Spiral(4, Direction.Right);
             FiringPattern.From(mainBoss).between(32, 34).Spiral(6, Direction.Right);
@@ -329,7 +354,7 @@ namespace bullethell.Controller {
             FiringPattern.From(mainBoss).between(38, 42).Spiral(8, Direction.Left);
             FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Right);
             FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Left);
-            Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(250, -20));
+            Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(ExitPointTopMiddle));
           
         }
     }

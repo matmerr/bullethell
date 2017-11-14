@@ -58,10 +58,9 @@ namespace bullethell.Models {
         protected Texture2D texture;
 
         // coordinates for the model on the canvas
-        protected Point location;
-        protected Point drawingLocation;
-        //protected Point dimensions;
         protected Point center;
+        protected Point location;
+        //protected Point dimensions;
 
         // we need to keep track of 
         protected double moveFlexAngle;
@@ -91,27 +90,39 @@ namespace bullethell.Models {
         public Texture2D Texture => texture;
 
         // Monogame location center of 
-        public Point Location => location;
+        public Point Center => center;
 
         // location of the center of the texture
-        public Point DrawingLocation => drawingLocation;
+        public Point Location => location;
 
         //public Point Dimensions => dimensions;
-        public Point Center => center;
         public float Rotation => rotation;
         public float Scale => scale;
         public double MoveFlexAngle => moveFlexAngle;
 
 
-        public Vector2 DrawingLocationVector => drawingLocation.ToVector2();
+        public Vector2 DrawingLocationVector => location.ToVector2();
 
         // constructor which is required for all classes
         public BaseModel(int startX, int startY, double startRate, Texture2D startTexture) {
             texture = startTexture;
-            location.X = startX;
-            location.Y = startY;
-            drawingLocation.X = location.X - texture.Width / 2;
-            drawingLocation.Y = location.Y - texture.Height / 2;
+            center.X = startX;
+            center.Y = startY;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
+            rate = startRate;
+            startingRate = startRate;
+            texture = startTexture;
+            name = "Base Model";
+        }
+
+        // constructor which is required for all classes
+        public BaseModel(Point start, double startRate, Texture2D startTexture) {
+            texture = startTexture;
+            center.X = start.X;
+            center.Y = start.Y;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
             rate = startRate;
             startingRate = startRate;
             texture = startTexture;
@@ -124,10 +135,10 @@ namespace bullethell.Models {
         public void Move(int X, int Y) {
             subRate += rate;
             if ((int)subRate != 0) {
-                location.Y += Y * (int)rate;
-                location.X += X * (int)rate;
-                drawingLocation.X = location.X - texture.Width / 2;
-                drawingLocation.Y = location.Y - texture.Height / 2;
+                center.Y += Y * (int)rate;
+                center.X += X * (int)rate;
+                location.X = center.X - texture.Width / 2;
+                location.Y = center.Y - texture.Height / 2;
                 subRate = subRate % (int)subRate;
             }
         }
@@ -155,33 +166,33 @@ namespace bullethell.Models {
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
 
-            double xv = finalX - location.X;
-            double yv = finalY - location.Y;
+            double xv = finalX - center.X;
+            double yv = finalY - center.Y;
 
-            double distance = Math.Sqrt(Math.Pow(finalX - location.X, 2) + Math.Pow(finalY - location.Y, 2));
+            double distance = Math.Sqrt(Math.Pow(finalX - center.X, 2) + Math.Pow(finalY - center.Y, 2));
 
             moveFlexAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
             moveFlexAngle = moveFlexAngle * 180 / Math.PI;
             moveFlexAngle *= -1;
 
 
-            if (Math.Abs(location.X - finalX) < rate) {
-                location.X = finalX;
+            if (Math.Abs(center.X - finalX) < rate) {
+                center.X = finalX;
             } else {
-                if (location.X < finalX) {
+                if (center.X < finalX) {
                     Move(moveFlexAngle);
-                } else if (location.X > finalX) {
+                } else if (center.X > finalX) {
                     Move(moveFlexAngle);
                 }
                 return;
             }
 
-            if (Math.Abs(location.Y - finalY) < rate) {
-                location.Y = finalY;
+            if (Math.Abs(center.Y - finalY) < rate) {
+                center.Y = finalY;
             } else {
-                if (location.Y < finalY) {
+                if (center.Y < finalY) {
                     Move(moveFlexAngle);
-                } else if (location.Y > finalY) {
+                } else if (center.Y > finalY) {
                     Move(moveFlexAngle);
                 }
                 return;
@@ -196,21 +207,21 @@ namespace bullethell.Models {
 
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
-            if (Math.Abs(location.X - finalX) < rate) {
-                location.X = finalX;
+            if (Math.Abs(center.X - finalX) < rate) {
+                center.X = finalX;
             } else {
-                if (location.X < finalX) {
+                if (center.X < finalX) {
                     Move(0);
-                } else if (location.X > finalX) {
+                } else if (center.X > finalX) {
                     Move(180);
                 }
             }
-            if (Math.Abs(location.Y - finalY) < rate) {
-                location.Y = finalY;
+            if (Math.Abs(center.Y - finalY) < rate) {
+                center.Y = finalY;
             } else {
-                if (location.Y < finalY) {
+                if (center.Y < finalY) {
                     Move(270);
-                } else if (location.Y > finalY) {
+                } else if (center.Y > finalY) {
                     Move(90);
                 }
             }
@@ -243,18 +254,18 @@ namespace bullethell.Models {
             // then on the next increment _subX will already be .81 in case we "bust" over 1 pixel
             subX += Math.Cos(angleDegrees * (Math.PI / 180)) * rate;
             if ((int)subX != 0) {
-                location.X += (int)subX;
+                center.X += (int)subX;
                 subX = subX % (int)subX;
             }
 
             // see above explanation
             subY += Math.Sin(angleDegrees * (Math.PI / 180)) * rate;
             if ((int)subY != 0) {
-                location.Y -= (int)subY;
+                center.Y -= (int)subY;
                 subY = subY % (int)subY;
             }
-            drawingLocation.X = location.X - texture.Width / 2;
-            drawingLocation.Y = location.Y - texture.Height / 2;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
         }
 
 
@@ -281,10 +292,10 @@ namespace bullethell.Models {
             OrbitPoint.X = orbitX;
             OrbitPoint.Y = orbitY;
             // distance formula:
-            orbitRadius = Math.Sqrt(Math.Pow(OrbitPoint.X - location.X, 2) + Math.Pow(OrbitPoint.Y - location.Y, 2));
+            orbitRadius = Math.Sqrt(Math.Pow(OrbitPoint.X - center.X, 2) + Math.Pow(OrbitPoint.Y - center.Y, 2));
 
             // this is in radians:
-            orbitAngle = Math.Atan2(location.Y - OrbitPoint.Y, location.X - OrbitPoint.X) - Math.Atan2(0, orbitRadius);
+            orbitAngle = Math.Atan2(center.Y - OrbitPoint.Y, center.X - OrbitPoint.X) - Math.Atan2(0, orbitRadius);
         }
 
         public void SetOrbitAngle(double angle) {
@@ -297,10 +308,10 @@ namespace bullethell.Models {
 
         public void MoveOrbit() {
             orbitAngle += rate * 1 / 25;
-            location.X = (int)(OrbitPoint.X + Math.Cos(orbitAngle) * (int)orbitRadius);
-            location.Y = (int)(OrbitPoint.Y + Math.Sin(orbitAngle) * (int)orbitRadius);
-            drawingLocation.X = location.X - Texture.Height / 2;
-            drawingLocation.Y = location.Y - Texture.Width / 2;
+            center.X = (int)(OrbitPoint.X + Math.Cos(orbitAngle) * (int)orbitRadius);
+            center.Y = (int)(OrbitPoint.Y + Math.Sin(orbitAngle) * (int)orbitRadius);
+            location.X = center.X - Texture.Height / 2;
+            location.Y = center.Y - Texture.Width / 2;
         }
 
         public void Spiral() {
@@ -315,14 +326,14 @@ namespace bullethell.Models {
 
 
         public Point GetLocation() {
-            return location;
+            return center;
         }
 
         public void SetLocation(Point p) {
-            location.X = p.X;
-            location.Y = p.Y;
-            drawingLocation.X = location.X - texture.Width / 2;
-            drawingLocation.Y = location.Y - texture.Height / 2;
+            center.X = p.X;
+            center.Y = p.Y;
+            location.X = center.X - texture.Width / 2;
+            location.Y = center.Y - texture.Height / 2;
         }
     }
 }

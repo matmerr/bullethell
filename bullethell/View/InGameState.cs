@@ -47,7 +47,7 @@ namespace bullethell.View {
                 BaddieDie5: Content.Load<Texture2D>("baddieDie-5")
             );
 
-            MainContent.InitializeModels();
+            MainContent.InitializeModels(GetWindowBounds());
             MainContent.InitializeEvents(GetWindowBounds());
 
             MainContent.Start();
@@ -93,8 +93,9 @@ namespace bullethell.View {
                 MainContent.PlayerShip.ToggleRate(2);
             }
 
+            // fire a bullet
             if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
-                MainContent.AddGoodBullet(MainContent.PlayerShip.Location, 2);
+                MainContent.AddGoodBullet(MainContent.PlayerShip.Center, 2);
                 Stats.BulletFired();
             }
             if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {
@@ -119,38 +120,41 @@ namespace bullethell.View {
 
             // player 
             spriteBatch.Draw(MainContent.PlayerShip.Texture,
-                new Rectangle(MainContent.PlayerShip.DrawingLocation, MainContent.PlayerShip.Texture.Bounds.Size),
+                new Rectangle(MainContent.PlayerShip.Location, MainContent.PlayerShip.Texture.Bounds.Size),
                 Color.White);
 
 
             // draw each enemy
             foreach (EnemyModel enemy in MainContent.EnemyShipList.ToList()) {
-                if (MainContent.IsColliding(enemy, MainContent.PlayerShip)) {
-                    MainContent.PlayerShip.TakeDamage();
-                    enemy.TakeDamage();
-                    if (enemy.IsDead()) {
-                        Stats.EnemyDestroyed();
-                        MainContent.RemoveEnemy(enemy);
-                    }
-                    MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, MainContent.PlayerShip));
-                }
-                // "Check each enemy bullet to see if it collides with a good bullet"
-                foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
-                    if (MainContent.IsColliding(enemy, goodBullet)) {
-                        MainContent.GoodBulletList.Remove(goodBullet);
-                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
+                if (MainContent.RemoveIfOffScreen(enemy) == false) {
+                    if (MainContent.IsColliding(enemy, MainContent.PlayerShip)) {
+                        MainContent.PlayerShip.TakeDamage();
                         enemy.TakeDamage();
                         if (enemy.IsDead()) {
                             Stats.EnemyDestroyed();
                             MainContent.RemoveEnemy(enemy);
                         }
-                        MainContent.Events.RemoveTaggedEvents(enemy);
+                        MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, MainContent.PlayerShip));
                     }
+                    // "Check each enemy bullet to see if it collides with a good bullet"
+                    foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
+                        if (MainContent.IsColliding(enemy, goodBullet)) {
+                            MainContent.GoodBulletList.Remove(goodBullet);
+                            MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
+                            enemy.TakeDamage();
+                            if (enemy.IsDead()) {
+                                Stats.EnemyDestroyed();
+                                MainContent.RemoveEnemy(enemy);
+                            }
+                            MainContent.Events.RemoveTaggedEvents(enemy);
+                        }
+                    }
+
+                    spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
+                        new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
+                        new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
                 }
 
-                spriteBatch.Draw(enemy.Texture, enemy.DrawingLocationVector,
-                    new Rectangle(0, 0, enemy.Texture.Height, enemy.Texture.Height), Color.White, enemy.Rotation,
-                    new Point(0, 0).ToVector2(), enemy.Scale, SpriteEffects.None, 1.0f);
             }
 
 
@@ -210,7 +214,7 @@ namespace bullethell.View {
 
 
             if (MainContent.PlayerShip.IsInvincible) {
-                spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2(150, 550),
+                spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2((GetWindowBounds().Width/2)-50, 3*(GetWindowBounds().Height/4)),
                     Color.Red);
 
             }
