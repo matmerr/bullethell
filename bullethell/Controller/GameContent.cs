@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using bullethell.Controller;
 using bullethell.Models;
 using bullethell.Models.Factories;
+using bullethell.Models.Move;
+using bullethell.Models.Move.MovePatterns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -59,7 +61,8 @@ namespace bullethell.Controller {
 
 
         // field encapsulation so we don't accidentally change stuff outside of this class
-        public GameEvents Events { get; }
+        private GameEvents events;
+        public GameEvents Events => events;
 
         public PlayerModel PlayerShip => playerShip;
         public List<EnemyModel> EnemyShipList => enemyShipList;
@@ -106,7 +109,7 @@ namespace bullethell.Controller {
                 EnemyBullet: enemyBulletTexture);
 
 
-            Events = new GameEvents();
+            events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
             enemyBulletList = new List<BulletModel>();
             goodBulletList = new List<BulletModel>();
@@ -309,9 +312,24 @@ namespace bullethell.Controller {
             Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
-            
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(EntryPointTopLeftCorner);
+            MoveController Move = new MoveController(ref events);
+
+
+            // Was 
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(EntryPointTopRightCorner);
             TimeToLive(0, 25, enemy1);
+            Move.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidLeft));
+
+
+            // Is basically now
+            EnemyModel enemy2 = modelFactory.BuildEnemyModel(EntryPointTopLeftCorner);
+            TimeToLive(0, 25, enemy2);
+            Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
+            FiringPattern.From(enemy1).Between(0, 15).Circle();
+
+
+
+            /*
             Events.AddScheduledEvent(0, 15, () => enemy1.MoveToPointFlex(FiringPointMidRight));
             FiringPattern.From(enemy1).between(0,15).Circle();
             Events.AddScheduledEvent(15, 25, () => enemy1.MoveToPointFlex(ExitPointRightSide));
@@ -343,7 +361,8 @@ namespace bullethell.Controller {
             FiringPattern.From(midBoss3).between(13, 27).Spray(225, 225, 315);
             Events.AddScheduledEvent(25, 30, () => midBoss3.MoveToPointFlex(ExitPointTopRightCorner));
 
-            
+
+
             EnemyModel mainBoss = modelFactory.BuildMainBossModel(EntryPointTopMiddle);
             TimeToLive(25, 55, mainBoss);
             Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(FiringPointCenter));
@@ -355,7 +374,7 @@ namespace bullethell.Controller {
             FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Right);
             FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Left);
             Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(ExitPointTopMiddle));
-          
+          */
         }
     }
 }

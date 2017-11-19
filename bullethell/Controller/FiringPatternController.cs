@@ -118,7 +118,7 @@ namespace bullethell.Controller {
                 this.MainContent = MainContent;
             }
 
-            public FiringPatternShapeObject between(int start, int stop) {
+            public FiringPatternShapeObject Between(int start, int stop) {
                 return new FiringPatternShapeObject(start, stop, ref MainContent, fromModel);
             }
         }

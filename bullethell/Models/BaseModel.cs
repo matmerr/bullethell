@@ -162,7 +162,7 @@ namespace bullethell.Models {
             MoveToPointFlex(target.X, target.Y);
         }
 
-        public void MoveToPointFlex(int finalX, int finalY) {
+        public  void MoveToPointFlex(int finalX, int finalY) {
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
 
@@ -267,7 +267,6 @@ namespace bullethell.Models {
             location.X = center.X - texture.Width / 2;
             location.Y = center.Y - texture.Height / 2;
         }
-
 
 
         private double orbitRadius;

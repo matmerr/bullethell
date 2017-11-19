@@ -49,6 +49,12 @@
     <Compile Include="Controller\FiringPatternController.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
+    <Compile Include="Models\Move\MoveControllerModel.cs" />
+    <Compile Include="Models\Move\MovePatternModel.cs" />
+    <Compile Include="Models\Move\MovePatterns\MoveDirectionPattern.cs" />
+    <Compile Include="Models\Move\MovePatterns\MoveInFixedAnglePattern.cs" />
+    <Compile Include="Models\Move\MovePatterns\MoveToFixedPointPattern.cs" />
+    <Compile Include="Models\Move\MovePatterns\MoveToModelPattern.cs" />
     <Compile Include="Models\StatsModel.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
