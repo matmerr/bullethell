@@ -57,7 +57,7 @@ namespace bullethell {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Stack<GameState> Screens = new Stack<GameState>();
+            Stack<AbstractGameState> Screens = new Stack<AbstractGameState>();
             StateManager = new GameStateManager(ref Screens);
             StateManager.AddScreen(new MainMenuState(GraphicsDevice, Content, ref Screens));
         }

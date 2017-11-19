@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 namespace bullethell.View {
 
 
-    class MainMenuState : GameState {
+    class MainMenuState : AbstractGameState {
 
         private MenuButton mainTitle;
         private MenuButton startButton;
@@ -22,7 +22,7 @@ namespace bullethell.View {
         private MenuButton quitButton;
 
 
-        public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+        public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 

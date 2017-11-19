@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using bullethell.Controller;
 
 namespace bullethell.Models.Move.MovePatterns {
-    class MoveToModelPattern : MovePatternModel {
+    class MoveToModelPattern : AbstractMovePattern {
 
         private BaseModel targetModel;
 

@@ -11,13 +11,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
-    class InGameState : GameState {
+    class InGameState : AbstractGameState {
 
         private GameContent MainContent;
         private SpriteFont font;
 
 
-        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 
@@ -29,23 +29,26 @@ namespace bullethell.View {
         public override void LoadContent() {
             font = Content.Load<SpriteFont>("HUD");
 
+            Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D> {
+                { "PlayerShip", Content.Load<Texture2D>("ship") },
+                { "Baddie1A",Content.Load<Texture2D>("baddie1-A") },
+                { "Baddie1B", Content.Load<Texture2D>("baddie1-B") },
+                { "Baddie2A", Content.Load<Texture2D>("baddie2-A") },
+                { "Baddie2B", Content.Load<Texture2D>("baddie2-B") },
+                { "MidBoss", Content.Load<Texture2D>("midBoss") },
+                { "EnemyBullet", Content.Load<Texture2D>("badMissile") },
+                { "GoodBullet", Content.Load<Texture2D>("goodMissile") },
+                { "MainBoss", Content.Load<Texture2D>("galaga_mainboss") },
+                { "BaddieDie1", Content.Load<Texture2D>("baddieDie-1") },
+                { "BaddieDie2", Content.Load<Texture2D>("baddieDie-2") },
+                { "BaddieDie3", Content.Load<Texture2D>("baddieDie-3") },
+                { "BaddieDie4", Content.Load<Texture2D>("baddieDie-4") },
+                { "BaddieDie5", Content.Load<Texture2D>("baddieDie-5") }
+            };
 
-            MainContent = new GameContent(
-                PlayerShip: Content.Load<Texture2D>("ship"),
-                Baddie1A: Content.Load<Texture2D>("baddie1-A"),
-                Baddie1B: Content.Load<Texture2D>("baddie1-B"),
-                Baddie2A: Content.Load<Texture2D>("baddie2-A"),
-                Baddie2B: Content.Load<Texture2D>("baddie2-B"),
-                MiddleBoss: Content.Load<Texture2D>("midBoss"),
-                EnemyBullet: Content.Load<Texture2D>("badMissile"),
-                GoodBullet: Content.Load<Texture2D>("goodMissile"),
-                MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
-                BaddieDie1: Content.Load<Texture2D>("baddieDie-1"),
-                BaddieDie2: Content.Load<Texture2D>("baddieDie-2"),
-                BaddieDie3: Content.Load<Texture2D>("baddieDie-3"),
-                BaddieDie4: Content.Load<Texture2D>("baddieDie-4"),
-                BaddieDie5: Content.Load<Texture2D>("baddieDie-5")
-            );
+
+            MainContent = new GameContent(textures);
+    
 
             MainContent.InitializeModels(GetWindowBounds());
             MainContent.InitializeEvents(GetWindowBounds());

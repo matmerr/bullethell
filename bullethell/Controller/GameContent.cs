@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using bullethell.Controller;
 using bullethell.Models;
 using bullethell.Models.Factories;
+using bullethell.Models.Firing.FiringPatterns;
 using bullethell.Models.Move;
 using bullethell.Models.Move.MovePatterns;
 using Microsoft.Xna.Framework;
@@ -21,34 +23,10 @@ namespace bullethell.Controller {
 
         private Rectangle viewport;
 
-        public Texture2D playerShipTexture;
-        private Texture2D midBossTexture;
-        private Texture2D baddie1ATexture;
-        private Texture2D baddie1BTexture;
-        private Texture2D baddie2ATexture;
-        private Texture2D baddie2BTexture;
-        private Texture2D goodBulletTexture;
-        private Texture2D enemyBulletTexture;
-        private Texture2D mainBossTexture;
-        private Texture2D baddieDie1Texture;
-        private Texture2D baddieDie2Texture;
-        private Texture2D baddieDie3Texture;
-        private Texture2D baddieDie4Texture;
-        private Texture2D baddieDie5Texture;
+        private Dictionary<string, Texture2D> textures;
 
-        public Texture2D PlayerShipTexture => playerShipTexture;
-        public Texture2D MidBossTexture => midBossTexture;
-        public Texture2D Baddie1ATexture => baddie1ATexture;
-        public Texture2D Baddie1BTexture => baddie1BTexture;
-        public Texture2D Baddie2ATexture => baddie2ATexture;
-        public Texture2D Baddie2BTexture => baddie2BTexture;
-        public Texture2D GoodBulletTexture => goodBulletTexture;
-        public Texture2D MainBossTexture => mainBossTexture;
-        public Texture2D BaddieDie1Texture => baddieDie1Texture;
-        public Texture2D BaddieDie2Texture => baddieDie2Texture;
-        public Texture2D BaddieDie3Texture => baddieDie3Texture;
-        public Texture2D BaddieDie4Texture => baddieDie4Texture;
-        public Texture2D BaddieDie5Texture => baddieDie5Texture;
+        public Dictionary<string, Texture2D> Textures => textures;
+
 
         // Notable Players
         private PlayerModel playerShip;
@@ -71,43 +49,10 @@ namespace bullethell.Controller {
         public List<BaseModel> MiscModelList => miscModelList;
 
         // constructor
-        public GameContent(Texture2D PlayerShip,
-                            Texture2D MiddleBoss,
-                            Texture2D Baddie1A,
-                            Texture2D Baddie1B,
-                            Texture2D Baddie2A,
-                            Texture2D Baddie2B,
-                            Texture2D GoodBullet,
-                            Texture2D EnemyBullet,
-                            Texture2D MainBoss,
-                            Texture2D BaddieDie1,
-                            Texture2D BaddieDie2,
-                            Texture2D BaddieDie3,
-                            Texture2D BaddieDie4,
-                            Texture2D BaddieDie5) {
-            playerShipTexture = PlayerShip;
-            midBossTexture = MiddleBoss;
-            baddie1ATexture = Baddie1A;
-            baddie1BTexture = Baddie1B;
-            baddie2ATexture = Baddie2A;
-            baddie2BTexture = Baddie2B;
-            goodBulletTexture = GoodBullet;
-            enemyBulletTexture = EnemyBullet;
-            mainBossTexture = MainBoss;
-            baddieDie1Texture = BaddieDie1;
-            baddieDie2Texture = BaddieDie2;
-            baddieDie3Texture = BaddieDie3;
-            baddieDie4Texture = BaddieDie4;
-            baddieDie5Texture = BaddieDie5;
+        public GameContent(Dictionary<string,Texture2D> textures) {
+            this.textures = textures;
 
-            modelFactory = new ModelFactory(PlayerShip: playerShipTexture,
-                Baddie1A: baddie1ATexture,
-                Baddie1B: baddie1BTexture,
-                Baddie2A: baddie2ATexture,
-                Baddie2B: baddie2BTexture,
-                GoodBullet: goodBulletTexture,
-                EnemyBullet: enemyBulletTexture);
-
+            modelFactory = new ModelFactory(this);
 
             events = new GameEvents();
             enemyShipList = new List<EnemyModel>();
@@ -159,9 +104,9 @@ namespace bullethell.Controller {
         }
 
         public void DrawEnemyExplosion(BaseModel enemy) {
-            if (enemy.Texture == Baddie1BTexture || enemy.Texture == Baddie2BTexture) {
+            if (enemy.Texture == textures["Baddie1B"] || enemy.Texture == textures["Baddie2B"]) {
                 DrawMediumExplosion(enemy.Location);
-            } else if (enemy.Texture == Baddie1ATexture || enemy.Texture == Baddie2ATexture) {
+            } else if (enemy.Texture == textures["Baddie2B"] || enemy.Texture == textures["Baddie2A"]) {
                 DrawBigExplosion(enemy.Location);
             }
         }
@@ -170,53 +115,35 @@ namespace bullethell.Controller {
 
         public void DrawTinyExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            BaseModel explosion1 = (BaseModel)TimeToLive(currTime, currTime + .2,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie1Texture));
-            Events.AddScheduledEvent(currTime, currTime + .2, () => explosion1.Move(Direction.Stay, Direction.Stay));
+            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, "BaddieDie1");
         }
 
         public void DrawMediumExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            BaseModel explosion1 = (BaseModel)TimeToLive(currTime, currTime + .2,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie1Texture));
-            Events.AddScheduledEvent(currTime, currTime + .2, () => explosion1.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion2 = (BaseModel)TimeToLive(currTime, currTime + .4,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie2Texture));
-            Events.AddScheduledEvent(currTime, currTime + .4, () => explosion2.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion3 = (BaseModel)TimeToLive(currTime, currTime + .6,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie2Texture));
-            Events.AddScheduledEvent(currTime, currTime + .6, () => explosion3.Move(Direction.Stay, Direction.Stay));
+            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, "BaddieDie1");
+            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, "BaddieDie2");
+            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, "BaddieDie3");
         }
-
 
         public void DrawBigExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            BaseModel explosion1 = (BaseModel)TimeToLive(currTime, currTime + .2,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie1Texture));
-            Events.AddScheduledEvent(currTime, currTime + .2, () => explosion1.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion2 = (BaseModel)TimeToLive(currTime, currTime + .4,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie2Texture));
-            Events.AddScheduledEvent(currTime, currTime + .4, () => explosion2.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion3 = (BaseModel)TimeToLive(currTime, currTime + .6,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie3Texture));
-            Events.AddScheduledEvent(currTime, currTime + .6, () => explosion3.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion4 = (BaseModel)TimeToLive(currTime, currTime + .8,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie4Texture));
-            Events.AddScheduledEvent(currTime, currTime + .8, () => explosion4.Move(Direction.Stay, Direction.Stay));
-            BaseModel explosion5 = (BaseModel)TimeToLive(currTime, currTime + 1,
-                new BaseModel(collisionPoint.X, collisionPoint.Y, 1, BaddieDie5Texture));
-            Events.AddScheduledEvent(currTime, currTime + 1, () => explosion5.Move(Direction.Stay, Direction.Stay));
+            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, "BaddieDie1");
+            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, "BaddieDie2");
+            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, "BaddieDie3");
+            modelFactory.BuildGenericModel(currTime + .6, currTime + .8, collisionPoint, "BaddieDie4");
+            modelFactory.BuildGenericModel(currTime + .8, currTime + 1, collisionPoint, "BaddieDie5");
+
         }
 
 
         public BulletModel AddGoodBullet(Point startingPoint, int rate) {
-            BulletModel lilGoodBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, goodBulletTexture);
+            BulletModel lilGoodBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, textures["GoodBullet"]);
             goodBulletList.Add(lilGoodBullet);
             return lilGoodBullet;
         }
 
         public BulletModel AddEnemyBullet(Point startingPoint, int rate) {
-            BulletModel lilEnemyBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, enemyBulletTexture);
+            BulletModel lilEnemyBullet = new BulletModel(startingPoint.X, startingPoint.Y, rate, textures["EnemyBullet"]);
             enemyBulletList.Add(lilEnemyBullet);
             return lilEnemyBullet;
         }
@@ -231,32 +158,8 @@ namespace bullethell.Controller {
 
 
         // give an enemy a time to live, with a tag
-        public Object TimeToLiveTagged(double startLife, double endLife, object tag, BaseModel model) {
-            if (startLife > endLife) {
-                return null;
-            }
-            if (model is EnemyModel enemyModel) {
-                Events.AddSingleTaggedEvent(startLife, tag, () => enemyShipList.Add(enemyModel));
-                Events.AddSingleTaggedEvent(endLife, tag, () => enemyShipList.Remove(enemyModel));
-            } else if (model is BulletModel bullet) {
-                if (bullet.Texture == goodBulletTexture) {
-                    Events.AddSingleTaggedEvent(startLife, tag, () => goodBulletList.Add(bullet));
-                    Events.AddSingleTaggedEvent(endLife, tag, () => goodBulletList.Remove(bullet));
-                } else if (bullet.Texture == enemyBulletTexture) {
-                    Events.AddSingleTaggedEvent(startLife, tag, () => enemyBulletList.Add((BulletModel)model));
-                    Events.AddSingleTaggedEvent(endLife, tag, () => enemyBulletList.Remove((BulletModel)model));
-                }
-            } else {
-                Events.AddSingleEvent(startLife, () => miscModelList.Add(model));
-                Events.AddSingleEvent(endLife, () => miscModelList.Remove(model));
-            }
-            return model;
-        }
 
-        // this is an example of how to give an enemy a time to live
-        public Object TimeToLive(double startLife, double endLife, BaseModel model) {
-            return TimeToLiveTagged(startLife, endLife, "", model);
-        }
+
 
         public void Reset() {
             Events.StopTimer();
@@ -291,7 +194,7 @@ namespace bullethell.Controller {
 
         // this is our timeline for the game.
         public void InitializeEvents(Rectangle v) {
-
+            
             viewport = v;
 
             Point EntryPointTopLeftCorner = new Point(1, 2);
@@ -309,72 +212,39 @@ namespace bullethell.Controller {
             Point FiringPointMidMiddle = new Point(2 * (viewport.Width / 4), (viewport.Height) / 3);
             Point FiringPointMidRight = new Point(3 * (viewport.Width / 4), (viewport.Height) / 3);
 
-            Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
             MoveController Move = new MoveController(ref events);
 
 
-            // Was 
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(EntryPointTopRightCorner);
-            TimeToLive(0, 25, enemy1);
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(0,25,EntryPointTopRightCorner);
             Move.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidLeft));
+            FiringPattern.From(enemy1).Between(1, 15).Pattern(new CircleFiringPattern());
+            Move.From(enemy1).Between(15, 25).Pattern(new MoveToFixedPointPattern(ExitPointLeftSide));
 
 
-            // Is basically now
-            EnemyModel enemy2 = modelFactory.BuildEnemyModel(EntryPointTopLeftCorner);
-            TimeToLive(0, 25, enemy2);
+            EnemyModel enemy2 = modelFactory.BuildEnemyModel(0,25, EntryPointTopLeftCorner);
             Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
-            FiringPattern.From(enemy1).Between(0, 15).Circle();
+            FiringPattern.From(enemy2).Between(1, 15).Pattern(new CircleFiringPattern());
+            Move.From(enemy2).Between(15, 25).Pattern(new MoveToFixedPointPattern(ExitPointRightSide));
 
 
-
-            /*
-            Events.AddScheduledEvent(0, 15, () => enemy1.MoveToPointFlex(FiringPointMidRight));
-            FiringPattern.From(enemy1).between(0,15).Circle();
-            Events.AddScheduledEvent(15, 25, () => enemy1.MoveToPointFlex(ExitPointRightSide));
-
-
-            EnemyModel enemy2 = modelFactory.BuildEnemyModel(EntryPointTopRightCorner);
-            TimeToLive(0, 25, enemy2);
-            Events.AddScheduledEvent(0, 15, () => enemy2.MoveToPointFlex(FiringPointMidLeft));
-            FiringPattern.From(enemy2).between(0,15).Circle();
-            Events.AddScheduledEvent(15, 25, () => enemy2.MoveToPointFlex(ExitPointLeftSide));
+            EnemyModel midBoss1 = modelFactory.BuildMidBossModel(13,30,EntryPointTopLeftCorner);
+            Move.From(midBoss1).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidLeft));
+            FiringPattern.From(midBoss1).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
+            Move.From(midBoss1).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopLeftCorner));
 
 
-            EnemyModel midBoss1 = modelFactory.BuildMidBossModel(EntryPointTopLeftCorner);
-            TimeToLive(13, 30, midBoss1);
-            Events.AddScheduledEvent(13, 20, () => midBoss1.MoveToPointFlex(FiringPointMidLeft));
-            FiringPattern.From(midBoss1).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss1.MoveToPointFlex(ExitPointTopLeftCorner));
+            EnemyModel midBoss2 = modelFactory.BuildMidBossModel(13, 30, EntryPointTopMiddle);
+            Move.From(midBoss2).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidMiddle));
+            FiringPattern.From(midBoss2).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
+            Move.From(midBoss2).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopMiddle));
 
 
-            EnemyModel midBoss2 = modelFactory.BuildMidBossModel(EntryPointTopMiddle);
-            TimeToLive(13, 30, midBoss2);
-            Events.AddScheduledEvent(13, 20, () => midBoss2.MoveToPointFlex(FiringPointMidMiddle));
-            FiringPattern.From(midBoss2).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss2.MoveToPointFlex(ExitPointTopMiddle));
-
-            EnemyModel midBoss3 = modelFactory.BuildMidBossModel(EntryPointTopRightCorner);
-            TimeToLive(13, 30, midBoss3);
-            Events.AddScheduledEvent(13, 20, () => midBoss3.MoveToPointFlex(FiringPointMidRight));
-            FiringPattern.From(midBoss3).between(13, 27).Spray(225, 225, 315);
-            Events.AddScheduledEvent(25, 30, () => midBoss3.MoveToPointFlex(ExitPointTopRightCorner));
-
-
-
-            EnemyModel mainBoss = modelFactory.BuildMainBossModel(EntryPointTopMiddle);
-            TimeToLive(25, 55, mainBoss);
-            Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(FiringPointCenter));
-            FiringPattern.From(mainBoss).between(28, 30).Spiral(2, Direction.Right);
-            FiringPattern.From(mainBoss).between(30, 32).Spiral(4, Direction.Right);
-            FiringPattern.From(mainBoss).between(32, 34).Spiral(6, Direction.Right);
-            FiringPattern.From(mainBoss).between(34, 38).Spiral(8, Direction.Right);
-            FiringPattern.From(mainBoss).between(38, 42).Spiral(8, Direction.Left);
-            FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Right);
-            FiringPattern.From(mainBoss).between(42, 50).Spiral(8, Direction.Left);
-            Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(ExitPointTopMiddle));
-          */
+            EnemyModel midBoss3 = modelFactory.BuildMidBossModel(13, 30, EntryPointTopRightCorner);
+            Move.From(midBoss3).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
+            FiringPattern.From(midBoss3).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
+            Move.From(midBoss3).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopRightCorner));
         }
     }
 }

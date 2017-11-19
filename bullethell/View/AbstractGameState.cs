@@ -11,16 +11,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
-    public abstract class GameState {
+    public abstract class AbstractGameState {
         protected GraphicsDevice graphicsDevice;
         protected ContentManager Content;
         protected BulletHell.GameStates gameState;
-        public Stack<GameState> Screens;
+        public Stack<AbstractGameState> Screens;
         public KeyboardState OldKeyboardState;
         public KeyboardState NewKeyboardState;
         public StatsModel Stats;
 
-        protected GameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) {
+        protected AbstractGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) {
             this.graphicsDevice = graphicsDevice;
             this.Content = Content;
             this.Screens = Screens;

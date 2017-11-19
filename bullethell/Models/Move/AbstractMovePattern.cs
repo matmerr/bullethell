@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using bullethell.Controller;
 
 namespace bullethell.Models.Move {
-    public abstract class MovePatternModel {
+    public abstract class AbstractMovePattern {
         protected GameEvents Events;
         protected BaseModel model;
         protected double start, stop;
 
-        public MovePatternModel Set(double start, double stop, BaseModel model, ref GameEvents Events) {
+        public AbstractMovePattern Set(double start, double stop, BaseModel model, ref GameEvents Events) {
             this.start = start;
             this.stop = stop;
             this.model = model;

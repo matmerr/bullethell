@@ -7,7 +7,7 @@ using bullethell.Controller;
 using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Move.MovePatterns {
-    class MoveToFixedPointPattern : MovePatternModel {
+    class MoveToFixedPointPattern : AbstractMovePattern {
 
         private Point target;
 

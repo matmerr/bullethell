@@ -23,7 +23,7 @@ namespace bullethell.Models.Move {
 
         }
 
-        public MovePatternModel Pattern(MovePatternModel mpm) {
+        public AbstractMovePattern Pattern(AbstractMovePattern mpm) {
             mpm.Set(start, stop, model, ref Events);
             mpm.Exec();
             return mpm;

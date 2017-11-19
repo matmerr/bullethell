@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using bullethell.Controller;
 
 namespace bullethell.Models.Move.MovePatterns {
-    class MoveInFixedAngle : MovePatternModel {
+    class MoveInFixedAngle : AbstractMovePattern {
 
         private double angle;
         public MoveInFixedAngle Angle(double angle) {
