@@ -17,7 +17,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
         public override void Exec() {
             for (double i = 0; i < 360; i += (360 / spokes)) {
                 double jAngle = i;
-                for (double j = start; j < stop; j += .01) {
+                for (double j = start; j < stop; j += .1) {
                     BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(j, j + 10, fromModel.GetLocation(), fromModel);
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(jAngle);

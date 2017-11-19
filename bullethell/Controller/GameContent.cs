@@ -212,6 +212,7 @@ namespace bullethell.Controller {
             Point FiringPointMidMiddle = new Point(2 * (viewport.Width / 4), (viewport.Height) / 3);
             Point FiringPointMidRight = new Point(3 * (viewport.Width / 4), (viewport.Height) / 3);
 
+            Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
             MoveController Move = new MoveController(ref events);
@@ -240,11 +241,23 @@ namespace bullethell.Controller {
             FiringPattern.From(midBoss2).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
             Move.From(midBoss2).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopMiddle));
 
-
             EnemyModel midBoss3 = modelFactory.BuildMidBossModel(13, 30, EntryPointTopRightCorner);
             Move.From(midBoss3).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
             FiringPattern.From(midBoss3).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
             Move.From(midBoss3).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopRightCorner));
+            
+            
+            EnemyModel mainBoss = modelFactory.BuildMainBossModel(25, 55, EntryPointTopMiddle);
+            Events.AddScheduledEvent(25, 28, () => mainBoss.MoveToPointFlex(FiringPointCenter));
+            FiringPattern.From(mainBoss).Between(28, 30).Pattern(new SpiralFiringPattern(2, Direction.Right));
+            FiringPattern.From(mainBoss).Between(30, 32).Pattern(new SpiralFiringPattern(4, Direction.Right));
+            FiringPattern.From(mainBoss).Between(32, 34).Pattern(new SpiralFiringPattern(6, Direction.Right));
+            FiringPattern.From(mainBoss).Between(34, 38).Pattern(new SpiralFiringPattern(8, Direction.Right));
+            FiringPattern.From(mainBoss).Between(38, 42).Pattern(new SpiralFiringPattern(8, Direction.Left));
+            FiringPattern.From(mainBoss).Between(42, 50).Pattern(new SpiralFiringPattern(8, Direction.Right));
+            FiringPattern.From(mainBoss).Between(42, 50).Pattern(new SpiralFiringPattern(8, Direction.Right));
+            Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(ExitPointTopMiddle));
+            
         }
     }
 }
