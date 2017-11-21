@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using bullethell.Controller;
+using System.Windows.Forms;
+using System.Xml.Linq;
 using bullethell.Models;
 using bullethell.Models.Factories;
 using bullethell.Models.Firing.FiringPatterns;
@@ -194,7 +190,12 @@ namespace bullethell.Controller {
 
         // this is our timeline for the game.
         public void InitializeEvents(Rectangle v) {
+
             
+
+
+
+
             viewport = v;
 
             Point EntryPointTopLeftCorner = new Point(1, 2);
@@ -215,7 +216,38 @@ namespace bullethell.Controller {
             Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
 
             FiringPatternController FiringPattern = new FiringPatternController(this);
+            FiringPatternFactory FiringFactory = new FiringPatternFactory();
+
             MoveController Move = new MoveController(ref events);
+
+
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.ShowDialog();
+            string filepath = openFile.FileName;
+
+            XDocument x = XDocument.Load(filepath);
+
+            // loop through every BaseModel/EnemyModel
+            foreach (XElement xel in x.Root.Elements()) {
+                BaseModel model = modelFactory.Build(
+                    xel.Attribute("type").Value,
+                    Double.Parse(xel.Attribute("startlife").Value),
+                    Double.Parse(xel.Attribute("endlife").Value),
+                    Int32.Parse(xel.Attribute("x").Value),
+                    Int32.Parse(xel.Attribute("y").Value));
+                foreach (XElement subx in xel.Elements()) {
+                    if (subx.Name.LocalName == "move") {
+                        //Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
+
+                    } else if (subx.Name.LocalName == "firingpattern") {
+
+                        AbstractFiringPattern firingPattern = FiringFactory.Build(subx.Attribute("type").Value);
+                        int start = Int32.Parse(subx.Attribute("start").Value);
+                        int stop = Int32.Parse(subx.Attribute("stop").Value);
+                        FiringPattern.From(model).Between(start, stop).Pattern(firingPattern);
+                    }
+                }
+            }
 
 
             EnemyModel enemy1 = modelFactory.BuildEnemyModel(0,25,EntryPointTopRightCorner);

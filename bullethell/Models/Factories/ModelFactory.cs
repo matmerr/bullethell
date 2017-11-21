@@ -18,6 +18,20 @@ namespace bullethell.Models.Factories {
             this.MainContent = mainContent;
         }
 
+        public BaseModel Build(string type, double startlife, double endlife, int x, int y) {
+            if (type == "enemy1") {
+                return BuildEnemyModel(startlife, endlife, new Point(x, y));
+            }
+            if (type == "midboss") {
+                return BuildMidBossModel(startlife, endlife, new Point(x, y));
+            }
+            if (type == "mainboss") {
+                return BuildMainBossModel(startlife, endlife, new Point(x, y));
+            }
+            return null;
+            }
+
+
         public PlayerModel BuildPlayerModel(int x, int y) {
             return new PlayerModel(x,y,3, MainContent.Textures["PlayerShip"]);
         }
