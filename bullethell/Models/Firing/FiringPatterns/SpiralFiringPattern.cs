@@ -9,10 +9,16 @@ namespace bullethell.Models.Firing.FiringPatterns {
         private int spokes;
         private int direction;
 
-        public SpiralFiringPattern(int numSpokes, int direction) {
-            this.spokes = numSpokes;
-            this.direction = direction;
+        public SpiralFiringPattern() {
+            spokes = 2;
+            direction = Direction.Left;
         }
+
+        public void WithOptions(int numSpokes, int direction) {
+                this.spokes = numSpokes;
+                this.direction = direction;
+            }
+        
 
         public override void Exec() {
             for (double i = 0; i < 360; i += (360 / spokes)) {

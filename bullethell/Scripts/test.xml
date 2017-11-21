@@ -1,9 +1,9 @@
 <root>
-    <enemy type="midboss" startlife="1" endlife="20" x="20" y="20">
-        <move type="MoveToFixedPoint" start="2" stop="15">
+    <enemy type="midboss" startlife="1" endlife="500" x="500" y="20">
+        <move type="movetofixedpoint" start="2" stop="15">
             <options>
-                <x>40</x>
-                <y>40</y>
+                <x>400</x>
+                <y>400</y>
             </options>
         </move>
         <firingpattern type="circle" start="2" stop="5"></firingpattern>

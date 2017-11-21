@@ -29,7 +29,7 @@ namespace bullethell.Models.Factories {
                 return BuildMainBossModel(startlife, endlife, new Point(x, y));
             }
             return null;
-            }
+        }
 
 
         public PlayerModel BuildPlayerModel(int x, int y) {

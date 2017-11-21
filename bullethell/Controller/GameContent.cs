@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using bullethell.Models;
@@ -215,10 +216,11 @@ namespace bullethell.Controller {
 
             Point FiringPointCenter = new Point(2 * (viewport.Width / 4), (viewport.Height) / 2);
 
-            FiringPatternController FiringPattern = new FiringPatternController(this);
+            FiringPatternController FiringController = new FiringPatternController(this);
             FiringPatternFactory FiringFactory = new FiringPatternFactory();
 
-            MoveController Move = new MoveController(ref events);
+            MovePatternController MoveController = new MovePatternController(ref events);
+            MovePatternFactory MoveFactory = new MovePatternFactory();
 
 
             OpenFileDialog openFile = new OpenFileDialog();
@@ -237,45 +239,73 @@ namespace bullethell.Controller {
                     Int32.Parse(xel.Attribute("y").Value));
                 foreach (XElement subx in xel.Elements()) {
                     if (subx.Name.LocalName == "move") {
-                        //Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
+                        string name = subx.Attribute("type").Value;
+                        AbstractMovePattern movePattern = MoveFactory.Build(name);
 
-                    } else if (subx.Name.LocalName == "firingpattern") {
-
-                        AbstractFiringPattern firingPattern = FiringFactory.Build(subx.Attribute("type").Value);
+                        // we have options
+                        if (subx.HasElements) {
+                            var options = subx.Element("options");
+                            if (name == "movetofixedpoint") {
+                                ((MoveToFixedPointPattern)movePattern).SetOptions(
+                                    new Point(Int32.Parse(options.Element("x").Value),
+                                    Int32.Parse(options.Element("y").Value))
+                                );
+                            }
+                        }
                         int start = Int32.Parse(subx.Attribute("start").Value);
                         int stop = Int32.Parse(subx.Attribute("stop").Value);
-                        FiringPattern.From(model).Between(start, stop).Pattern(firingPattern);
+                        MoveController.From(model).Between(start, stop).Pattern(movePattern);
+
+                    } else if (subx.Name.LocalName == "firingpattern") {
+                        string name = subx.Attribute("type").Value;
+                        AbstractFiringPattern firingPattern = FiringFactory.Build(name);
+
+                        // we have options
+                        if (subx.HasElements) {
+                            var options = subx.Element("options");
+                            if (name == "spray") {
+                                ((SprayFiringPattern) firingPattern).SetOptions(
+                                    Double.Parse(options.Element("startdegree").Value),
+                                    Double.Parse(options.Element("min").Value),
+                                    Double.Parse(options.Element("max").Value)
+                                );
+                            }
+                        }
+
+                        int start = Int32.Parse(subx.Attribute("start").Value);
+                        int stop = Int32.Parse(subx.Attribute("stop").Value);
+                        FiringController.From(model).Between(start, stop).Pattern(firingPattern);
                     }
                 }
             }
-
+            /*
 
             EnemyModel enemy1 = modelFactory.BuildEnemyModel(0,25,EntryPointTopRightCorner);
-            Move.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidLeft));
+            Move.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern().WithOptions(FiringPointMidLeft));
             FiringPattern.From(enemy1).Between(1, 15).Pattern(new CircleFiringPattern());
-            Move.From(enemy1).Between(15, 25).Pattern(new MoveToFixedPointPattern(ExitPointLeftSide));
+            Move.From(enemy1).Between(15, 25).Pattern(new MoveToFixedPointPattern().WithOptions(ExitPointLeftSide));
 
 
             EnemyModel enemy2 = modelFactory.BuildEnemyModel(0,25, EntryPointTopLeftCorner);
-            Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
+            Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern().WithOptions(FiringPointMidRight));
             FiringPattern.From(enemy2).Between(1, 15).Pattern(new CircleFiringPattern());
-            Move.From(enemy2).Between(15, 25).Pattern(new MoveToFixedPointPattern(ExitPointRightSide));
+            Move.From(enemy2).Between(15, 25).Pattern(new MoveToFixedPointPattern().WithOptions(ExitPointRightSide));
 
 
             EnemyModel midBoss1 = modelFactory.BuildMidBossModel(13,30,EntryPointTopLeftCorner);
-            Move.From(midBoss1).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidLeft));
-            FiringPattern.From(midBoss1).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
-            Move.From(midBoss1).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopLeftCorner));
+            Move.From(midBoss1).Between(13, 22).Pattern(new MoveToFixedPointPattern().WithOptions(FiringPointMidLeft));
+            FiringPattern.From(midBoss1).Between(14, 27).Pattern(new SprayFiringPattern().SetOptions(225, 225, 315));
+            Move.From(midBoss1).Between(25, 30).Pattern(new MoveToFixedPointPattern().WithOptions(ExitPointTopLeftCorner));
 
 
             EnemyModel midBoss2 = modelFactory.BuildMidBossModel(13, 30, EntryPointTopMiddle);
             Move.From(midBoss2).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidMiddle));
-            FiringPattern.From(midBoss2).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
+            FiringPattern.From(midBoss2).Between(14, 27).Pattern(new SprayFiringPattern().SetOptions(225, 225, 315));
             Move.From(midBoss2).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopMiddle));
 
             EnemyModel midBoss3 = modelFactory.BuildMidBossModel(13, 30, EntryPointTopRightCorner);
             Move.From(midBoss3).Between(13, 22).Pattern(new MoveToFixedPointPattern(FiringPointMidRight));
-            FiringPattern.From(midBoss3).Between(14, 27).Pattern(new SprayFiringPattern(225, 225, 315));
+            FiringPattern.From(midBoss3).Between(14, 27).Pattern(new SprayFiringPattern().SetOptions(225, 225, 315));
             Move.From(midBoss3).Between(25, 30).Pattern(new MoveToFixedPointPattern(ExitPointTopRightCorner));
             
             
@@ -289,7 +319,7 @@ namespace bullethell.Controller {
             FiringPattern.From(mainBoss).Between(42, 50).Pattern(new SpiralFiringPattern(8, Direction.Right));
             FiringPattern.From(mainBoss).Between(42, 50).Pattern(new SpiralFiringPattern(8, Direction.Right));
             Events.AddScheduledEvent(52, 55, () => mainBoss.MoveToPointFlex(ExitPointTopMiddle));
-            
+            */
         }
     }
 }

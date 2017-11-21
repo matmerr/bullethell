@@ -11,22 +11,16 @@ namespace bullethell.Models.Move.MovePatterns {
 
         private Point target;
 
-        public MoveToFixedPointPattern(int x, int y) {
-            ToPoint(x, y);
-        }
 
-        public MoveToFixedPointPattern(Point target) {
-            ToPoint(target);
-        }
 
-        public MoveToFixedPointPattern ToPoint(Point target) {
+
+        public MoveToFixedPointPattern SetOptions(Point target) {
             this.target = target;
             return this;
         }
 
-        public MoveToFixedPointPattern ToPoint(int x, int y) {
-            this.target = new Point(x,y);
-            return this;
+        public MoveToFixedPointPattern() {
+            this.target = new Point(0,0);
         }
 
 

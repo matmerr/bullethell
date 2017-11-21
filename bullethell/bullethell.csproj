@@ -47,7 +47,7 @@
     <Compile Include="Models\EnemyModel.cs" />
     <Compile Include="Models\Factories\FiringPatternFactory.cs" />
     <Compile Include="Models\Factories\ModelFactory.cs" />
-    <Compile Include="Models\Factories\MoveFactory.cs" />
+    <Compile Include="Models\Factories\MovePatternFactory.cs" />
     <Compile Include="Models\Firing\FiringPatternControllerModel.cs" />
     <Compile Include="Models\Firing\AbstractFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\CircleFiringPattern.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Models\Firing\FiringPatterns\TridentFiringPattern.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\MainBossModel.cs" />
-    <Compile Include="Models\Move\MoveControllerModel.cs" />
+    <Compile Include="Models\Move\MovePatternControllerModel.cs" />
     <Compile Include="Models\Move\AbstractMovePattern.cs" />
     <Compile Include="Models\Move\MovePatterns\MoveInFixedAnglePattern.cs" />
     <Compile Include="Models\Move\MovePatterns\MoveToFixedPointPattern.cs" />

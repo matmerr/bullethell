@@ -12,7 +12,12 @@ namespace bullethell.Models.Factories {
             if (type == "circle") {
                 return new CircleFiringPattern();
             }
-            
+            if (type == "spray") {
+                return new SprayFiringPattern();
+            }
+            if (type == "spiral") {
+                return new SpiralFiringPattern();
+            }
             return null;
         }
     }

@@ -47,10 +47,10 @@ namespace bullethell.Models.Move {
     }
 
 
-    public class MoveController {
+    public class MovePatternController {
         protected GameEvents Events;
 
-        public MoveController(ref GameEvents Events) {
+        public MovePatternController(ref GameEvents Events) {
             this.Events = Events;
         }
 

@@ -14,6 +14,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected double bulletLife;
         protected double start, stop;
 
+
         public AbstractFiringPattern Set(double start, double stop, BaseModel model, ref GameContent MainContent) {
             this.start = start;
             this.stop = stop;
