@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/*
 namespace bullethell.Models.Firing.FiringPatterns {
     public class HeatSeekingFiringPattern : AbstractFiringPattern {
         public override void Exec() {
@@ -17,3 +17,4 @@ namespace bullethell.Models.Firing.FiringPatterns {
         }
     }
 }
+*/

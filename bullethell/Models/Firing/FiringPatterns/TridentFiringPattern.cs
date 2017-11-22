@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/*
 namespace bullethell.Models.Firing.FiringPatterns {
     class TridentFiringPattern : AbstractFiringPattern {
         public override void Exec() {
@@ -28,3 +28,4 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
 
 }
+*/

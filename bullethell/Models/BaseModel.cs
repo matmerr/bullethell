@@ -54,6 +54,16 @@ namespace bullethell.Models {
 
     public class BaseModel {
 
+        protected BaseModel parentModelLocation;
+
+        public void SetParentModel(BaseModel basem) {
+            this.parentModelLocation = basem;
+        }
+
+        public void GetGetParentModelLocation() {
+            this.SetLocation(this.parentModelLocation.GetLocation());
+        }
+
         // image texture for the model on the canvas
         protected Texture2D texture;
 

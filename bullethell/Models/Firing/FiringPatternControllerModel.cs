@@ -22,9 +22,9 @@ namespace bullethell.Controller {
             this.MainContent = MainContent;
         }
 
-        public void Pattern(AbstractFiringPattern fp) {
+        public AbstractFiringPattern Pattern(AbstractFiringPattern fp) {
             fp.Set(start, stop, fromModel, ref MainContent);
-            fp.Exec();
+            return fp.Exec();
         }
     }
 

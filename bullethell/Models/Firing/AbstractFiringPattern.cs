@@ -9,11 +9,13 @@ using bullethell.Models.Factories;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     public abstract class AbstractFiringPattern {
+        protected List<GameEvents.Event> scheduledEvents = new List<GameEvents.Event>();
         protected GameContent MainContent;
         protected BaseModel fromModel;
         protected double bulletLife;
         protected double start, stop;
 
+        public abstract AbstractFiringPattern And(AbstractFiringPattern chainedPattern);
 
         public AbstractFiringPattern Set(double start, double stop, BaseModel model, ref GameContent MainContent) {
             this.start = start;
@@ -24,6 +26,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
             return this;
         }
 
-        public abstract void Exec();
+        public abstract AbstractFiringPattern Exec();
     }
 }

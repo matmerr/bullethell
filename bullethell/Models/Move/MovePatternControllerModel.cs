@@ -48,10 +48,12 @@ namespace bullethell.Models.Move {
 
 
     public class MovePatternController {
+        protected GameContent MainContent;
         protected GameEvents Events;
 
-        public MovePatternController(ref GameEvents Events) {
-            this.Events = Events;
+        public MovePatternController(GameContent MainContent) {
+            this.MainContent = MainContent;
+            this.Events = MainContent.Events;
         }
 
         public MoveFromObject From(BaseModel model) {

@@ -219,17 +219,18 @@ namespace bullethell.Controller {
             FiringPatternController FiringController = new FiringPatternController(this);
             FiringPatternFactory FiringFactory = new FiringPatternFactory();
 
-            MovePatternController MoveController = new MovePatternController(ref events);
+            MovePatternController MoveController = new MovePatternController(this);
             MovePatternFactory MoveFactory = new MovePatternFactory();
 
 
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.ShowDialog();
-            string filepath = openFile.FileName;
+            //OpenFileDialog openFile = new OpenFileDialog();
+            //openFile.ShowDialog();
+            //string filepath = openFile.FileName;
 
-            XDocument x = XDocument.Load(filepath);
+            //XDocument x = XDocument.Load(filepath);
 
             // loop through every BaseModel/EnemyModel
+            /*
             foreach (XElement xel in x.Root.Elements()) {
                 BaseModel model = modelFactory.Build(
                     xel.Attribute("type").Value,
@@ -259,7 +260,7 @@ namespace bullethell.Controller {
                     } else if (subx.Name.LocalName == "firingpattern") {
                         string name = subx.Attribute("type").Value;
                         AbstractFiringPattern firingPattern = FiringFactory.Build(name);
-
+                        /*
                         // we have options
                         if (subx.HasElements) {
                             var options = subx.Element("options");
@@ -278,13 +279,28 @@ namespace bullethell.Controller {
                     }
                 }
             }
+            */
+            
+
+
+
+
+            CircleFiringPattern circle = new CircleFiringPattern();
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(0, 25, FiringPointMidMiddle);
+            FiringController.From(enemy1).Between(0, 3).Pattern(circle).And(circle).And(circle);
+
+
+
+
+
+            //CircleFiringPattern circle2 = new CircleFiringPattern();
+            //SpiralFiringPattern spiral = new SpiralFiringPattern();
+            //spiral.WithOptions(8, Direction.Left);
+            //EnemyModel enemy1 = modelFactory.BuildEnemyModel(0,25,FiringPointMidMiddle);
+            //MoveController.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern().SetOptions(FiringPointMidLeft));
+            //FiringController.From(enemy1).Between(0, 3).Pattern(circle1).And(circle1).And(circle1);
+            //MoveController.From(enemy1).Between(0, 25).Pattern(new MoveToFixedPointPattern().SetOptions(ExitPointLeftSide));
             /*
-
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(0,25,EntryPointTopRightCorner);
-            Move.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern().WithOptions(FiringPointMidLeft));
-            FiringPattern.From(enemy1).Between(1, 15).Pattern(new CircleFiringPattern());
-            Move.From(enemy1).Between(15, 25).Pattern(new MoveToFixedPointPattern().WithOptions(ExitPointLeftSide));
-
 
             EnemyModel enemy2 = modelFactory.BuildEnemyModel(0,25, EntryPointTopLeftCorner);
             Move.From(enemy2).Between(0, 15).Pattern(new MoveToFixedPointPattern().WithOptions(FiringPointMidRight));

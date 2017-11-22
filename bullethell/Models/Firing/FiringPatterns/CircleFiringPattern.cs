@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using bullethell.Controller;
 using bullethell.Models.Factories;
+using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class CircleFiringPattern :AbstractFiringPattern {
-        public override void Exec() {
+
+
+        public override AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
+            int i = 1;
+            foreach (GameEvents.Event e in scheduledEvents.ToList()) {
+
+                chainedPattern.Set(start, stop, e.model, ref MainContent);
+                chainedPattern.Exec();
+                i++;
+            }
+            return chainedPattern;
+        }
+
+        public override AbstractFiringPattern Exec() {
             double i;
             for (i = start; i < stop; i++) {
                 int j = 1;
@@ -18,12 +33,16 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
                     if (bullet != null) {
                         bullet.SetLinearTravelAngle(j);
-                        MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocation(fromModel.GetLocation()));
+                        bullet.SetParentModel(fromModel);
+                        MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.GetGetParentModelLocation());
                         MainContent.Events.AddScheduledTaggedEvent(i, i + bulletLife, fromModel, () => bullet.MoveLinear());
                     }
-                    j += 20;
+                    j += 60;
+                  
+                    scheduledEvents.Add(new GameEvents.Event(start,stop, bullet));
                 }
             }
+            return this;
         }
     }
 }
