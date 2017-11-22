@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using bullethell.Controller;
-/*
+
 namespace bullethell.Models.Firing.FiringPatterns {
     class SpiralFiringPattern :AbstractFiringPattern {
         private int spokes;
@@ -13,14 +13,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
         public SpiralFiringPattern() {
             spokes = 2;
             direction = Direction.Left;
-        }
-
-        public override AbstractFiringPattern And(ref AbstractFiringPattern chainedPattern) {
-            foreach (GameEvents.Event e in scheduledEvents) {
-                chainedPattern.Set(start, stop, e.model, ref MainContent);
-                chainedPattern.Exec();
-            }
-            return chainedPattern;
         }
 
 
@@ -38,7 +30,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(j, j + 10, fromModel.GetLocation(), fromModel);
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(jAngle);
-                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocation(fromModel.GetLocation()));
+                        bullet1.SetParentModel(fromModel);
+                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocationFromParentModel());
                         MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet1.MoveLinear());
                         jAngle += 5 * direction;
                         jAngle %= 360;
@@ -51,4 +44,4 @@ namespace bullethell.Models.Firing.FiringPatterns {
         }
     }
 }
-*/
+

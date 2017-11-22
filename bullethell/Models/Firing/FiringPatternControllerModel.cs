@@ -11,11 +11,11 @@ namespace bullethell.Controller {
 
 
     public class FiringPatternShapeObject {
-        private readonly int start,stop;
+        private readonly double start,stop;
         private readonly BaseModel fromModel;
         private GameContent MainContent;
 
-        public FiringPatternShapeObject(int start, int stop, ref GameContent MainContent, BaseModel fromModel) {
+        public FiringPatternShapeObject(double start, double stop, ref GameContent MainContent, BaseModel fromModel) {
             this.start = start;
             this.stop = stop;
             this.fromModel = fromModel;
@@ -23,7 +23,8 @@ namespace bullethell.Controller {
         }
 
         public AbstractFiringPattern Pattern(AbstractFiringPattern fp) {
-            fp.Set(start, stop, fromModel, ref MainContent);
+            fp.SetReferences(fromModel, ref MainContent);
+            fp.SetTimeWindow(start, stop);
             return fp.Exec();
         }
     }
@@ -39,7 +40,7 @@ namespace bullethell.Controller {
             this.MainContent = MainContent;
         }
 
-        public FiringPatternShapeObject Between(int start, int stop) {
+        public FiringPatternShapeObject Between(double start, double stop) {
             return new FiringPatternShapeObject(start, stop, ref MainContent, fromModel);
         }
     }

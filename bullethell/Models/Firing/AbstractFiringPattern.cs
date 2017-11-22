@@ -14,15 +14,36 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected BaseModel fromModel;
         protected double bulletLife;
         protected double start, stop;
+        protected bool timewindowset;
 
-        public abstract AbstractFiringPattern And(AbstractFiringPattern chainedPattern);
+        public AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
+            foreach (GameEvents.Event e in scheduledEvents.ToList()) {
+                if (chainedPattern.IsTimeWindowSet()) {
+                    chainedPattern.SetReferences(e.model, ref MainContent);
+                } else {
+                    chainedPattern.SetReferences(e.model, ref MainContent);
+                    chainedPattern.SetTimeWindow(start + 1, stop);
+                }
+                chainedPattern.Exec();
+            }
+            return chainedPattern;
+        }
 
-        public AbstractFiringPattern Set(double start, double stop, BaseModel model, ref GameContent MainContent) {
-            this.start = start;
-            this.stop = stop;
+        public bool IsTimeWindowSet() {
+            return timewindowset;
+        }
+
+        public AbstractFiringPattern SetReferences( BaseModel model, ref GameContent MainContent) {
             this.MainContent = MainContent;
             this.bulletLife = 10;
             this.fromModel = model;
+            return this;
+        }
+
+        public AbstractFiringPattern SetTimeWindow(double start, double stop) {
+            this.start = start;
+            this.stop = stop;
+            timewindowset = true;
             return this;
         }
 

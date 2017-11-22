@@ -60,7 +60,7 @@ namespace bullethell.Models {
             this.parentModelLocation = basem;
         }
 
-        public void GetGetParentModelLocation() {
+        public void SetLocationFromParentModel() {
             this.SetLocation(this.parentModelLocation.GetLocation());
         }
 

@@ -176,6 +176,7 @@ namespace bullethell.View {
 
             foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList()) {
 
+
                 // "Check each enemy bullet to see if it collides with a good bullet"
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemyBullet, goodBullet)) {
@@ -192,12 +193,14 @@ namespace bullethell.View {
                     MainContent.EnemyBulletList.Remove(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
                     MainContent.DrawTinyExplosion(collisionPoint);
-                } else {
+                }
+                else {
                     spriteBatch.Draw(enemyBullet.Texture, enemyBullet.DrawingLocationVector,
                         new Rectangle(0, 0, enemyBullet.Texture.Width, enemyBullet.Texture.Height), Color.White,
                         enemyBullet.Rotation,
                         new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
                 }
+                
             }
             int j = 600;
             foreach (EnemyModel en in MainContent.EnemyShipList){

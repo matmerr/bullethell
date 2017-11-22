@@ -91,10 +91,20 @@ namespace bullethell.Controller {
             DrawEnemyExplosion(enemy);
         }
 
-        public bool RemoveIfOffScreen(EnemyModel Model) {
-            if (!viewport.Contains(Model.GetLocation())) {
-                EnemyShipList.Remove(Model);
-                Events.RemoveTaggedEvents(Model);
+        public bool RemoveIfOffScreen(BaseModel model) {
+            if (!viewport.Contains(model.GetLocation())) {
+                if (model is EnemyModel em) {
+                    EnemyShipList.Remove(em);
+                    Events.RemoveTaggedEvents(em);
+                }
+                else if (model is BulletModel bm) {
+                    EnemyBulletList.Remove(bm);
+                    Events.RemoveTaggedEvents(bm);
+                }
+                else {
+                    MiscModelList.Remove(model);
+                    Events.RemoveTaggedEvents(model);
+                }
                 return true;
             }
             return false;
@@ -286,8 +296,11 @@ namespace bullethell.Controller {
 
 
             CircleFiringPattern circle = new CircleFiringPattern();
-            EnemyModel enemy1 = modelFactory.BuildEnemyModel(0, 25, FiringPointMidMiddle);
-            FiringController.From(enemy1).Between(0, 3).Pattern(circle).And(circle).And(circle);
+            SpiralFiringPattern spiral = new SpiralFiringPattern();
+            EnemyModel enemy1 = modelFactory.BuildEnemyModel(0, 25, FiringPointMidLeft);
+            MoveController.From(enemy1).Between(0, 15).Pattern(new MoveToFixedPointPattern().SetOptions(ExitPointRightSide));
+
+            FiringController.From(enemy1).Between(1.5, 2).Pattern(circle).And(spiral.WithOptions(8,Direction.Left).SetTimeWindow(3,6));
 
 
 
