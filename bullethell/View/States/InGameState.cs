@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using bullethell.Controller;
 using bullethell.Models;
+using bullethell.Models.Firing.FiringPatterns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,20 +31,20 @@ namespace bullethell.View {
             font = Content.Load<SpriteFont>("HUD");
 
             Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D> {
-                { "PlayerShip", Content.Load<Texture2D>("ship") },
-                { "Baddie1A",Content.Load<Texture2D>("baddie1-A") },
-                { "Baddie1B", Content.Load<Texture2D>("baddie1-B") },
-                { "Baddie2A", Content.Load<Texture2D>("baddie2-A") },
-                { "Baddie2B", Content.Load<Texture2D>("baddie2-B") },
-                { "MidBoss", Content.Load<Texture2D>("midBoss") },
-                { "EnemyBullet", Content.Load<Texture2D>("badMissile") },
-                { "GoodBullet", Content.Load<Texture2D>("goodMissile") },
-                { "MainBoss", Content.Load<Texture2D>("galaga_mainboss") },
-                { "BaddieDie1", Content.Load<Texture2D>("baddieDie-1") },
-                { "BaddieDie2", Content.Load<Texture2D>("baddieDie-2") },
-                { "BaddieDie3", Content.Load<Texture2D>("baddieDie-3") },
-                { "BaddieDie4", Content.Load<Texture2D>("baddieDie-4") },
-                { "BaddieDie5", Content.Load<Texture2D>("baddieDie-5") }
+                { TextureNames.PlayerShip, Content.Load<Texture2D>("ship") },
+                { TextureNames.Baddie1A,Content.Load<Texture2D>("baddie1-A") },
+                { TextureNames.Baddie1B, Content.Load<Texture2D>("baddie1-B") },
+                { TextureNames.Baddie2A, Content.Load<Texture2D>("baddie2-A") },
+                { TextureNames.Baddie2B, Content.Load<Texture2D>("baddie2-B") },
+                { TextureNames.MidBoss, Content.Load<Texture2D>("midBoss") },
+                { TextureNames.EnemyBullet, Content.Load<Texture2D>("badMissile") },
+                { TextureNames.GoodBullet, Content.Load<Texture2D>("goodMissile") },
+                { TextureNames.MainBoss, Content.Load<Texture2D>("galaga_mainboss") },
+                { TextureNames.BaddieDie1, Content.Load<Texture2D>("baddieDie-1") },
+                { TextureNames.BaddieDie2, Content.Load<Texture2D>("baddieDie-2") },
+                { TextureNames.BaddieDie3, Content.Load<Texture2D>("baddieDie-3") },
+                { TextureNames.BaddieDie4, Content.Load<Texture2D>("baddieDie-4") },
+                { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") }
             };
 
 
@@ -98,7 +99,8 @@ namespace bullethell.View {
 
             // fire a bullet
             if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
-                MainContent.AddGoodBullet(MainContent.PlayerShip.Center, 2);
+                MainContent.FiringController.From(MainContent.PlayerShip).Between(MainContent.Events.TimeElapsed(),
+                    MainContent.Events.TimeElapsed() + .1).Pattern(new SingleBulletFiringPattern());
                 Stats.BulletFired();
             }
             if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {

@@ -7,11 +7,12 @@ using bullethell.Models.Move;
 using bullethell.Models.Move.MovePatterns;
 
 namespace bullethell.Models.Factories {
-    class MovePatternFactory {
+    public class MovePatternFactory {
 
         public AbstractMovePattern Build(string type) {
             if (type == "movetofixedpoint") {
                 return new MoveToFixedPointPattern();
+
             }
             return null;
         }

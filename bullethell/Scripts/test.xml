@@ -1,18 +1,18 @@
 <root>
-    <enemy type="midboss" startlife="1" endlife="500" x="500" y="20">
-        <move type="movetofixedpoint" start="2" stop="15">
+    <enemy type="enemy" startlife="0" endlife="25" x="500" y="20">
+        <move type="movetofixedpoint" start="0" stop="15">
             <options>
                 <x>400</x>
                 <y>400</y>
             </options>
         </move>
-        <firingpattern type="circle" start="2" stop="5"></firingpattern>
-        <firingpattern type="spray" start="2" stop="5">
-            <options>
-                <startdegree>225</startdegree>
-                <min>225</min>
-                <max>315</max>
-            </options>
+        <firingpattern type="circle" start="1.5" stop="2">
+            <firingpattern type="spiral" start="3", stop="6">
+                <options>
+                    <spokes>8</spokes>
+                    <direction>-1</direction>
+                </options>
+            </firingpattern>
         </firingpattern>
     </enemy>
 </root>

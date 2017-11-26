@@ -15,7 +15,7 @@ namespace bullethell.Models.Move.MovePatterns {
         }
 
         public override void Exec() {
-            Events.AddScheduledEvent(start, stop, () => model.Move(this.angle));
+            MainContent.Events.AddScheduledEvent(start, stop, () => model.Move(this.angle));
         }
     }
 }

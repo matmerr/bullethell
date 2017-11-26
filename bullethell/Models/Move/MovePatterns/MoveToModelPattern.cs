@@ -17,7 +17,7 @@ namespace bullethell.Models.Move.MovePatterns {
 
 
         public override void Exec() {
-            Events.AddScheduledTaggedEvent(start,stop,model, () => model.MoveToPointFlex(targetModel.GetLocation()));
+            MainContent.Events.AddScheduledTaggedEvent(start,stop,model, () => model.MoveToPointFlex(targetModel.GetLocation()));
         }
     }
 }

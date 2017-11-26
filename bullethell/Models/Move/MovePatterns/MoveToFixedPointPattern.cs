@@ -12,9 +12,7 @@ namespace bullethell.Models.Move.MovePatterns {
         private Point target;
 
 
-
-
-        public MoveToFixedPointPattern SetOptions(Point target) {
+        public MoveToFixedPointPattern WithOptions(Point target) {
             this.target = target;
             return this;
         }
@@ -25,7 +23,7 @@ namespace bullethell.Models.Move.MovePatterns {
 
 
         public override void Exec() {
-            Events.AddScheduledTaggedEvent(start,stop,model,() => model.MoveToPointFlex(target));
+            MainContent.Events.AddScheduledTaggedEvent(start,stop,model,() => model.MoveToPointFlex(target));
         }
     }
 }

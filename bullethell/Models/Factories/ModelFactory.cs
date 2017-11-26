@@ -19,13 +19,13 @@ namespace bullethell.Models.Factories {
         }
 
         public BaseModel Build(string type, double startlife, double endlife, int x, int y) {
-            if (type == "enemy1") {
+            if (type == TextureNames.Baddie1A) {
                 return BuildEnemyModel(startlife, endlife, new Point(x, y));
             }
-            if (type == "midboss") {
+            if (type == TextureNames.MidBoss) {
                 return BuildMidBossModel(startlife, endlife, new Point(x, y));
             }
-            if (type == "mainboss") {
+            if (type == TextureNames.MainBoss) {
                 return BuildMainBossModel(startlife, endlife, new Point(x, y));
             }
             return null;
@@ -33,40 +33,40 @@ namespace bullethell.Models.Factories {
 
 
         public PlayerModel BuildPlayerModel(int x, int y) {
-            return new PlayerModel(x,y,3, MainContent.Textures["PlayerShip"]);
+            return new PlayerModel(x,y,3, MainContent.Textures[TextureNames.PlayerShip]);
         }
         
         // Enemy model factories
         public EnemyModel BuildEnemyModel(double startTime, double stopTime, Point startPosition) {
-            EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures["Baddie1B"]);
+            EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[TextureNames.Baddie1B]);
             TimeToLiveTagged(startTime, stopTime, em, em);
             return em;
         }
 
         // Enemy bullet factories
         public BulletModel BuildEnemyBulletModel(double startTime, double stopTime, Point startPosition, BaseModel source) {
-            BulletModel bm = new BulletModel(startPosition, 3, MainContent.Textures["EnemyBullet"]);
+            BulletModel bm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.EnemyBullet]);
             TimeToLiveTagged(startTime, stopTime, source, bm);
             return bm;
         }
 
         // Good bullet factories
         public BulletModel BuildGoodBulletModel(double startTime, double stopTime, Point startPosition) {
-            BulletModel gm = new BulletModel(startPosition, 3, MainContent.Textures["GoodBullet"]);
+            BulletModel gm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.GoodBullet]);
             TimeToLiveTagged(startTime, stopTime, gm, gm);
             return gm;
         }
 
         // Mid boss factories
         public MidBossModel BuildMidBossModel(double startTime, double stopTime, Point startPosition) {
-            MidBossModel mbm = new MidBossModel(startPosition, 2, MainContent.Textures["Baddie2B"]);
+            MidBossModel mbm = new MidBossModel(startPosition, 2, MainContent.Textures[TextureNames.Baddie2B]);
             TimeToLiveTagged(startTime, stopTime, mbm, mbm);
             return mbm;
         }
 
         // Main Boss factories
         public MainBossModel BuildMainBossModel(double startTime, double stopTime, Point startPosition) {
-            MainBossModel mainbm = new MainBossModel(startPosition, 3, MainContent.Textures["Baddie2A"]);
+            MainBossModel mainbm = new MainBossModel(startPosition, 3, MainContent.Textures[TextureNames.Baddie2A]);
             TimeToLiveTagged(startTime, stopTime, mainbm, mainbm);
             return mainbm;
         }
@@ -86,10 +86,10 @@ namespace bullethell.Models.Factories {
                 MainContent.Events.AddSingleTaggedEvent(startLife, tag, () => MainContent.EnemyShipList.Add(enemyModel));
                 MainContent.Events.AddSingleTaggedEvent(endLife, tag, () => MainContent.EnemyShipList.Remove(enemyModel));
             } else if (model is BulletModel bullet) {
-                if (bullet.Texture == MainContent.Textures["GoodBullet"]) {
+                if (bullet.Texture == MainContent.Textures[TextureNames.GoodBullet]) {
                     MainContent.Events.AddSingleTaggedEvent(startLife, tag, () => MainContent.GoodBulletList.Add(bullet));
                     MainContent.Events.AddSingleTaggedEvent(endLife, tag, () => MainContent.GoodBulletList.Remove(bullet));
-                } else if (bullet.Texture == MainContent.Textures["EnemyBullet"]) {
+                } else if (bullet.Texture == MainContent.Textures[TextureNames.EnemyBullet]) {
                     MainContent.Events.AddSingleTaggedEvent(startLife, tag, () => MainContent.EnemyBulletList.Add((BulletModel)model));
                     MainContent.Events.AddSingleTaggedEvent(endLife, tag, () => MainContent.EnemyBulletList.Remove((BulletModel)model));
                 }

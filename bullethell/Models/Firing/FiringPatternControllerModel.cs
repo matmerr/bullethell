@@ -31,7 +31,7 @@ namespace bullethell.Controller {
 
         
 
-    class FiringPatternTimeObject {
+    public class FiringPatternTimeObject {
         private GameContent MainContent;
         private BaseModel fromModel;
 
@@ -45,7 +45,7 @@ namespace bullethell.Controller {
         }
     }
 
-    class FiringPatternController {
+    public class FiringPatternController {
         private GameContent MainContent;
         public FiringPatternController(GameContent MainContent) {
             this.MainContent = MainContent;

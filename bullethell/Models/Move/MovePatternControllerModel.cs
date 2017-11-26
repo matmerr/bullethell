@@ -11,20 +11,20 @@ namespace bullethell.Models.Move {
 
     public class MoveTimeObject {
         // To(enemypoint), angle(), etc.
-        protected GameEvents Events;
+        protected GameContent MainContent;
         protected BaseModel model;
         protected double start, stop;
 
-        public MoveTimeObject(double start, double stop, BaseModel model, ref GameEvents gameEvents) {
+        public MoveTimeObject(double start, double stop, BaseModel model, ref GameContent MainContent) {
             this.start = start;
             this.stop = stop;
             this.model = model;
-            this.Events = gameEvents;
+            this.MainContent = MainContent;
 
         }
 
         public AbstractMovePattern Pattern(AbstractMovePattern mpm) {
-            mpm.Set(start, stop, model, ref Events);
+            mpm.Set(start, stop, model, ref MainContent);
             mpm.Exec();
             return mpm;
 
@@ -33,31 +33,31 @@ namespace bullethell.Models.Move {
 
 
     public class MoveFromObject {
-        protected GameEvents Events;
+        protected GameContent MainContent;
         protected BaseModel model;
 
-        public MoveFromObject(BaseModel model, ref GameEvents Events) {
+        public MoveFromObject(BaseModel model, ref GameContent MainContent) {
             this.model = model;
-            this.Events = Events;
+            this.MainContent = MainContent;
         }
 
         public MoveTimeObject Between(double start, double stop) {
-            return new MoveTimeObject(start, stop, model, ref Events);
+            return new MoveTimeObject(start, stop, model, ref MainContent);
         }
+
     }
 
 
     public class MovePatternController {
         protected GameContent MainContent;
-        protected GameEvents Events;
+
 
         public MovePatternController(GameContent MainContent) {
             this.MainContent = MainContent;
-            this.Events = MainContent.Events;
         }
 
         public MoveFromObject From(BaseModel model) {
-            return new MoveFromObject(model, ref Events);
+            return new MoveFromObject(model, ref MainContent);
         }
     }
 }

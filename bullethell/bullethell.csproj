@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BulletHell.cs" />
+    <Compile Include="Controller\GameContentExtras.cs" />
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\BulletModel.cs" />
     <Compile Include="Models\EnemyModel.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Models\Firing\FiringPatterns\CircleFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\HeatSeekingFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\NestedFiringPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\SingleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SpiralFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SprayFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\TridentFiringPattern.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Models\Move\MovePatterns\MoveInFixedAnglePattern.cs" />
     <Compile Include="Models\Move\MovePatterns\MoveToFixedPointPattern.cs" />
     <Compile Include="Models\Move\MovePatterns\MoveToModelPattern.cs" />
+    <Compile Include="Models\StaticModels.cs" />
     <Compile Include="Models\StatsModel.cs" />
     <Compile Include="Models\UI Models\MenuButton.cs" />
     <Compile Include="Models\MidBossModel.cs" />
