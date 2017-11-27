@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*
+using System.Xml.Linq;
+
 namespace bullethell.Models.Firing.FiringPatterns {
     class SprayFiringPattern :AbstractFiringPattern {
 
@@ -15,14 +16,20 @@ namespace bullethell.Models.Firing.FiringPatterns {
             max = 360;
         }
 
-        public SprayFiringPattern SetOptions(double startDegree, double min, double max) {
-            this.startDegree = startDegree;
-            this.min = min;
-            this.max = max;
-            return this;
+
+        public override void SetName() {
+            name = FiringPatternNames.Spray;
         }
 
-        public override void Exec() {
+        public override void WithOptions(XElement options) {
+            if (options != null) {
+                startDegree = Double.Parse(options.Element("startdegree").Value);
+                min = Double.Parse(options.Element("mindegree").Value); ;
+                max = Double.Parse(options.Element("maxdegree").Value); ;
+            }
+        }
+
+        public override AbstractFiringPattern Exec() {
             double jAngle = startDegree;
             int direction = 10;
 
@@ -38,7 +45,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     jAngle += direction;
                 }
             }
+            return this;
         }
     }
 }
-*/

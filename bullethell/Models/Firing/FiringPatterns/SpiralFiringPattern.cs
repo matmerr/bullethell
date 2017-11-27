@@ -22,20 +22,12 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             if (options != null) {
-                WithOptions(
-                    Int32.Parse(options.Element("spokes").Value),
-                    Int32.Parse(options.Element("direction").Value)
-                );
+
+                spokes = Int32.Parse(options.Element("spokes").Value);
+                direction = Int32.Parse(options.Element("direction").Value);
+
             }
         }
-
-
-        public AbstractFiringPattern WithOptions(int numSpokes, int direction) {
-                this.spokes = numSpokes;
-                this.direction = direction;
-            return this;
-        }
-
 
 
         public override AbstractFiringPattern Exec() {

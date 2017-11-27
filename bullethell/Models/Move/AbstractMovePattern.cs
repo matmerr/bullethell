@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using bullethell.Controller;
 
 namespace bullethell.Models.Move {
@@ -11,6 +12,12 @@ namespace bullethell.Models.Move {
         protected BaseModel model;
         protected bool timewindowset;
         protected double start, stop;
+        protected string name;
+        public string Name => name;
+
+        public abstract void SetName();
+
+        public abstract void WithOptions(XElement options);
 
         public AbstractMovePattern Set(double start, double stop, BaseModel model, ref GameContent MainContent) {
             this.start = start;

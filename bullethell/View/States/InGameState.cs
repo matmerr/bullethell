@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using bullethell.Controller;
@@ -49,11 +50,15 @@ namespace bullethell.View {
 
 
             MainContent = new GameContent(textures);
-    
 
+            try {
+
+            }
+            catch {
+                
+            }
             MainContent.InitializeModels(GetWindowBounds());
             MainContent.InitializeEvents(GetWindowBounds());
-
             MainContent.Start();
         }
 
@@ -224,7 +229,6 @@ namespace bullethell.View {
             if (MainContent.PlayerShip.IsInvincible) {
                 spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2((GetWindowBounds().Width/2)-50, 3*(GetWindowBounds().Height/4)),
                     Color.Red);
-
             }
 
 

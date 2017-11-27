@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace bullethell.Models {
 
+    static class MovePatternNames {
+        public const string MoveToFixedPoint = "MoveToFixedPoint";
+        public const string MoveInFixedAngle = "MoveInFixedAngle";
+        public const string MoveToModel = "MoveToModel";
+    }
+
     static class FiringPatternNames {
         public const string Circle = "Circle";
         public const string Spiral = "Spiral";
+        public const string Spray = "Spray";
         public const string SingleFire = "SingleFire";
-
     }
 
-
-
-
-
     static class TextureNames {
-
         public const string PlayerShip = "PlayerShip";
         public const string Baddie1A = "Baddie1A";
         public const string Baddie1B = "Baddie1B";

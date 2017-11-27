@@ -1,17 +1,37 @@
 <root>
-    <enemy type="Baddie1A" startlife="0" endlife="25" x="500" y="20">
-        <move type="movetofixedpoint" start="0" stop="15">
+    <enemy type="Baddie1A" startlife="0" endlife="25" x="0" y="0">
+        <move type="MoveToFixedPoint" start="0" stop="15">
+            <options>
+                <x>600</x>
+                <y>400</y>
+            </options>
+        </move>
+        <firingpattern type="Spray" start="1.5" stop="6">
+            <options>
+                <startdegree>225</startdegree>
+                <mindegree>225</mindegree>
+                <maxdegree>315</maxdegree>
+            </options>
+        </firingpattern>
+    </enemy>
+
+    <enemy type="MidBoss" startlife="0" endlife="25" x="500" y="0">
+        <move type="MoveToFixedPoint" start="0" stop="15">
             <options>
                 <x>400</x>
                 <y>400</y>
             </options>
         </move>
         <firingpattern type="Circle" start="1.5" stop="2">
+            <options>
+                <density>8</density>
+            </options>
             <firingpattern type="Spiral" start="3" stop="6">
                 <options>
-                    <spokes>8</spokes>
+                    <spokes>1</spokes>
                     <direction>-1</direction>
                 </options>
+                <firingpattern type="Circle" start="4" stop="6"></firingpattern>
             </firingpattern>
         </firingpattern>
     </enemy>

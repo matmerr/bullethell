@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using bullethell.Controller;
 
 namespace bullethell.Models.Move.MovePatterns {
@@ -15,6 +16,13 @@ namespace bullethell.Models.Move.MovePatterns {
             return this;
         }
 
+        public override void SetName() {
+            name = MovePatternNames.MoveToModel;
+        }
+
+        public override void WithOptions(XElement options) {
+            throw new NotImplementedException();
+        }
 
         public override void Exec() {
             MainContent.Events.AddScheduledTaggedEvent(start,stop,model, () => model.MoveToPointFlex(targetModel.GetLocation()));

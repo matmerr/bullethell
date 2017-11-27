@@ -31,7 +31,7 @@ namespace bullethell.Controller {
                 }
                 firingPattern.And(newFiringPattern);
 
-                NestedFiringPatterns(firingPattern, xel);
+                NestedFiringPatterns(newFiringPattern, xel);
             }
 
             return firingPattern;
@@ -53,14 +53,9 @@ namespace bullethell.Controller {
                         AbstractMovePattern movePattern = MoveFactory.Build(name);
 
                         // we have options
-                        if (xxel.HasElements) {
+                        if (xxel.Element("options") != null) {
                             var options = xxel.Element("options");
-                            if (name == "movetofixedpoint") {
-                                ((MoveToFixedPointPattern)movePattern).WithOptions(
-                                    new Point(Int32.Parse(options.Element("x").Value),
-                                    Int32.Parse(options.Element("y").Value))
-                                );
-                            }
+                            movePattern.WithOptions(options);
                         }
                         double start = Double.Parse(xxel.Attribute("start").Value);
                         double stop = Double.Parse(xxel.Attribute("stop").Value);
@@ -68,10 +63,9 @@ namespace bullethell.Controller {
 
                     } else if (xxel.Name.LocalName == "firingpattern") {
 
-                        // set the required parameters
+                        // set the required parameters for the initial firing pattern
                         string name = xxel.Attribute("type").Value;
                         AbstractFiringPattern firingPattern = FiringFactory.Build(name);
-                        var s = xxel.Attribute("start").Value;
                         double start = Double.Parse(xxel.Attribute("start").Value);
                         double stop = Double.Parse(xxel.Attribute("stop").Value);
 
@@ -81,25 +75,11 @@ namespace bullethell.Controller {
                             firingPattern.WithOptions(options);
                         }
 
+                        // get the base firing pattern
                         firingPattern = FiringController.From(model).Between(start, stop).Pattern(firingPattern);
 
-                        var tempxxel = xxel.Element("firingpattern");
-                        while (tempxxel != null) {
-                            // set the required parameters
-                            name = tempxxel.Attribute("type").Value;
-                            AbstractFiringPattern newFiringPattern = FiringFactory.Build(name);
-                            start = Double.Parse(tempxxel.Attribute("start").Value);
-                            stop = Double.Parse(tempxxel.Attribute("stop").Value);
-                            newFiringPattern.SetTimeWindow(start, stop);
-                            // parse inital options
-                            if (tempxxel.Element("options") != null) {
-                                var options = tempxxel.Element("options");
-                                newFiringPattern.WithOptions(options);
-                            }
-                            firingPattern.And(newFiringPattern);
-                            firingPattern = newFiringPattern;
-                            tempxxel = tempxxel.Element("firingpattern");
-                        }
+                        // handle firing patterns for all bullets based off the base firing pattern
+                        NestedFiringPatterns(firingPattern, xxel);
 
                     }
                 }

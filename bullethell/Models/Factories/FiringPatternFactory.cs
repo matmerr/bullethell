@@ -18,6 +18,10 @@ namespace bullethell.Models.Factories {
             if (type == FiringPatternNames.Spiral) {
                 return new SpiralFiringPattern();
             }
+
+            if (type == FiringPatternNames.Spray) {
+                return new SprayFiringPattern();
+            }
             return null;
         }
     }

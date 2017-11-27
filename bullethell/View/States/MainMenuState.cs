@@ -21,7 +21,6 @@ namespace bullethell.View {
         private MenuButton optionsButton;
         private MenuButton quitButton;
 
-
         public MainMenuState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }

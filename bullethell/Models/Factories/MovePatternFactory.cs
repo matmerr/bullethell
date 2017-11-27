@@ -10,7 +10,7 @@ namespace bullethell.Models.Factories {
     public class MovePatternFactory {
 
         public AbstractMovePattern Build(string type) {
-            if (type == "movetofixedpoint") {
+            if (type == MovePatternNames.MoveToFixedPoint) {
                 return new MoveToFixedPointPattern();
 
             }

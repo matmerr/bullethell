@@ -121,7 +121,9 @@ namespace bullethell.Controller {
             string filepath = openFile.FileName;
 
             XDocument x = XDocument.Load(filepath);
+
             ParseGameContentXML(x);
+
         }
     }
 }
