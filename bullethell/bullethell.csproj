@@ -52,6 +52,8 @@
     <Compile Include="Models\Firing\FiringPatternControllerModel.cs" />
     <Compile Include="Models\Firing\AbstractFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\CircleFiringPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\FireAtPointPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\OrbitFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SingleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SpiralFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SprayFiringPattern.cs" />
@@ -102,6 +104,9 @@
     <Content Include="Content\goodMissile.png" />
     <Content Include="Content\midBoss.png" />
     <Content Include="Content\ship.png" />
+    <Content Include="XML Scripts\demo.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

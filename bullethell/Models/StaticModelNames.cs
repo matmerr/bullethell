@@ -17,6 +17,8 @@ namespace bullethell.Models {
         public const string Spiral = "Spiral";
         public const string Spray = "Spray";
         public const string SingleFire = "SingleFire";
+        public const string Orbit = "Orbit";
+        public const string FireAtPoint = "FireAtPoint";
     }
 
     static class TextureNames {

@@ -29,9 +29,9 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     fromModel);
             }
             bullet.SetLinearTravelAngle(angle);
-            bullet.SetParentModel(fromModel);
-            MainContent.Events.AddSingleTaggedEvent(start, fromModel, () => bullet.SetLocationFromParentModel());
-            MainContent.Events.AddScheduledTaggedEvent(start, start + bulletLife, fromModel, () => bullet.MoveLinear());
+            bullet.SetSourceModel(fromModel);
+            MainContent.Events.AddSingleTaggedEvent(start, fromModel, () => bullet.SetLocationFromSourcetModel());
+            MainContent.Events.AddScheduledTaggedEvent(start, start + bulletLife, fromModel, () => bullet.MoveLinearAngle());
             return this;
         }
     }

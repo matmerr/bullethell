@@ -39,6 +39,7 @@ namespace bullethell.Models.Factories {
         public EnemyModel BuildEnemyModel(double startTime, double stopTime, Point startPosition) {
             EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[TextureNames.Baddie1B]);
             TimeToLiveTagged(startTime, stopTime, em, em);
+            em.SetLifespan(startTime, stopTime);
             return em;
         }
 
@@ -46,6 +47,7 @@ namespace bullethell.Models.Factories {
         public BulletModel BuildEnemyBulletModel(double startTime, double stopTime, Point startPosition, BaseModel source) {
             BulletModel bm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.EnemyBullet]);
             TimeToLiveTagged(startTime, stopTime, source, bm);
+            bm.SetLifespan(startTime, stopTime);
             return bm;
         }
 
@@ -53,6 +55,7 @@ namespace bullethell.Models.Factories {
         public BulletModel BuildGoodBulletModel(double startTime, double stopTime, Point startPosition) {
             BulletModel gm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.GoodBullet]);
             TimeToLiveTagged(startTime, stopTime, gm, gm);
+            gm.SetLifespan(startTime, stopTime);
             return gm;
         }
 
@@ -60,6 +63,7 @@ namespace bullethell.Models.Factories {
         public MidBossModel BuildMidBossModel(double startTime, double stopTime, Point startPosition) {
             MidBossModel mbm = new MidBossModel(startPosition, 2, MainContent.Textures[TextureNames.Baddie2B]);
             TimeToLiveTagged(startTime, stopTime, mbm, mbm);
+            mbm.SetLifespan(startTime, stopTime);
             return mbm;
         }
 
@@ -67,12 +71,14 @@ namespace bullethell.Models.Factories {
         public MainBossModel BuildMainBossModel(double startTime, double stopTime, Point startPosition) {
             MainBossModel mainbm = new MainBossModel(startPosition, 3, MainContent.Textures[TextureNames.Baddie2A]);
             TimeToLiveTagged(startTime, stopTime, mainbm, mainbm);
+            mainbm.SetLifespan(startTime, stopTime);
             return mainbm;
         }
 
         public BaseModel BuildGenericModel(double startTime, double stopTime, Point position, string textureName) {
             BaseModel bm = new BaseModel(position, 3, MainContent.Textures[textureName]);
             TimeToLiveTagged(startTime, stopTime, bm, bm);
+            bm.SetLifespan(startTime, stopTime);
             return bm;
         }
 

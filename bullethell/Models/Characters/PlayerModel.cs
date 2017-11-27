@@ -18,7 +18,7 @@ namespace bullethell.Models {
 
 
         public PlayerModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
-            health = 10;
+            health = 1000;
             Lives = 3;
             initX = startX;
             initY = startY;

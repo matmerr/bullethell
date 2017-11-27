@@ -35,9 +35,9 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(j, j + 10, fromModel.GetLocation(), fromModel);
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(jAngle);
-                        bullet1.SetParentModel(fromModel);
-                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocationFromParentModel());
-                        MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet1.MoveLinear());
+                        bullet1.SetSourceModel(fromModel);
+                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocationFromSourcetModel());
+                        MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet1.MoveLinearAngle());
                         jAngle += 5 * direction;
                         jAngle %= 360;
                     }

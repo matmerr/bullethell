@@ -112,17 +112,24 @@ namespace bullethell.Controller {
 
 
         // this is our timeline for the game.
-        public void InitializeEvents(Rectangle v) {
+        public bool InitializeEvents(Rectangle v) {
 
             viewport = v;
 
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.ShowDialog();
-            string filepath = openFile.FileName;
 
-            XDocument x = XDocument.Load(filepath);
+            try {
+                OpenFileDialog openFile = new OpenFileDialog();
+                openFile.ShowDialog();
+                string filepath = openFile.FileName;
 
-            ParseGameContentXML(x);
+                XDocument x = XDocument.Load(filepath);
+                ParseGameContentXML(x);
+                return true;
+            }
+            catch {
+                return false;
+            }
+            
 
         }
     }

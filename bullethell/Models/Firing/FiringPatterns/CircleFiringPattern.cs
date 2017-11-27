@@ -13,7 +13,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             if (options != null) {
-                density = (360/Int32.Parse(options.Element("density").Value));
+                density = options.Element("density") != null ? (360 / Int32.Parse(options.Element("density").Value)) : density;
+                
             }
         }
 
@@ -23,11 +24,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 double j = 1;
                 while (j < 360) {
 
-                    BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(i, i + 10, fromModel.GetLocation(), fromModel);
+                    BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(i, i + bulletLife, fromModel.GetLocation(), fromModel);
                     bullet.SetLinearTravelAngle(j);
-                    bullet.SetParentModel(fromModel);
-                    MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromParentModel());
-                    MainContent.Events.AddScheduledTaggedEvent(i, i + bulletLife, fromModel, () => bullet.MoveLinear());
+                    bullet.SetSourceModel(fromModel);
+                    MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromSourcetModel());
+                    MainContent.Events.AddScheduledTaggedEvent(i, i + bulletLife, fromModel, () => bullet.MoveLinearAngle());
                     
                     j += density;
                   
