@@ -11,8 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 namespace bullethell.Models {
 
 
-
-
     public class BaseModel {
 
         protected BaseModel parentModelLocation;

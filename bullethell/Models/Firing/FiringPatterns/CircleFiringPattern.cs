@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using bullethell.Controller;
-using bullethell.Models.Factories;
-using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class CircleFiringPattern :AbstractFiringPattern {
-        private double density = 60;
+        private double density = 60; // how many bullets make up the circle
         
 
         public override void SetName() {
@@ -25,7 +18,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
         }
 
         public override AbstractFiringPattern Exec() {
-            
             double i;
             for (i = start; i < stop; i++) {
                 double j = 1;

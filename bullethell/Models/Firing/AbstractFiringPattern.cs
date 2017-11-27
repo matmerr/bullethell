@@ -36,8 +36,10 @@ namespace bullethell.Models.Firing.FiringPatterns {
             return timewindowset;
         }
 
+        // we need to set the name of the firing pattern for XML loading, see Cirle example
         public abstract void SetName();
 
+        // if our firing pattern has options
         public abstract void WithOptions(XElement options);
 
         public AbstractFiringPattern SetReferences(BaseModel fromModel, ref GameContent MainContent) {
@@ -47,13 +49,15 @@ namespace bullethell.Models.Firing.FiringPatterns {
             return this;
         }
 
+       
         public AbstractFiringPattern SetTimeWindow(double start, double stop) {
             this.start = start;
             this.stop = stop;
-            timewindowset = true;
+            timewindowset = true;   // we don't need to inject time window
             return this;
         }
 
+        // this will actually dump the firing pattern on the scheduler
         public abstract AbstractFiringPattern Exec();
     }
 }

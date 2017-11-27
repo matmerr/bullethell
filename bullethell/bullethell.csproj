@@ -55,7 +55,6 @@
     <Compile Include="Models\Firing\FiringPatterns\SingleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SpiralFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SprayFiringPattern.cs" />
-    <Compile Include="Models\Firing\FiringPatterns\TridentFiringPattern.cs" />
     <Compile Include="Models\GameTimer.cs" />
     <Compile Include="Models\Characters\MainBossModel.cs" />
     <Compile Include="Models\Move\MovePatternControllerModel.cs" />

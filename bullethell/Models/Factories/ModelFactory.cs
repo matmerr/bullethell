@@ -13,7 +13,6 @@ namespace bullethell.Models.Factories {
     public class ModelFactory {
         private readonly GameContent MainContent;
 
-
         public ModelFactory(GameContent mainContent) {
             this.MainContent = mainContent;
         }

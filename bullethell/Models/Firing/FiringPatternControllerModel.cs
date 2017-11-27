@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 
 namespace bullethell.Controller {
 
-
     public class FiringPatternShapeObject {
         private readonly double start,stop;
         private readonly BaseModel fromModel;
@@ -29,8 +28,6 @@ namespace bullethell.Controller {
             return fp.Exec();
         }
     }
-
-        
 
     public class FiringPatternTimeObject {
         private GameContent MainContent;

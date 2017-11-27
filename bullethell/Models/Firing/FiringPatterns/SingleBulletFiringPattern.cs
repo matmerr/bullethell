@@ -10,7 +10,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
     class SingleBulletFiringPattern : AbstractFiringPattern {
         private int angle = 270;
 
-
         public override void SetName() {
             name = FiringPatternNames.SingleFire;
         }
@@ -21,8 +20,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override AbstractFiringPattern Exec() {
             BulletModel bullet;
-            if (fromModel is PlayerModel s) {
-                bullet = MainContent.ModelFactory.BuildGoodBulletModel(start, start + 10, fromModel.GetLocation());
+            if (fromModel is PlayerModel PlayerShip) {
+                bullet = MainContent.ModelFactory.BuildGoodBulletModel(start, start + 10, PlayerShip.GetLocation());
                 angle = 90;
             }
             else {

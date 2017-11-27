@@ -22,13 +22,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             if (options != null) {
-
                 spokes = Int32.Parse(options.Element("spokes").Value);
                 direction = Int32.Parse(options.Element("direction").Value);
 
             }
         }
-
 
         public override AbstractFiringPattern Exec() {
             for (double i = 0; i < 360; i += (360 / spokes)) {
@@ -45,7 +43,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     }
                     scheduledEvents.Add(new GameEvents.Event(i, i + bulletLife, bullet1));
                 }
-
             }
             return this;
         }

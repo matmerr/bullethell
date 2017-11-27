@@ -14,10 +14,10 @@ using Microsoft.Xna.Framework;
 namespace bullethell.Controller {
     public partial class GameContent {
 
+        // Recursively build the firing pattern dependency chains
         public AbstractFiringPattern NestedFiringPatterns(AbstractFiringPattern firingPattern, XElement xlevel) {
-            if (xlevel == null) {
-                return null;
-            }
+            if (xlevel == null) return null;
+
             foreach (XElement xel in xlevel.Elements("firingpattern")) {
                 //var newFiringPattern = NestedFiringPatterns(firingPattern,);
                 string name = xel.Attribute("type").Value;
@@ -31,12 +31,12 @@ namespace bullethell.Controller {
                 }
                 firingPattern.And(newFiringPattern);
 
+                // continue on the dependency chain
                 NestedFiringPatterns(newFiringPattern, xel);
             }
 
             return firingPattern;
         }
-
 
 
         public void ParseGameContentXML(XDocument x) {
