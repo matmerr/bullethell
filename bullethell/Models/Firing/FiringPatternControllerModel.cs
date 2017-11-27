@@ -23,6 +23,7 @@ namespace bullethell.Controller {
         }
 
         public AbstractFiringPattern Pattern(AbstractFiringPattern fp) {
+            fp.SetName();;
             fp.SetReferences(fromModel, ref MainContent);
             fp.SetTimeWindow(start, stop);
             return fp.Exec();

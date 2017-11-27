@@ -1,13 +1,13 @@
 <root>
-    <enemy type="enemy" startlife="0" endlife="25" x="500" y="20">
+    <enemy type="Baddie1A" startlife="0" endlife="25" x="500" y="20">
         <move type="movetofixedpoint" start="0" stop="15">
             <options>
                 <x>400</x>
                 <y>400</y>
             </options>
         </move>
-        <firingpattern type="circle" start="1.5" stop="2">
-            <firingpattern type="spiral" start="3", stop="6">
+        <firingpattern type="Circle" start="1.5" stop="2">
+            <firingpattern type="Spiral" start="3" stop="6">
                 <options>
                     <spokes>8</spokes>
                     <direction>-1</direction>

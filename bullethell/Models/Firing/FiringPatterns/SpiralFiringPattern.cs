@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using bullethell.Controller;
 
 namespace bullethell.Models.Firing.FiringPatterns {
@@ -15,12 +16,26 @@ namespace bullethell.Models.Firing.FiringPatterns {
             direction = Direction.Left;
         }
 
+        public override void SetName() {
+            name = FiringPatternNames.Spiral;
+        }
+
+        public override void WithOptions(XElement options) {
+            if (options != null) {
+                WithOptions(
+                    Int32.Parse(options.Element("spokes").Value),
+                    Int32.Parse(options.Element("direction").Value)
+                );
+            }
+        }
+
 
         public AbstractFiringPattern WithOptions(int numSpokes, int direction) {
                 this.spokes = numSpokes;
                 this.direction = direction;
             return this;
         }
+
 
 
         public override AbstractFiringPattern Exec() {

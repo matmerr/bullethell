@@ -11,11 +11,11 @@ namespace bullethell.Models.Factories {
         protected GameContent MainContent;
 
         public AbstractFiringPattern Build(string type) {
-            if (type == "circle") {
+            if (type == FiringPatternNames.Circle) {
                 return new CircleFiringPattern();
             }
             
-            if (type == "spiral") {
+            if (type == FiringPatternNames.Spiral) {
                 return new SpiralFiringPattern();
             }
             return null;

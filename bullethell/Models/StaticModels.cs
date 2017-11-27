@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace bullethell.Models {
 
+    static class FiringPatternNames {
+        public const string Circle = "Circle";
+        public const string Spiral = "Spiral";
+        public const string SingleFire = "SingleFire";
+
+    }
+
+
+
+
+
     static class TextureNames {
 
         public const string PlayerShip = "PlayerShip";

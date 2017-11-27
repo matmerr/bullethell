@@ -3,12 +3,109 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using bullethell.Models;
+using bullethell.Models.Factories;
+using bullethell.Models.Firing.FiringPatterns;
+using bullethell.Models.Move;
+using bullethell.Models.Move.MovePatterns;
 using Microsoft.Xna.Framework;
 
 namespace bullethell.Controller {
     public partial class GameContent {
 
+        public AbstractFiringPattern NestedFiringPatterns(AbstractFiringPattern firingPattern, XElement xlevel) {
+            if (xlevel == null) {
+                return null;
+            }
+            foreach (XElement xel in xlevel.Elements("firingpattern")) {
+                //var newFiringPattern = NestedFiringPatterns(firingPattern,);
+                string name = xel.Attribute("type").Value;
+                AbstractFiringPattern newFiringPattern = FiringFactory.Build(name);
+                double start = Double.Parse(xel.Attribute("start").Value);
+                double stop = Double.Parse(xel.Attribute("stop").Value);
+                newFiringPattern.SetTimeWindow(start, stop);
+                if (xel.Element("options") != null) {
+                    var options = xel.Element("options");
+                    newFiringPattern.WithOptions(options);
+                }
+                firingPattern.And(newFiringPattern);
+
+                NestedFiringPatterns(firingPattern, xel);
+            }
+
+            return firingPattern;
+        }
+
+
+
+        public void ParseGameContentXML(XDocument x) {
+            foreach (XElement xel in x.Root.Elements()) {
+                BaseModel model = modelFactory.Build(
+                    xel.Attribute("type").Value,
+                    Double.Parse(xel.Attribute("startlife").Value),
+                    Double.Parse(xel.Attribute("endlife").Value),
+                    Int32.Parse(xel.Attribute("x").Value),
+                    Int32.Parse(xel.Attribute("y").Value));
+                foreach (XElement xxel in xel.Elements()) {
+                    if (xxel.Name.LocalName == "move") {
+                        string name = xxel.Attribute("type").Value;
+                        AbstractMovePattern movePattern = MoveFactory.Build(name);
+
+                        // we have options
+                        if (xxel.HasElements) {
+                            var options = xxel.Element("options");
+                            if (name == "movetofixedpoint") {
+                                ((MoveToFixedPointPattern)movePattern).WithOptions(
+                                    new Point(Int32.Parse(options.Element("x").Value),
+                                    Int32.Parse(options.Element("y").Value))
+                                );
+                            }
+                        }
+                        double start = Double.Parse(xxel.Attribute("start").Value);
+                        double stop = Double.Parse(xxel.Attribute("stop").Value);
+                        MoveController.From(model).Between(start, stop).Pattern(movePattern);
+
+                    } else if (xxel.Name.LocalName == "firingpattern") {
+
+                        // set the required parameters
+                        string name = xxel.Attribute("type").Value;
+                        AbstractFiringPattern firingPattern = FiringFactory.Build(name);
+                        var s = xxel.Attribute("start").Value;
+                        double start = Double.Parse(xxel.Attribute("start").Value);
+                        double stop = Double.Parse(xxel.Attribute("stop").Value);
+
+                        // parse any extra options
+                        if (xxel.Element("options") != null) {
+                            var options = xxel.Element("options");
+                            firingPattern.WithOptions(options);
+                        }
+
+                        firingPattern = FiringController.From(model).Between(start, stop).Pattern(firingPattern);
+
+                        var tempxxel = xxel.Element("firingpattern");
+                        while (tempxxel != null) {
+                            // set the required parameters
+                            name = tempxxel.Attribute("type").Value;
+                            AbstractFiringPattern newFiringPattern = FiringFactory.Build(name);
+                            start = Double.Parse(tempxxel.Attribute("start").Value);
+                            stop = Double.Parse(tempxxel.Attribute("stop").Value);
+                            newFiringPattern.SetTimeWindow(start, stop);
+                            // parse inital options
+                            if (tempxxel.Element("options") != null) {
+                                var options = tempxxel.Element("options");
+                                newFiringPattern.WithOptions(options);
+                            }
+                            firingPattern.And(newFiringPattern);
+                            firingPattern = newFiringPattern;
+                            tempxxel = tempxxel.Element("firingpattern");
+                        }
+
+                    }
+                }
+            }
+
+        }
 
 
         public bool IsColliding(BaseModel a, BaseModel b) {

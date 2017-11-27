@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using bullethell.Controller;
 using bullethell.Models.Factories;
 
@@ -15,6 +16,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected double bulletLife;
         protected double start, stop;
         protected bool timewindowset;
+        protected string name;
+        public string Name => name;
 
         public AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
             foreach (GameEvents.Event e in scheduledEvents.ToList()) {
@@ -33,10 +36,14 @@ namespace bullethell.Models.Firing.FiringPatterns {
             return timewindowset;
         }
 
-        public AbstractFiringPattern SetReferences( BaseModel model, ref GameContent MainContent) {
+        public abstract void SetName();
+
+        public abstract void WithOptions(XElement options);
+
+        public AbstractFiringPattern SetReferences(BaseModel fromModel, ref GameContent MainContent) {
             this.MainContent = MainContent;
             this.bulletLife = 10;
-            this.fromModel = model;
+            this.fromModel = fromModel;
             return this;
         }
 
