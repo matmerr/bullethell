@@ -12,16 +12,16 @@ namespace bullethell.View {
 
     class GameStateManager {
 
-        public Stack<GameState> Screens;
+        public Stack<AbstractGameState> Screens;
 
 
 
-        public GameStateManager(ref Stack<GameState> screens) {
+        public GameStateManager(ref Stack<AbstractGameState> screens) {
             this.Screens = screens;
         }
 
 
-        public void AddScreen(GameState st) {
+        public void AddScreen(AbstractGameState st) {
             Screens.Push(st);
         }
 

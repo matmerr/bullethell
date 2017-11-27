@@ -10,49 +10,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
 
-    // use this to avoid confusion in the Move method
-    static class Direction {
-
-        public const int Up = -1;
-        public const int Down = 1;
-        public const int Right = 1;
-        public const int Left = -1;
-        public const int Stay = 0;
-
-        public const int E = 0;
-        public const int NE = 45;
-        public const int N = 90;
-        public const int NW = 135;
-        public const int W = 180;
-        public const int SW = 225;
-        public const int S = 270;
-        public const int SE = 315;
-
-
-        /*
-         * Right: 1
-         * Up: 2
-         * Left: 4
-         * Down: 8*/
-        // takes a sum of encoded keypresses, returns an angle
-        public static int ConvertKeyDirection(int sum) {
-            if (sum == 1) return E;
-            if (sum == 2) return N;
-            if (sum == 4) return W;
-            if (sum == 8) return S;
-
-            if (sum == 3) return NE;
-            if (sum == 6) return NW;
-            if (sum == 12) return SW;
-            if (sum == 9) return SE;
-
-
-            return -1;
-        }
-    }
-
 
     public class BaseModel {
+
+        protected BaseModel parentModelLocation;
+
+        public void SetParentModel(BaseModel basem) {
+            this.parentModelLocation = basem;
+        }
+
+        public void SetLocationFromParentModel() {
+            this.SetLocation(this.parentModelLocation.GetLocation());
+        }
 
         // image texture for the model on the canvas
         protected Texture2D texture;
@@ -162,7 +131,7 @@ namespace bullethell.Models {
             MoveToPointFlex(target.X, target.Y);
         }
 
-        public void MoveToPointFlex(int finalX, int finalY) {
+        public  void MoveToPointFlex(int finalX, int finalY) {
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
 
@@ -267,7 +236,6 @@ namespace bullethell.Models {
             location.X = center.X - texture.Width / 2;
             location.Y = center.Y - texture.Height / 2;
         }
-
 
 
         private double orbitRadius;

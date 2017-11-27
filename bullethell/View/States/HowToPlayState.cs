@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
-    class HowToPlayState : GameState{
+    class HowToPlayState : AbstractGameState{
         private SpriteFont font;
 
-        public HowToPlayState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+        public HowToPlayState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 

@@ -11,14 +11,22 @@ namespace bullethell.Controller {
     public class GameEvents {
 
 
-        class Event {
+        public class Event {
             private int tag;
             private Action gameEvent;
             private double startTime;
             private double endTime;
             public bool HasFired;
+            public BaseModel model; // only used for nested event tracking
 
             public int Tag => tag;
+
+            public Event(double start, double end, BaseModel model) {
+                tag = -1;
+                startTime = start;
+                endTime = end;
+                this.model = model;
+            }
 
             public Event(double start, double end, Action GameEvent) {
                 tag = -1;
@@ -106,7 +114,6 @@ namespace bullethell.Controller {
                 // so it's not a single event, let's execute it if it's within the window
                 else if (currTime >= ev.StartTime && currTime < ev.EndTime) {
                     ev.GameEvent();
-
                 }
             }
         }

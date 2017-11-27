@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using bullethell.Controller;
 using bullethell.Models;
+using bullethell.Models.Firing.FiringPatterns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
-    class InGameState : GameState {
+    class InGameState : AbstractGameState {
 
         private GameContent MainContent;
         private SpriteFont font;
 
 
-        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+        public InGameState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 
@@ -29,27 +31,34 @@ namespace bullethell.View {
         public override void LoadContent() {
             font = Content.Load<SpriteFont>("HUD");
 
+            Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D> {
+                { TextureNames.PlayerShip, Content.Load<Texture2D>("ship") },
+                { TextureNames.Baddie1A,Content.Load<Texture2D>("baddie1-A") },
+                { TextureNames.Baddie1B, Content.Load<Texture2D>("baddie1-B") },
+                { TextureNames.Baddie2A, Content.Load<Texture2D>("baddie2-A") },
+                { TextureNames.Baddie2B, Content.Load<Texture2D>("baddie2-B") },
+                { TextureNames.MidBoss, Content.Load<Texture2D>("midBoss") },
+                { TextureNames.EnemyBullet, Content.Load<Texture2D>("badMissile") },
+                { TextureNames.GoodBullet, Content.Load<Texture2D>("goodMissile") },
+                { TextureNames.MainBoss, Content.Load<Texture2D>("galaga_mainboss") },
+                { TextureNames.BaddieDie1, Content.Load<Texture2D>("baddieDie-1") },
+                { TextureNames.BaddieDie2, Content.Load<Texture2D>("baddieDie-2") },
+                { TextureNames.BaddieDie3, Content.Load<Texture2D>("baddieDie-3") },
+                { TextureNames.BaddieDie4, Content.Load<Texture2D>("baddieDie-4") },
+                { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") }
+            };
 
-            MainContent = new GameContent(
-                PlayerShip: Content.Load<Texture2D>("ship"),
-                Baddie1A: Content.Load<Texture2D>("baddie1-A"),
-                Baddie1B: Content.Load<Texture2D>("baddie1-B"),
-                Baddie2A: Content.Load<Texture2D>("baddie2-A"),
-                Baddie2B: Content.Load<Texture2D>("baddie2-B"),
-                MiddleBoss: Content.Load<Texture2D>("midBoss"),
-                EnemyBullet: Content.Load<Texture2D>("badMissile"),
-                GoodBullet: Content.Load<Texture2D>("goodMissile"),
-                MainBoss: Content.Load<Texture2D>("galaga_mainboss"),
-                BaddieDie1: Content.Load<Texture2D>("baddieDie-1"),
-                BaddieDie2: Content.Load<Texture2D>("baddieDie-2"),
-                BaddieDie3: Content.Load<Texture2D>("baddieDie-3"),
-                BaddieDie4: Content.Load<Texture2D>("baddieDie-4"),
-                BaddieDie5: Content.Load<Texture2D>("baddieDie-5")
-            );
 
+            MainContent = new GameContent(textures);
+
+            try {
+
+            }
+            catch {
+                
+            }
             MainContent.InitializeModels(GetWindowBounds());
             MainContent.InitializeEvents(GetWindowBounds());
-
             MainContent.Start();
         }
 
@@ -95,7 +104,8 @@ namespace bullethell.View {
 
             // fire a bullet
             if (OldKeyboardState.IsKeyUp(Keys.Space) && NewKeyboardState.IsKeyDown(Keys.Space)) {
-                MainContent.AddGoodBullet(MainContent.PlayerShip.Center, 2);
+                MainContent.FiringController.From(MainContent.PlayerShip).Between(MainContent.Events.TimeElapsed(),
+                    MainContent.Events.TimeElapsed() + .1).Pattern(new SingleBulletFiringPattern());
                 Stats.BulletFired();
             }
             if (OldKeyboardState.IsKeyUp(Keys.Escape) && NewKeyboardState.IsKeyDown(Keys.Escape)) {
@@ -173,6 +183,7 @@ namespace bullethell.View {
 
             foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList()) {
 
+
                 // "Check each enemy bullet to see if it collides with a good bullet"
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemyBullet, goodBullet)) {
@@ -189,12 +200,14 @@ namespace bullethell.View {
                     MainContent.EnemyBulletList.Remove(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
                     MainContent.DrawTinyExplosion(collisionPoint);
-                } else {
+                }
+                else {
                     spriteBatch.Draw(enemyBullet.Texture, enemyBullet.DrawingLocationVector,
                         new Rectangle(0, 0, enemyBullet.Texture.Width, enemyBullet.Texture.Height), Color.White,
                         enemyBullet.Rotation,
                         new Point(0, 0).ToVector2(), enemyBullet.Scale, SpriteEffects.None, 1.0f);
                 }
+                
             }
             int j = 600;
             foreach (EnemyModel en in MainContent.EnemyShipList){
@@ -216,7 +229,6 @@ namespace bullethell.View {
             if (MainContent.PlayerShip.IsInvincible) {
                 spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2((GetWindowBounds().Width/2)-50, 3*(GetWindowBounds().Height/4)),
                     Color.Red);
-
             }
 
 

@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace bullethell.View {
-    class EndGameWonState : GameState {
+    class EndGameWonState : AbstractGameState {
 
         private SpriteFont font;
 
 
-        public EndGameWonState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<GameState> Screens) : base(graphicsDevice, Content, ref Screens) {
+        public EndGameWonState(GraphicsDevice graphicsDevice, ContentManager Content, ref Stack<AbstractGameState> Screens) : base(graphicsDevice, Content, ref Screens) {
             LoadContent();
         }
 
