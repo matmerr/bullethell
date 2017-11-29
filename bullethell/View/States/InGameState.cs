@@ -81,7 +81,6 @@ namespace bullethell.View {
             Down: 8*/
 
 
-
             // MOVE PLAYER
             // We can use the Direction class that I made to avoid confusion
             if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
@@ -124,7 +123,6 @@ namespace bullethell.View {
             OldKeyboardState = NewKeyboardState;
 
             MainContent.Events.ExecuteScheduledEvents();
-
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

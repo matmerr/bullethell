@@ -22,8 +22,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             if (options != null) {
-                spokes = Int32.Parse(options.Element("spokes").Value);
-                direction = Int32.Parse(options.Element("direction").Value);
+                spokes = options.Element("spokes") != null ? Int32.Parse(options.Element("spokes").Value) : spokes;
+                direction = options.Element("direction") != null ? Int32.Parse(options.Element("direction").Value) : direction;
 
             }
         }

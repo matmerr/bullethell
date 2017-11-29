@@ -19,9 +19,9 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             if (options != null) {
-                startDegree = Double.Parse(options.Element("startdegree").Value);
-                min = Double.Parse(options.Element("mindegree").Value); ;
-                max = Double.Parse(options.Element("maxdegree").Value); ;
+                startDegree = options.Element("startdegree") != null ? Double.Parse(options.Element("startdegree").Value) : startDegree;
+                min = options.Element("mindegree") != null ? Double.Parse(options.Element("mindegree").Value) : min;
+                max = options.Element("maxdegree") != null ? Double.Parse(options.Element("maxdegree").Value) : max;
             }
         }
 

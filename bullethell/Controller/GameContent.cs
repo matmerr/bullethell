@@ -84,8 +84,6 @@ namespace bullethell.Controller {
         }
 
 
-
-
         // here we will initalize the specific models that are used, as well as add any "bulk models"
         // to lists
         public void InitializeModels(Rectangle viewport) {
@@ -93,10 +91,7 @@ namespace bullethell.Controller {
             playerShip = modelFactory.BuildPlayerModel(viewport.Width/2, 7*(viewport.Height/8));
         }
 
-
         // give an enemy a time to live, with a tag
-        
-
         public void Reset() {
             Events.StopTimer();
             Events.ClearEvents();
@@ -110,12 +105,10 @@ namespace bullethell.Controller {
         }
         
 
-
         // this is our timeline for the game.
         public bool InitializeEvents(Rectangle v) {
 
             viewport = v;
-
 
             try {
                 OpenFileDialog openFile = new OpenFileDialog();
@@ -129,8 +122,6 @@ namespace bullethell.Controller {
             catch {
                 return false;
             }
-            
-
         }
     }
 }
