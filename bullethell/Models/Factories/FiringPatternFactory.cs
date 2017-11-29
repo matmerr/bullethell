@@ -22,6 +22,14 @@ namespace bullethell.Models.Factories {
             if (type == FiringPatternNames.Spray) {
                 return new SprayFiringPattern();
             }
+
+            if (type == FiringPatternNames.Orbit) {
+                return new OrbitFiringPattern();
+            }
+
+            if (type == FiringPatternNames.FireAtPoint) {
+                return new FireAtPointPattern();
+            }
             return null;
         }
     }

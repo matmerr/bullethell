@@ -51,15 +51,14 @@ namespace bullethell.View {
 
             MainContent = new GameContent(textures);
 
-            try {
-
-            }
-            catch {
-                
-            }
             MainContent.InitializeModels(GetWindowBounds());
-            MainContent.InitializeEvents(GetWindowBounds());
-            MainContent.Start();
+            if (MainContent.InitializeEvents(GetWindowBounds()) == false) {
+                MainContent = null;
+            }
+            else {
+                MainContent.Start();
+            }
+            
         }
 
 
@@ -68,6 +67,10 @@ namespace bullethell.View {
         }
 
         public override void Update(GameTime gameTime) {
+            if (MainContent == null) {
+                Screens.Pop();
+                return;
+            }
             NewKeyboardState = Keyboard.GetState();
 
             int direction = 0;
@@ -76,7 +79,6 @@ namespace bullethell.View {
             Up: 2
             Left: 4
             Down: 8*/
-
 
 
             // MOVE PLAYER
@@ -121,10 +123,13 @@ namespace bullethell.View {
             OldKeyboardState = NewKeyboardState;
 
             MainContent.Events.ExecuteScheduledEvents();
-
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
+            if (MainContent == null) {
+                Screens.Pop();
+                return;
+            }
             graphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
 
@@ -183,12 +188,12 @@ namespace bullethell.View {
 
             foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList()) {
 
-
                 // "Check each enemy bullet to see if it collides with a good bullet"
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemyBullet, goodBullet)) {
                         MainContent.GoodBulletList.Remove(goodBullet);
                         MainContent.EnemyBulletList.Remove(enemyBullet);
+                        MainContent.Events.RemoveTaggedEvents(enemyBullet);
                         // draw explosions lol
                         MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemyBullet, goodBullet));
                     }
@@ -198,6 +203,7 @@ namespace bullethell.View {
                 if (MainContent.IsColliding(enemyBullet, MainContent.PlayerShip)) {
                     MainContent.PlayerShip.TakeDamage();
                     MainContent.EnemyBulletList.Remove(enemyBullet);
+                    MainContent.Events.RemoveTaggedEvents(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
                     MainContent.DrawTinyExplosion(collisionPoint);
                 }

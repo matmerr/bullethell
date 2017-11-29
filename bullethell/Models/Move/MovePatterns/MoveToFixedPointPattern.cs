@@ -38,7 +38,7 @@ namespace bullethell.Models.Move.MovePatterns {
         }
 
         public override void Exec() {
-            MainContent.Events.AddScheduledTaggedEvent(start,stop,model,() => model.MoveToPointFlex(target));
+            MainContent.Events.AddScheduledTaggedEvent(start,stop,model,() => model.MoveToPoint(target));
         }
     }
 }

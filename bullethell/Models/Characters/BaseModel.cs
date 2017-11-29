@@ -13,14 +13,22 @@ namespace bullethell.Models {
 
     public class BaseModel {
 
-        protected BaseModel parentModelLocation;
+        
 
-        public void SetParentModel(BaseModel basem) {
-            this.parentModelLocation = basem;
+        protected BaseModel sourceModel;
+        public void SetSourceModel(BaseModel basem) {
+            this.sourceModel = basem;
+        }
+        public void SetLocationFromSourcetModel() {
+            this.SetLocation(this.sourceModel.GetLocation());
         }
 
-        public void SetLocationFromParentModel() {
-            this.SetLocation(this.parentModelLocation.GetLocation());
+        private BaseModel destinationModel;
+        public void SetDestinationModel(BaseModel basem) {
+            this.destinationModel = basem;
+        }
+        public void SetAngleFromDestinationModel() {
+            linearAngle = CalculateTrajectory();
         }
 
         // image texture for the model on the canvas
@@ -32,10 +40,16 @@ namespace bullethell.Models {
         //protected Point dimensions;
 
         // we need to keep track of 
-        protected double moveFlexAngle;
+        
 
         // speed at which the xPos or yPos change
         protected double rate;
+
+        // keep track of life duration (for orbit firing pattern reference)
+        protected double startlife;
+        protected double endlife;
+        public double StartLife => startlife;
+        public double EndLife => endlife;
 
         // appearance modifiers
         private float rotation;
@@ -67,7 +81,7 @@ namespace bullethell.Models {
         //public Point Dimensions => dimensions;
         public float Rotation => rotation;
         public float Scale => scale;
-        public double MoveFlexAngle => moveFlexAngle;
+
 
 
         public Vector2 DrawingLocationVector => location.ToVector2();
@@ -126,12 +140,16 @@ namespace bullethell.Models {
             scale = newScale;
         }
 
-
-        public void MoveToPointFlex(Point target) {
-            MoveToPointFlex(target.X, target.Y);
+        public void SetLifespan(double startlife, double endlife) {
+            this.startlife = startlife;
+            this.endlife = endlife;
         }
 
-        public  void MoveToPointFlex(int finalX, int finalY) {
+        public void MoveToPoint(Point target) {
+            MoveToPoint(target.X, target.Y);
+        }
+
+        public  void MoveToPoint(int finalX, int finalY) {
             // if the difference to move is less than the rate,
             // we'll just call it good, otherwise we'll rubberband back and forth
 
@@ -140,7 +158,7 @@ namespace bullethell.Models {
 
             double distance = Math.Sqrt(Math.Pow(finalX - center.X, 2) + Math.Pow(finalY - center.Y, 2));
 
-            moveFlexAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
+            double moveFlexAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
             moveFlexAngle = moveFlexAngle * 180 / Math.PI;
             moveFlexAngle *= -1;
 
@@ -165,34 +183,6 @@ namespace bullethell.Models {
                     Move(moveFlexAngle);
                 }
                 return;
-            }
-        }
-
-        public void MoveToPoint(Point target) {
-            MoveToPoint(target.X, target.Y);
-        }
-
-        public void MoveToPoint(int finalX, int finalY) {
-
-            // if the difference to move is less than the rate,
-            // we'll just call it good, otherwise we'll rubberband back and forth
-            if (Math.Abs(center.X - finalX) < rate) {
-                center.X = finalX;
-            } else {
-                if (center.X < finalX) {
-                    Move(0);
-                } else if (center.X > finalX) {
-                    Move(180);
-                }
-            }
-            if (Math.Abs(center.Y - finalY) < rate) {
-                center.Y = finalY;
-            } else {
-                if (center.Y < finalY) {
-                    Move(270);
-                } else if (center.Y > finalY) {
-                    Move(90);
-                }
             }
         }
 
@@ -238,46 +228,56 @@ namespace bullethell.Models {
         }
 
 
-        private double orbitRadius;
-        private double orbitAngle;
+
+
 
         private double linearAngle;
-
-        public Point OrbitPoint;
-
         public void SetLinearTravelAngle(double angle) {
             linearAngle = angle;
         }
 
-        public void MoveLinear() {
+
+        public double CalculateTrajectory() {
+            double xv = destinationModel.Location.X - sourceModel.Location.X;
+            double yv = destinationModel.Location.Y - sourceModel.Location.Y;
+
+            double distance = Math.Sqrt(Math.Pow(destinationModel.Location.X - sourceModel.Location.X, 2) + Math.Pow(destinationModel.Location.Y - sourceModel.Location.Y, 2));
+            double moveFlexAngle = Math.Atan2(yv, xv) - Math.Atan2(0, distance);
+            moveFlexAngle = moveFlexAngle * 180 / Math.PI;
+            moveFlexAngle *= -1;
+            return moveFlexAngle;
+        }
+
+
+        public void MoveLinearAngle() {
             Move(linearAngle);
         }
 
-        public void SetOrbitPoint(Point p) {
-            SetOrbitPoint(p.X, p.Y);
-        }
-        public void SetOrbitPoint(int orbitX, int orbitY) {
-            OrbitPoint.X = orbitX;
-            OrbitPoint.Y = orbitY;
-            // distance formula:
-            orbitRadius = Math.Sqrt(Math.Pow(OrbitPoint.X - center.X, 2) + Math.Pow(OrbitPoint.Y - center.Y, 2));
 
-            // this is in radians:
-            orbitAngle = Math.Atan2(center.Y - OrbitPoint.Y, center.X - OrbitPoint.X) - Math.Atan2(0, orbitRadius);
-        }
 
-        public void SetOrbitAngle(double angle) {
-            orbitAngle = angle;
+
+        private double orbitRadius;
+        private double orbitAngle;
+        private double orbitSpeed;
+        public void SetOrbitAngle(double ang) {
+            orbitAngle = ang;
         }
 
         public void SetOrbitRadius(double radius) {
             orbitRadius = radius;
         }
 
+        public void SetOrbitSpeed(double speed) {
+            orbitSpeed = speed;
+        }
+        
+
         public void MoveOrbit() {
-            orbitAngle += rate * 1 / 25;
-            center.X = (int)(OrbitPoint.X + Math.Cos(orbitAngle) * (int)orbitRadius);
-            center.Y = (int)(OrbitPoint.Y + Math.Sin(orbitAngle) * (int)orbitRadius);
+            orbitAngle += orbitSpeed;
+            double radOrbitAngle = orbitAngle * (Math.PI / 180);
+            Point OrbitPoint = sourceModel.GetLocation();
+            center.X = (int)(OrbitPoint.X + Math.Cos(radOrbitAngle) * (int)orbitRadius);
+            center.Y = (int)(OrbitPoint.Y + Math.Sin(radOrbitAngle) * (int)orbitRadius);
             location.X = center.X - Texture.Height / 2;
             location.Y = center.Y - Texture.Width / 2;
         }
