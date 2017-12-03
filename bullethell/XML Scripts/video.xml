@@ -136,16 +136,10 @@
         <y>400</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="25" stop="40">
+    <move type="MoveToFixedPoint" start="25" stop="45">
       <options>
-        <x>900</x>
+        <x>1100</x>
         <y>400</y>
-      </options>
-    </move>
-    <move type="MoveToFixedPoint" start="40" stop="50">
-      <options>
-        <x>900</x>
-        <y>-50</y>
       </options>
     </move>
   </enemy>
@@ -157,16 +151,10 @@
         <y>400</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="26" stop="41">
+    <move type="MoveToFixedPoint" start="26" stop="46">
       <options>
-        <x>900</x>
+        <x>1100</x>
         <y>400</y>
-      </options>
-    </move>
-    <move type="MoveToFixedPoint" start="41" stop="51">
-      <options>
-        <x>900</x>
-        <y>-50</y>
       </options>
     </move>
   </enemy>
@@ -178,16 +166,10 @@
         <y>400</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="27" stop="42">
+    <move type="MoveToFixedPoint" start="27" stop="47">
       <options>
-        <x>900</x>
+        <x>1100</x>
         <y>400</y>
-      </options>
-    </move>
-    <move type="MoveToFixedPoint" start="42" stop="52">
-      <options>
-        <x>900</x>
-        <y>-50</y>
       </options>
     </move>
   </enemy>
@@ -199,20 +181,134 @@
         <y>400</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="28" stop="43">
+    <move type="MoveToFixedPoint" start="28" stop="48">
       <options>
-        <x>900</x>
+        <x>1100</x>
         <y>400</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="43" stop="53">
+  </enemy>
+  
+  <enemy type="Baddie1A" startlife="24" endlife="50" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="24" stop="29">
       <options>
-        <x>900</x>
-        <y>-50</y>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="29" stop="49">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="25" endlife="50" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="25" stop="30">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="30" stop="50">
+      <options>
+        <x>1100</x>
+        <y>400</y>
       </options>
     </move>
   </enemy>
   
   <!--Third round of enemies-->
+  
+  <enemy type="Baddie1A" startlife="20" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="20" stop="25">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="25" stop="45">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="21" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="21" stop="26">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="26" stop="46">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="22" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="22" stop="27">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="27" stop="47">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="23" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="23" stop="28">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="28" stop="48">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="24" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="24" stop="29">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="29" stop="49">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="25" endlife="50" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="25" stop="30">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="30" stop="50">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+  </enemy>
 
 </root>
