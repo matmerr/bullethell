@@ -8,6 +8,7 @@ using bullethell.Controller;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class SpiralFiringPattern :AbstractFiringPattern {
+
         private int spokes;
         private int direction;
 
@@ -24,18 +25,21 @@ namespace bullethell.Models.Firing.FiringPatterns {
             if (options != null) {
                 spokes = options.Element("spokes") != null ? Int32.Parse(options.Element("spokes").Value) : spokes;
                 direction = options.Element("direction") != null ? Int32.Parse(options.Element("direction").Value) : direction;
-
+                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
+                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
+                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 
         public override AbstractFiringPattern Exec() {
             for (double i = 0; i < 360; i += (360 / spokes)) {
                 double jAngle = i;
-                for (double j = start; j < stop; j += .1) {
-                    BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(j, j + 10, fromModel.GetLocation(), fromModel);
+                for (double j = start; j < stop; j += 1/firingrate) {
+                    BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(texture, j, j + 10, fromModel.GetLocation(), fromModel);
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(jAngle);
                         bullet1.SetSourceModel(fromModel);
+                        bullet1.SetRate(speed);
                         MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocationFromSourcetModel());
                         MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet1.MoveLinearAngle());
                         jAngle += 5 * direction;

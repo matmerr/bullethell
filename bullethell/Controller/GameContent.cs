@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
 using System.Windows.Forms;
@@ -110,18 +111,28 @@ namespace bullethell.Controller {
 
             viewport = v;
 
-            try {
+           try {
                 OpenFileDialog openFile = new OpenFileDialog();
                 openFile.ShowDialog();
                 string filepath = openFile.FileName;
+               if (!string.IsNullOrEmpty(filepath) && File.Exists(filepath)) {
+                   XDocument x = XDocument.Load(filepath);
+                   ParseGameContentXML(x);
+               }
+               else {
+                   return false;
+               }
+            
 
-                XDocument x = XDocument.Load(filepath);
-                ParseGameContentXML(x);
-                return true;
             }
-            catch {
-                return false;
-            }
+           catch (Exception e){
+               
+               if (MessageBox.Show(e.TargetSite+e.StackTrace, e.Message, MessageBoxButtons.OK) == DialogResult.OK) {
+                   return false;
+                }
+                
+           }
+           return true;
         }
     }
 }

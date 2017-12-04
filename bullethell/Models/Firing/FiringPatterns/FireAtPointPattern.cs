@@ -16,15 +16,18 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             // no options set
-            
+            speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
+            firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
+            texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
         }
 
         public override AbstractFiringPattern Exec() {
             double i = start;
             while (i < stop) {
-                
+                var t = fromModel.GetLocation();
 
-                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(i, i + bulletLife, fromModel.GetLocation(),fromModel);
+                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, i, i + bulletLife, t, fromModel);
+                bullet.SetRate(speed);
                 bullet.SetSourceModel(fromModel);
                 bullet.SetDestinationModel(MainContent.PlayerShip);
                 MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromSourcetModel());
@@ -33,7 +36,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
 
                 scheduledEvents.Add(new GameEvents.Event(start, stop, bullet));
-                i += .5;
+                i += 1/firingrate;
             }
             return this;
         }

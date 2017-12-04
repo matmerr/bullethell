@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using bullethell.Controller;
-using bullethell.Models.Factories;
-
 
 namespace bullethell.Models.Firing.FiringPatterns {
     public abstract class AbstractFiringPattern {
@@ -18,6 +13,10 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected bool timewindowset;
         protected string name;
         public string Name => name;
+
+        protected string texture = TextureNames.EnemyBullet;
+        protected double speed = 3;       // bullet speed
+        protected double firingrate = 10; // rate of fire
 
         public AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
             foreach (GameEvents.Event e in scheduledEvents.ToList()) {

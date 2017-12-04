@@ -41,12 +41,29 @@ namespace bullethell.Controller {
 
         public void ParseGameContentXML(XDocument x) {
             foreach (XElement xel in x.Root.Elements()) {
-                BaseModel model = modelFactory.Build(
-                    xel.Attribute("type").Value,
-                    Double.Parse(xel.Attribute("startlife").Value),
-                    Double.Parse(xel.Attribute("endlife").Value),
-                    Int32.Parse(xel.Attribute("x").Value),
-                    Int32.Parse(xel.Attribute("y").Value));
+
+                BaseModel model;
+                if (xel.Attribute("type").Value == "Generic") {
+                    model = modelFactory.BuildGenericEnemyModel(
+                        xel.Attribute("type").Value,
+                        xel.Attribute("texture").Value,
+                        Double.Parse(xel.Attribute("startlife").Value),
+                        Double.Parse(xel.Attribute("endlife").Value),
+                        new Point(Int32.Parse(xel.Attribute("x").Value), Int32.Parse(xel.Attribute("y").Value)), 
+                        Int32.Parse(xel.Attribute("health").Value),
+                        Double.Parse(xel.Attribute("speed").Value));
+                }
+                else {
+                    model = modelFactory.Build(
+                        xel.Attribute("type").Value,
+                        xel.Attribute("texture") != null ? xel.Element("texture").Value : xel.Attribute("type").Value,
+                        Double.Parse(xel.Attribute("startlife").Value),
+                        Double.Parse(xel.Attribute("endlife").Value),
+                        Int32.Parse(xel.Attribute("x").Value),
+                        Int32.Parse(xel.Attribute("y").Value));
+                    model.SetRate(xel.Attribute("speed") != null ? Double.Parse(xel.Attribute("speed").Value) : model.Rate);
+                }
+   
                 foreach (XElement xxel in xel.Elements()) {
                     if (xxel.Name.LocalName == "move") {
                         string name = xxel.Attribute("type").Value;

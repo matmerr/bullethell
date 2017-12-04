@@ -44,6 +44,7 @@ namespace bullethell.Models {
 
         // speed at which the xPos or yPos change
         protected double rate;
+        public double Rate => rate;
 
         // keep track of life duration (for orbit firing pattern reference)
         protected double startlife;
@@ -134,6 +135,10 @@ namespace bullethell.Models {
         // toggle a multiplier for rate
         public void ToggleRate(int factor) {
             rate = (rate == startingRate) ? rate * factor : startingRate;
+        }
+
+        public void SetRate(double rate) {
+            this.rate = rate;
         }
 
         public void SetScale(float newScale) {

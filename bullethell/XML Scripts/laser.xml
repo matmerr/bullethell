@@ -1,0 +1,28 @@
+<root>
+    <enemy type="Baddie1B" startlife="0" endlife="50" x="100" y="200" speed="4">
+        <move type="MoveToFixedPoint" start="2" stop="10">
+            <options>
+                <x>100</x>
+                <y>400</y>
+            </options>
+        </move>
+        <firingpattern type="FireAtPoint" start="1" stop="5">
+            <options>
+                <texture>Baddie1B</texture>
+                <firingrate>10</firingrate>
+                <speed>20</speed>
+            </options>
+        </firingpattern>
+    </enemy>
+    <enemy type="Generic" texture="Baddie2A" startlife="0" endlife="50" x="300" y="200" health="400" speed="50">
+        <firingpattern type="FireAtPoint" start="2" stop="3">
+            <options>
+                <texture>EnemyBullet</texture>
+                <firingrate>100</firingrate>
+                <speed>5</speed>
+            </options>
+        </firingpattern>
+    </enemy>
+</root>
+
+
