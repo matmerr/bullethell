@@ -1,5 +1,7 @@
 ﻿<root>
-  <!--First wave of enemies-->
+  <!--straight line down, back up-->
+  
+    
   <enemy type="Baddie1A" startlife="2" endlife="50" x="100" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
       <options>
@@ -13,6 +15,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="200" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -27,6 +30,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="300" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -41,6 +45,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="400" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -55,6 +60,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="500" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -69,6 +75,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="600" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -83,6 +90,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="700" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -97,6 +105,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="800" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -111,6 +120,7 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
   <enemy type="Baddie1A" startlife="2" endlife="50" x="900" y ="0">
     <move type="MoveToFixedPoint" start="2" stop="10">
@@ -125,10 +135,13 @@
         <y>-50</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="8" stop="9"></firingpattern>
   </enemy>
 
-  <!--Second round of baddies-->
   
+  <!--Enter left, leave right-->
+  
+    
   <enemy type="Baddie1A" startlife="20" endlife="50" x="100" y ="0">
     <move type="MoveToFixedPoint" start="20" stop="25">
       <options>
@@ -142,6 +155,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
   
   <enemy type="Baddie1A" startlife="21" endlife="50" x="100" y ="0">
@@ -157,6 +171,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="22" endlife="50" x="100" y ="0">
@@ -172,6 +187,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="23" endlife="50" x="100" y ="0">
@@ -187,6 +203,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
   
   <enemy type="Baddie1A" startlife="24" endlife="50" x="100" y ="0">
@@ -202,6 +219,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="25" endlife="50" x="100" y ="0">
@@ -217,9 +235,12 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
   
-  <!--Third round of enemies-->
+  
+  <!--Enter right, leave left-->
+  
   
   <enemy type="Baddie1A" startlife="20" endlife="50" x="900" y ="0">
     <move type="MoveToFixedPoint" start="20" stop="25">
@@ -234,6 +255,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="21" endlife="50" x="900" y ="0">
@@ -249,6 +271,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="22" endlife="50" x="900" y ="0">
@@ -264,6 +287,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="23" endlife="50" x="900" y ="0">
@@ -279,6 +303,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="24" endlife="50" x="900" y ="0">
@@ -294,6 +319,7 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
 
   <enemy type="Baddie1A" startlife="25" endlife="50" x="900" y ="0">
@@ -309,6 +335,437 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="FireAtPoint" start="30" stop="32"></firingpattern>
   </enemy>
+  
+  
+  <!--MidBoss1-->
+  
+    
+  <enemy type="MidBoss" startlife="25" endlife="50" x="700" y ="0">
+    <move type="MoveToFixedPoint" start="25" stop="28">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="28" stop="35">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="35" stop="50">
+      <options>
+        <x>200</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="Spray" start="28" stop="29"></firingpattern>
+    <firingpattern type="Spray" start="31" stop="32"></firingpattern>
+  </enemy>
+  
+  <!--MidBoss2-->
+  <enemy type="MidBoss" startlife="26" endlife="55" x="300" y ="0">
+    <move type="MoveToFixedPoint" start="26" stop="29">
+      <options>
+        <x>400</x>
+        <y>250</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="29" stop="36">
+      <options>
+        <x>600</x>
+        <y>250</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="36" stop="55">
+      <options>
+        <x>700</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="Spray" start="28" stop="29"></firingpattern>
+    <firingpattern type="Spray" start="31" stop="32"></firingpattern>
+  </enemy>
+  
+  
+  <!--Minions round 3-->
+  
+    
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>100</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="200" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>200</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>200</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="300" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>300</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>300</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="400" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>400</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>400</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="500" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>500</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>500</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="600" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>600</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>600</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="700" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>700</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>700</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="800" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>800</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>800</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="50">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>900</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="51"></firingpattern>
+  </enemy>
+  
+  
+  <!--group going from left to right again-->
+  
+    
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="40" stop="45">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="45" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  <enemy type="Baddie1A" startlife="41" endlife="81" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="41" stop="46">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="46" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="42" endlife="82" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="47">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="47" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="43" endlife="83" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="43" stop="48">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="48" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  <enemy type="Baddie1A" startlife="44" endlife="84" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="44" stop="49">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="49" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="45" endlife="85" x="100" y ="0">
+    <move type="MoveToFixedPoint" start="45" stop="50">
+      <options>
+        <x>100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>1100</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  
+  <!--group going from right to left again-->
+  
+    
+  <enemy type="Baddie1A" startlife="40" endlife="80" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="40" stop="45">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="45" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  <enemy type="Baddie1A" startlife="41" endlife="81" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="41" stop="46">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="46" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="42" endlife="82" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="42" stop="47">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="47" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="43" endlife="83" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="43" stop="48">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="48" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  <enemy type="Baddie1A" startlife="44" endlife="84" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="44" stop="49">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="49" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+
+  <enemy type="Baddie1A" startlife="45" endlife="85" x="900" y ="0">
+    <move type="MoveToFixedPoint" start="45" stop="50">
+      <options>
+        <x>900</x>
+        <y>400</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="50" stop="80">
+      <options>
+        <x>-50</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type="FireAtPoint" start="50" stop="52"></firingpattern>
+    <firingpattern type="FireAtPoint" start="60" stop="62"></firingpattern>
+  </enemy>
+  
+  
+  <!--Midboss 3-->
+  <enemy type="MidBoss" startlife="55" endlife="100" x="300" y ="0">
+    <move type="MoveToFixedPoint" start="55" stop="58">
+      <options>
+        <x>400</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="58" stop="75">
+      <options>
+        <x>600</x>
+        <y>250</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="75" stop="100">
+      <options>
+        <x>700</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="Spray" start="60" stop="63"></firingpattern>
+    <firingpattern type="Spray" start="65" stop="68"></firingpattern>
+  </enemy>
+  
+
 
 </root>
