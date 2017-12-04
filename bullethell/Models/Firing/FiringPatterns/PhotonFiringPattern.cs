@@ -18,9 +18,9 @@ namespace bullethell.Models.Firing.FiringPatterns {
             firingrate = 1000;                       //default firing rate.
             angle = rnd.Next(0, 360);               //generate random angle for laser.
 
-            while (i < stop) {
+            while (i < stop) {                      //Similar to Laser, just with increasing speed for each subsequent bullet.
                 var t = fromModel.GetLocation();
-                speed += 1;
+                speed += .5;
 
                 BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(TextureNames.LaserBullet, i, i + bulletLife, t, fromModel);
                 bullet.SetLinearTravelAngle(angle);
@@ -42,7 +42,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
             name = FiringPatternNames.Photon;
         }
 
-        public override void WithOptions(XElement options) {
+        public override void WithOptions(XElement options) {            //No options for PhotonFiringPattern.
 
         }
     }
