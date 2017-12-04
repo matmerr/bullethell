@@ -42,12 +42,6 @@
         <y>400</y>
       </options>
     </move>
-    <firingpattern type="Spiral" start="3" stop="6">
-      <options>
-        <spokes>1</spokes>
-        <direction>-1</direction>
-      </options>
-      <firingpattern type="Circle" start="7" stop="8"></firingpattern>
-    </firingpattern>
+    <firingpattern type="Laser" start="3" stop="6"> </firingpattern>
   </enemy>
 </root>
