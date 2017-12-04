@@ -43,7 +43,6 @@ namespace bullethell.Controller {
             foreach (XElement xel in x.Root.Elements()) {
 
                 BaseModel model;
-                var ok = xel.Attribute("type").Value;
                 if (xel.Attribute("type").Value == "Generic") {
                     model = modelFactory.BuildGenericEnemyModel(
                         xel.Attribute("type").Value,
@@ -62,6 +61,7 @@ namespace bullethell.Controller {
                         Double.Parse(xel.Attribute("endlife").Value),
                         Int32.Parse(xel.Attribute("x").Value),
                         Int32.Parse(xel.Attribute("y").Value));
+                    model.SetRate(xel.Attribute("speed") != null ? Double.Parse(xel.Attribute("speed").Value) : model.Rate);
                 }
    
                 foreach (XElement xxel in xel.Elements()) {

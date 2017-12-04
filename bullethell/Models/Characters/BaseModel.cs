@@ -44,6 +44,7 @@ namespace bullethell.Models {
 
         // speed at which the xPos or yPos change
         protected double rate;
+        public double Rate => rate;
 
         // keep track of life duration (for orbit firing pattern reference)
         protected double startlife;
