@@ -19,7 +19,11 @@ namespace bullethell.Models.Factories {
 
         public BaseModel Build(string type, double startlife, double endlife, int x, int y) {
             if (type == TextureNames.Baddie1A) {
-                return BuildEnemyModel(startlife, endlife, new Point(x, y));
+                return BuildEnemyAModel(startlife, endlife, new Point(x, y));
+            }
+            if (type == TextureNames.Baddie1B)
+            {
+                return BuildEnemyBModel(startlife, endlife, new Point(x, y));
             }
             if (type == TextureNames.MidBoss) {
                 return BuildMidBossModel(startlife, endlife, new Point(x, y));
@@ -36,7 +40,15 @@ namespace bullethell.Models.Factories {
         }
         
         // Enemy model factories
-        public EnemyModel BuildEnemyModel(double startTime, double stopTime, Point startPosition) {
+        public EnemyModel BuildEnemyAModel(double startTime, double stopTime, Point startPosition) {
+            EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[TextureNames.Baddie1A]);
+            TimeToLiveTagged(startTime, stopTime, em, em);
+            em.SetLifespan(startTime, stopTime);
+            return em;
+        }
+
+        public EnemyModel BuildEnemyBModel(double startTime, double stopTime, Point startPosition)
+        {
             EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[TextureNames.Baddie1B]);
             TimeToLiveTagged(startTime, stopTime, em, em);
             em.SetLifespan(startTime, stopTime);
