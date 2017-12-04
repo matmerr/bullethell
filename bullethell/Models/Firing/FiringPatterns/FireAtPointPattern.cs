@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class FireAtPointPattern : AbstractFiringPattern {
+        private string texture = TextureNames.EnemyBullet;
+        private double rate = 3;
+
 
         public override void SetName() {
             name = FiringPatternNames.FireAtPoint;
@@ -16,7 +19,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         public override void WithOptions(XElement options) {
             // no options set
-            
+            rate = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : rate;
         }
 
         public override AbstractFiringPattern Exec() {
@@ -24,7 +27,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
             while (i < stop) {
                 
 
-                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(i, i + bulletLife, fromModel.GetLocation(),fromModel);
+                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, i, i + bulletLife, fromModel.GetLocation(),fromModel);
+                bullet.SetRate(rate);
                 bullet.SetSourceModel(fromModel);
                 bullet.SetDestinationModel(MainContent.PlayerShip);
                 MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromSourcetModel());

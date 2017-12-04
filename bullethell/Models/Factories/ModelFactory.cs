@@ -17,15 +17,21 @@ namespace bullethell.Models.Factories {
             this.MainContent = mainContent;
         }
 
+
         public BaseModel Build(string type, double startlife, double endlife, int x, int y) {
+            Build(type, type, startlife, endlife, x, y);
+            return null;
+        }
+
+        public BaseModel Build(string type, string texture, double startlife, double endlife, int x, int y) {
             if (type == TextureNames.Baddie1A) {
-                return BuildEnemyModel(startlife, endlife, new Point(x, y));
+                return BuildEnemyModel(texture, startlife, endlife,  new Point(x, y));
             }
             if (type == TextureNames.MidBoss) {
-                return BuildMidBossModel(startlife, endlife, new Point(x, y));
+                return BuildMidBossModel(texture, startlife, endlife,  new Point(x, y));
             }
             if (type == TextureNames.MainBoss) {
-                return BuildMainBossModel(startlife, endlife, new Point(x, y));
+                return BuildMainBossModel(texture, startlife, endlife,  new Point(x, y));
             }
             return null;
         }
@@ -36,23 +42,23 @@ namespace bullethell.Models.Factories {
         }
         
         // Enemy model factories
-        public EnemyModel BuildEnemyModel(double startTime, double stopTime, Point startPosition) {
-            EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[TextureNames.Baddie1B]);
+        public EnemyModel BuildEnemyModel(string texture, double startTime, double stopTime,  Point startPosition) {
+            EnemyModel em = new EnemyModel(startPosition, 1, MainContent.Textures[texture]);
             TimeToLiveTagged(startTime, stopTime, em, em);
             em.SetLifespan(startTime, stopTime);
             return em;
         }
 
         // Enemy bullet factories
-        public BulletModel BuildEnemyBulletModel(double startTime, double stopTime, Point startPosition, BaseModel source) {
-            BulletModel bm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.EnemyBullet]);
+        public BulletModel BuildEnemyBulletModel(string texture, double startTime, double stopTime, Point startPosition, BaseModel source) {
+            BulletModel bm = new BulletModel(startPosition, 3, MainContent.Textures[texture]);
             TimeToLiveTagged(startTime, stopTime, source, bm);
             bm.SetLifespan(startTime, stopTime);
             return bm;
         }
 
         // Good bullet factories
-        public BulletModel BuildGoodBulletModel(double startTime, double stopTime, Point startPosition) {
+        public BulletModel BuildGoodBulletModel(string texture, double startTime, double stopTime, Point startPosition) {
             BulletModel gm = new BulletModel(startPosition, 3, MainContent.Textures[TextureNames.GoodBullet]);
             TimeToLiveTagged(startTime, stopTime, gm, gm);
             gm.SetLifespan(startTime, stopTime);
@@ -60,16 +66,16 @@ namespace bullethell.Models.Factories {
         }
 
         // Mid boss factories
-        public MidBossModel BuildMidBossModel(double startTime, double stopTime, Point startPosition) {
-            MidBossModel mbm = new MidBossModel(startPosition, 2, MainContent.Textures[TextureNames.Baddie2B]);
+        public MidBossModel BuildMidBossModel(string texture, double startTime, double stopTime, Point startPosition) {
+            MidBossModel mbm = new MidBossModel(startPosition, 2, MainContent.Textures[texture]);
             TimeToLiveTagged(startTime, stopTime, mbm, mbm);
             mbm.SetLifespan(startTime, stopTime);
             return mbm;
         }
 
         // Main Boss factories
-        public MainBossModel BuildMainBossModel(double startTime, double stopTime, Point startPosition) {
-            MainBossModel mainbm = new MainBossModel(startPosition, 3, MainContent.Textures[TextureNames.Baddie2A]);
+        public MainBossModel BuildMainBossModel(string texture, double startTime, double stopTime, Point startPosition) {
+            MainBossModel mainbm = new MainBossModel(startPosition, 3, MainContent.Textures[texture]);
             TimeToLiveTagged(startTime, stopTime, mainbm, mainbm);
             mainbm.SetLifespan(startTime, stopTime);
             return mainbm;
@@ -77,6 +83,14 @@ namespace bullethell.Models.Factories {
 
         public BaseModel BuildGenericModel(double startTime, double stopTime, Point position, string textureName) {
             BaseModel bm = new BaseModel(position, 3, MainContent.Textures[textureName]);
+            TimeToLiveTagged(startTime, stopTime, bm, bm);
+            bm.SetLifespan(startTime, stopTime);
+            return bm;
+        }
+
+        public EnemyModel BuildGenericEnemyModel(string type, string texture, double startTime, double stopTime, Point position, int health, double rate) {
+            EnemyModel bm = new EnemyModel(position, rate, MainContent.Textures[texture]);
+            bm.SetHealth(health);
             TimeToLiveTagged(startTime, stopTime, bm, bm);
             bm.SetLifespan(startTime, stopTime);
             return bm;

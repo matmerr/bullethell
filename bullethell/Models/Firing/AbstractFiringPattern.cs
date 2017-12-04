@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using bullethell.Controller;
-using bullethell.Models.Factories;
-
 
 namespace bullethell.Models.Firing.FiringPatterns {
     public abstract class AbstractFiringPattern {

@@ -136,6 +136,10 @@ namespace bullethell.Models {
             rate = (rate == startingRate) ? rate * factor : startingRate;
         }
 
+        public void SetRate(double rate) {
+            this.rate = rate;
+        }
+
         public void SetScale(float newScale) {
             scale = newScale;
         }

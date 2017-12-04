@@ -6,7 +6,7 @@
         <y>400</y>
       </options>
     </move>
-    <firingpattern type="Orbit" start="0" stop="50" >
+    <firingpattern type="Orbit" start="0" stop="50">
       <options>
         <density>6</density>
         <speed>6</speed>
@@ -19,20 +19,16 @@
         <speed>-.5</speed>
         <radius>100</radius>
       </options>
-      <firingpattern type="FireAtPoint" start="4" stop="50" >
-
-      </firingpattern>
+      <firingpattern type="FireAtPoint" start="4" stop="50"></firingpattern>
       <firingpattern type="Orbit" start="0" stop="50">
         <options>
           <density>8</density>
           <speed>4</speed>
           <radius>30</radius>
         </options>
-
       </firingpattern>
     </firingpattern>
   </enemy>
-
   <enemy type="MidBoss" startlife="0" endlife="50" x="700" y="0">
     <move type="MoveToFixedPoint" start="0" stop="15">
       <options>
@@ -53,7 +49,5 @@
       </options>
       <firingpattern type="Circle" start="7" stop="8"></firingpattern>
     </firingpattern>
-
   </enemy>
-
 </root>

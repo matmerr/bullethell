@@ -8,6 +8,10 @@ using bullethell.Controller;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class SpiralFiringPattern :AbstractFiringPattern {
+        private string texture = TextureNames.EnemyBullet;
+        private double rate = 3;
+
+
         private int spokes;
         private int direction;
 
@@ -24,7 +28,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
             if (options != null) {
                 spokes = options.Element("spokes") != null ? Int32.Parse(options.Element("spokes").Value) : spokes;
                 direction = options.Element("direction") != null ? Int32.Parse(options.Element("direction").Value) : direction;
-
+                rate = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : rate;
             }
         }
 
@@ -32,10 +36,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
             for (double i = 0; i < 360; i += (360 / spokes)) {
                 double jAngle = i;
                 for (double j = start; j < stop; j += .1) {
-                    BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(j, j + 10, fromModel.GetLocation(), fromModel);
+                    BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(texture, j, j + 10, fromModel.GetLocation(), fromModel);
                     if (bullet1 != null) {
                         bullet1.SetLinearTravelAngle(jAngle);
                         bullet1.SetSourceModel(fromModel);
+                        bullet1.SetRate(rate);
                         MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet1.SetLocationFromSourcetModel());
                         MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet1.MoveLinearAngle());
                         jAngle += 5 * direction;
