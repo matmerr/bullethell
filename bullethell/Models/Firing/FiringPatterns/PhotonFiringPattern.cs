@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using bullethell.Controller;
 
 namespace bullethell.Models.Firing.FiringPatterns {
-    class LaserFiringPattern : AbstractFiringPattern {
+    class PhotonFiringPattern : AbstractFiringPattern {
         int angle;
         private static Random rnd = new Random();
 
@@ -15,12 +15,12 @@ namespace bullethell.Models.Firing.FiringPatterns {
         public override AbstractFiringPattern Exec() {
             double i = start;
             speed = 2;
-            firingrate = 100;                       //default firing rate.
+            firingrate = 1000;                       //default firing rate.
             angle = rnd.Next(0, 360);               //generate random angle for laser.
 
             while (i < stop) {
                 var t = fromModel.GetLocation();
-                //speed += 1;
+                speed += 1;
 
                 BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(TextureNames.LaserBullet, i, i + bulletLife, t, fromModel);
                 bullet.SetLinearTravelAngle(angle);
@@ -39,11 +39,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
         }
 
         public override void SetName() {
-            name = FiringPatternNames.Laser;
+            name = FiringPatternNames.Photon;
         }
 
         public override void WithOptions(XElement options) {
-            
+
         }
     }
 }

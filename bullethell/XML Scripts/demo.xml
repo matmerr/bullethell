@@ -1,26 +1,28 @@
 <root>
-  <enemy type="Baddie1A" startlife="0" endlife="50" x="100" y="200">
-    <move type="MoveToFixedPoint" start="0" stop="15">
+  <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
+    <move type="MoveToFixedPoint" start="0" stop="10">
       <options>
         <x>200</x>
         <y>400</y>
       </options>
     </move>
-    <firingpattern type="Orbit" start="0" stop="50">
+    <firingpattern type="Orbit" start="0" stop="10">
       <options>
         <density>6</density>
         <speed>6</speed>
         <radius>25</radius>
       </options>
     </firingpattern>
-    <firingpattern type="Orbit" start="0" stop="50">
+    <firingpattern type="Orbit" start="0" stop="10">
       <options>
         <density>6</density>
         <speed>-.5</speed>
         <radius>100</radius>
       </options>
-      <firingpattern type="FireAtPoint" start="4" stop="50"></firingpattern>
-      <firingpattern type="Orbit" start="0" stop="50">
+      <firingpattern type="Laser" start="4" stop="5"></firingpattern>
+      <firingpattern type="Laser" start="4" stop="5"></firingpattern>
+      <firingpattern type="Laser" start="4" stop="5"></firingpattern>
+      <firingpattern type="Orbit" start="0" stop="10">
         <options>
           <density>8</density>
           <speed>4</speed>
@@ -29,19 +31,29 @@
       </firingpattern>
     </firingpattern>
   </enemy>
-  <enemy type="MidBoss" startlife="0" endlife="50" x="700" y="0">
-    <move type="MoveToFixedPoint" start="0" stop="15">
+  <enemy type="Baddie1A" startlife="0" endlife="50" x="600" y="350">
+    <move type="MoveToFixedPoint" start="0" stop="10">
       <options>
-        <x>800</x>
-        <y>400</y>
+        <x>700</x>
+        <y>150</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="0" stop="15">
+    <firingpattern type="Laser" start="7" stop="8"></firingpattern>
+    <firingpattern type="Laser" start="7" stop="8"></firingpattern>
+    <firingpattern type="Laser" start="7" stop="8"></firingpattern>
+    <firingpattern type="Laser" start="12" stop="13"></firingpattern>
+    <firingpattern type="Laser" start="12" stop="13"></firingpattern>
+    <firingpattern type="Laser" start="12" stop="13"></firingpattern>
+    <firingpattern type="Photon" start="18" stop="22"></firingpattern>
+    <firingpattern type="Photon" start="18" stop="22"></firingpattern>
+    <firingpattern type="Photon" start="18" stop="22"></firingpattern>
+    <firingpattern type="Photon" start="18" stop="22"></firingpattern>
+    <move type="MoveToFixedPoint" start="12" stop="17">
       <options>
-        <x>400</x>
-        <y>400</y>
+        <x>100</x>
+        <y>600</y>
       </options>
     </move>
-    <firingpattern type="Laser" start="3" stop="6"> </firingpattern>
   </enemy>
+  
 </root>
