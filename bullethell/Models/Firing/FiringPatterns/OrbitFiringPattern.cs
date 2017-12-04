@@ -8,12 +8,10 @@ using bullethell.Controller;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class OrbitFiringPattern : AbstractFiringPattern {
-        private string texture = TextureNames.EnemyBullet;
 
 
         private int density = 360/6;
         private double radius = 50;
-        private double speed = 1;
 
         public override void SetName() {
             name = FiringPatternNames.Orbit;
@@ -24,7 +22,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 density = options.Element("density") != null ? (360 / Int32.Parse(options.Element("density").Value)) : density;
                 radius = options.Element("radius") != null ? (Double.Parse(options.Element("radius").Value)) : radius;
                 speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
-
+                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
+                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 

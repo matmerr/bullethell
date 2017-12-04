@@ -7,8 +7,6 @@ using System.Xml.Linq;
 
 namespace bullethell.Models.Firing.FiringPatterns {
     class SprayFiringPattern :AbstractFiringPattern {
-        private string texture = TextureNames.EnemyBullet;
-        private double rate = 3;
 
         private double startDegree = 225;
         private double min = 225;
@@ -24,7 +22,9 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 startDegree = options.Element("startdegree") != null ? Double.Parse(options.Element("startdegree").Value) : startDegree;
                 min = options.Element("mindegree") != null ? Double.Parse(options.Element("mindegree").Value) : min;
                 max = options.Element("maxdegree") != null ? Double.Parse(options.Element("maxdegree").Value) : max;
-                rate = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : rate;
+                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
+                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
+                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 
@@ -32,12 +32,12 @@ namespace bullethell.Models.Firing.FiringPatterns {
             double jAngle = startDegree;
             int direction = 10;
 
-            for (double i = start; i < stop; i += .1) {
+            for (double i = start; i < stop; i += 1/firingrate) {
                  BulletModel bullet1 = MainContent.ModelFactory.BuildEnemyBulletModel(texture, i, i + bulletLife, fromModel.GetLocation(), fromModel);
                 if (bullet1 != null) {
                     bullet1.SetLinearTravelAngle(jAngle);
                     bullet1.SetSourceModel(fromModel);
-                    bullet1.SetRate(rate);
+                    bullet1.SetRate(speed);
                     MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet1.SetLocationFromSourcetModel());
                     MainContent.Events.AddScheduledTaggedEvent(i, i + bulletLife, fromModel, () => bullet1.MoveLinearAngle());
                     if (jAngle >= max + Math.Abs(direction) || jAngle <= min - Math.Abs(direction)) {

@@ -14,6 +14,10 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected string name;
         public string Name => name;
 
+        protected string texture = TextureNames.EnemyBullet;
+        protected double speed = 3;       // bullet speed
+        protected double firingrate = 10; // rate of fire
+
         public AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
             foreach (GameEvents.Event e in scheduledEvents.ToList()) {
                 if (chainedPattern.IsTimeWindowSet()) {
