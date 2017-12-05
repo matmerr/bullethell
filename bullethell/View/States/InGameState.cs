@@ -45,7 +45,8 @@ namespace bullethell.View {
                 { TextureNames.BaddieDie2, Content.Load<Texture2D>("baddieDie-2") },
                 { TextureNames.BaddieDie3, Content.Load<Texture2D>("baddieDie-3") },
                 { TextureNames.BaddieDie4, Content.Load<Texture2D>("baddieDie-4") },
-                { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") }
+                { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") },
+                { TextureNames.LaserBullet, Content.Load<Texture2D>("laser") }
             };
 
 

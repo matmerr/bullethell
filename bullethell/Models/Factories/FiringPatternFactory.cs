@@ -30,6 +30,15 @@ namespace bullethell.Models.Factories {
             if (type == FiringPatternNames.FireAtPoint) {
                 return new FireAtPointPattern();
             }
+
+            if (type == FiringPatternNames.Laser) {
+                return new LaserFiringPattern();
+            }
+
+            if (type == FiringPatternNames.Photon) {
+                return new PhotonFiringPattern();
+            }
+
             return null;
         }
     }
