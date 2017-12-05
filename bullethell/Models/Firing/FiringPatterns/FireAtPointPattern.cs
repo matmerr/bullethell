@@ -25,6 +25,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, i, i + bulletLife, t, fromModel);
                 bullet.SetRate(speed);
                 bullet.SetSourceModel(fromModel);
+
                 bullet.SetDestinationModel(MainContent.PlayerShip);
                 MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromSourcetModel());
                 MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetAngleFromDestinationModel());

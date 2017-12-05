@@ -19,7 +19,6 @@ namespace bullethell.Models.Firing.FiringPatterns
         }
 
         public override AbstractFiringPattern Exec() {
-            int angle;
             Random rand = new Random();
             for (double i = start; i < stop; i += 1 / firingrate){
 

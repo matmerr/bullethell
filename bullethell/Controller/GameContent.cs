@@ -45,7 +45,7 @@ namespace bullethell.Controller {
 
 
         // Notable Players
-        private PlayerModel playerShip;
+        public PlayerModel PlayerShip;
 
         // List of non important Enemies and or bullets
         private List<EnemyModel> enemyShipList;
@@ -58,7 +58,7 @@ namespace bullethell.Controller {
         private GameEvents events;
         public GameEvents Events => events;
 
-        public PlayerModel PlayerShip => playerShip;
+
         public List<EnemyModel> EnemyShipList => enemyShipList;
         public List<BulletModel> GoodBulletList => goodBulletList;
         public List<BulletModel> EnemyBulletList => enemyBulletList;
@@ -89,7 +89,7 @@ namespace bullethell.Controller {
         // to lists
         public void InitializeModels(Rectangle viewport) {
             // set starting player point
-            playerShip = modelFactory.BuildPlayerModel(viewport.Width/2, 7*(viewport.Height/8));
+            PlayerShip = modelFactory.BuildPlayerModel(viewport.Width/2, 7*(viewport.Height/8));
         }
 
         // give an enemy a time to live, with a tag

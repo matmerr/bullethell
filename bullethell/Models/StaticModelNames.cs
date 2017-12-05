@@ -18,11 +18,13 @@ namespace bullethell.Models {
         public const string Spray = "Spray";
         public const string SingleFire = "SingleFire";
         public const string MultipleFire = "MultipleFire";
+        public const string Cone = "Cone";
         public const string Orbit = "Orbit";
         public const string FireAtPoint = "FireAtPoint";
         public const string Laser = "Laser";
         public const string Photon = "Photon";
         public const string Berserk = "Berserk";
+
     }
 
     static class TextureNames {
@@ -41,6 +43,7 @@ namespace bullethell.Models {
         public const string BaddieDie4 = "BaddieDie4";
         public const string BaddieDie5 = "BaddieDie5";
         public const string LaserBullet = "LaserBullet";
+        public const string Invisible = "Invisible";
     }
 
     // use this to avoid confusion in the Move method

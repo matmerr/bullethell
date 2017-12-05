@@ -167,23 +167,23 @@ namespace bullethell.Controller {
 
         public void DrawTinyExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1,currTime, currTime + .2, collisionPoint, "tiny");
         }
 
         public void DrawMediumExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
-            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, TextureNames.BaddieDie2);
-            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, TextureNames.BaddieDie3);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1, currTime, currTime + .2, collisionPoint,  "med");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie2, currTime + .2, currTime + .4, collisionPoint,"med");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie3, currTime + .4, currTime + .6, collisionPoint, "med");
         }
 
         public void DrawBigExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
-            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, TextureNames.BaddieDie2);
-            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, TextureNames.BaddieDie3);
-            modelFactory.BuildGenericModel(currTime + .6, currTime + .8, collisionPoint, TextureNames.BaddieDie4);
-            modelFactory.BuildGenericModel(currTime + .8, currTime + 1, collisionPoint, TextureNames.BaddieDie5);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1,currTime, currTime + .2, collisionPoint,"big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie2, currTime + .2, currTime + .4, collisionPoint, "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie3, currTime + .4, currTime + .6, collisionPoint,  "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie4, currTime + .6, currTime + .8, collisionPoint,  "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie5, currTime + .8, currTime + 1, collisionPoint,  "big");
 
         }
 

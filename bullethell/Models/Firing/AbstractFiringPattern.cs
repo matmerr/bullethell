@@ -26,7 +26,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     chainedPattern.SetReferences(e.model, ref MainContent);
                 } else {
                     chainedPattern.SetReferences(e.model, ref MainContent);
-                    chainedPattern.SetTimeWindow(start + 1, stop);
+                    chainedPattern.SetTimeWindow(start, stop);
                 }
                 chainedPattern.Exec();
             }

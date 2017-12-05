@@ -9,7 +9,6 @@ using bullethell.Controller;
 namespace bullethell.Models.Firing.FiringPatterns {
     class OrbitFiringPattern : AbstractFiringPattern {
 
-
         private int density = 360/6;
         private double radius = 50;
 
@@ -38,7 +37,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
                 scheduledEvents.Add(new GameEvents.Event(start, stop, bullet));
             }
-
             return this;
         }
     }

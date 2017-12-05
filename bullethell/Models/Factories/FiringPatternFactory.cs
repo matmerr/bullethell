@@ -35,8 +35,7 @@ namespace bullethell.Models.Factories {
                 return new SingleBulletFiringPattern();
             }
 
-            if (type == FiringPatternNames.MultipleFire)
-            {
+            if (type == FiringPatternNames.MultipleFire){
                 return new MultipleBulletFiringPattern();
             }
 
@@ -50,6 +49,10 @@ namespace bullethell.Models.Factories {
 
             if (type == FiringPatternNames.Berserk){
                 return new BerserkFiringPattern();
+            }
+
+            if (type == FiringPatternNames.Cone) {
+                return new ConeFiringPattern();
             }
 
 

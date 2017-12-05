@@ -1,4 +1,5 @@
 ﻿using bullethell.Controller;
+
 using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Factories {
@@ -29,6 +30,9 @@ namespace bullethell.Models.Factories {
         public PlayerModel BuildPlayerModel(int x, int y) {
             return new PlayerModel(x, y, 3, MainContent.Textures[TextureNames.PlayerShip]);
         }
+
+
+
 
         // Enemy model factories
         public EnemyModel BuildEnemyModel(string texture, double startTime, double stopTime, Point startPosition) {
@@ -74,9 +78,9 @@ namespace bullethell.Models.Factories {
             return mainbm;
         }
 
-        public BaseModel BuildGenericModel(double startTime, double stopTime, Point position, string textureName) {
-            var bm = new BaseModel(position, 3, MainContent.Textures[textureName]);
-            TimeToLiveTagged(startTime, stopTime, bm, bm);
+        public BaseModel BuildGenericModel(string texture, double startTime, double stopTime, Point position, object tag) {
+            var bm = new BaseModel(position, 3, MainContent.Textures[texture]);
+            TimeToLiveTagged(startTime, stopTime,tag, bm);
             bm.SetLifespan(startTime, stopTime);
             return bm;
         }
@@ -99,7 +103,7 @@ namespace bullethell.Models.Factories {
                     () => MainContent.EnemyShipList.Add(enemyModel));
                 MainContent.Events.AddSingleTaggedEvent(endLife, tag,
                     () => MainContent.EnemyShipList.Remove(enemyModel));
-            }
+            } 
             else if (model is BulletModel bullet) {
                 if (bullet.Texture == MainContent.Textures[TextureNames.GoodBullet]) {
                     MainContent.Events.AddSingleTaggedEvent(startLife, tag,
