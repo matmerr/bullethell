@@ -904,6 +904,32 @@
     </move>
     <firingpattern type="FireAtPoint" start="73" stop="76"></firingpattern>
   </enemy>
-
+  
+  
+  <!--Different midboss-->
+  
+  
+  <enemy type="MidBoss" startlife="78" endlife="150" x="400" y ="0" speed ="6">
+    <move type="MoveToFixedPoint" start="55" stop="58">
+      <options>
+        <x>800</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="58" stop="65">
+      <options>
+        <x>600</x>
+        <y>250</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="65" stop="100">
+      <options>
+        <x>700</x>
+        <y>-50</y>
+      </options>
+    </move>
+    <firingpattern type="Spray" start="58" stop="61"></firingpattern>
+    <firingpattern type="Spray" start="63" stop="66"></firingpattern>
+  </enemy>
 
 </root>
