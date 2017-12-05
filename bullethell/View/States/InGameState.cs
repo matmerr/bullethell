@@ -144,8 +144,8 @@ namespace bullethell.View {
             foreach (EnemyModel enemy in MainContent.EnemyShipList.ToList()) {
                 if (MainContent.RemoveIfOffScreen(enemy) == false) {
                     if (MainContent.IsColliding(enemy, MainContent.PlayerShip)) {
-                        MainContent.PlayerShip.TakeDamage();
-                        enemy.TakeDamage();
+                        MainContent.PlayerShip.TakeDamage(enemy);
+                        enemy.TakeDamage(MainContent.PlayerShip);
                         if (enemy.IsDead()) {
                             Stats.EnemyDestroyed();
                             MainContent.RemoveEnemy(enemy);
@@ -157,7 +157,7 @@ namespace bullethell.View {
                         if (MainContent.IsColliding(enemy, goodBullet)) {
                             MainContent.GoodBulletList.Remove(goodBullet);
                             MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
-                            enemy.TakeDamage();
+                            enemy.TakeDamage(goodBullet);
                             if (enemy.IsDead()) {
                                 Stats.EnemyDestroyed();
                                 MainContent.RemoveEnemy(enemy);
@@ -202,7 +202,7 @@ namespace bullethell.View {
 
                 // "Check the enemey bullet to see if it is colliding with player"
                 if (MainContent.IsColliding(enemyBullet, MainContent.PlayerShip)) {
-                    MainContent.PlayerShip.TakeDamage();
+                    MainContent.PlayerShip.TakeDamage(enemyBullet);
                     MainContent.EnemyBulletList.Remove(enemyBullet);
                     MainContent.Events.RemoveTaggedEvents(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);

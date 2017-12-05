@@ -40,7 +40,9 @@ namespace bullethell.Models {
         //protected Point dimensions;
 
         // we need to keep track of 
-        
+        protected double damage = 1;
+
+        public double Damage => damage;
 
         // speed at which the xPos or yPos change
         protected double rate;
@@ -135,6 +137,10 @@ namespace bullethell.Models {
         // toggle a multiplier for rate
         public void ToggleRate(int factor) {
             rate = (rate == startingRate) ? rate * factor : startingRate;
+        }
+
+        public void SetDamage(double d) {
+            this.damage = d;
         }
 
         public void SetRate(double rate) {

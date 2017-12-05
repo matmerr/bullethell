@@ -90,6 +90,7 @@ namespace bullethell.Controller {
                         if (xxel.Element("options") != null) {
                             var options = xxel.Element("options");
                             firingPattern.WithOptions(options);
+                            firingPattern.WithCoreOptions(options);
                         }
 
                         // get the base firing pattern

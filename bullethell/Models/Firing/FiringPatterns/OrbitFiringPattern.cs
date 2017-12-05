@@ -21,9 +21,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
             if (options != null) {
                 density = options.Element("density") != null ? (360 / Int32.Parse(options.Element("density").Value)) : density;
                 radius = options.Element("radius") != null ? (Double.Parse(options.Element("radius").Value)) : radius;
-                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
-                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
-                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 

@@ -21,6 +21,7 @@ namespace bullethell.Models {
         public const string FireAtPoint = "FireAtPoint";
         public const string Laser = "Laser";
         public const string Photon = "Photon";
+        public const string Berserk = "Berserk";
     }
 
     static class TextureNames {

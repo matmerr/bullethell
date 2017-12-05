@@ -39,6 +39,10 @@ namespace bullethell.Models.Factories {
                 return new PhotonFiringPattern();
             }
 
+            if (type == FiringPatternNames.Berserk){
+                return new BerserkFiringPattern();
+            }
+
             return null;
         }
     }
