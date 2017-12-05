@@ -55,6 +55,7 @@
     <Compile Include="Models\Firing\FiringPatterns\CircleFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\LaserFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\FireAtPointPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\MultipleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\OrbitFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\PhotonFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SingleBulletFiringPattern.cs" />

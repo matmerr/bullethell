@@ -31,6 +31,15 @@ namespace bullethell.Models.Factories {
                 return new FireAtPointPattern();
             }
 
+            if (type == FiringPatternNames.SingleFire) {
+                return new SingleBulletFiringPattern();
+            }
+
+            if (type == FiringPatternNames.MultipleFire)
+            {
+                return new MultipleBulletFiringPattern();
+            }
+
             if (type == FiringPatternNames.Laser) {
                 return new LaserFiringPattern();
             }
@@ -42,6 +51,7 @@ namespace bullethell.Models.Factories {
             if (type == FiringPatternNames.Berserk){
                 return new BerserkFiringPattern();
             }
+
 
             return null;
         }

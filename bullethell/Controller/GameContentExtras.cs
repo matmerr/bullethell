@@ -28,6 +28,7 @@ namespace bullethell.Controller {
                 if (xel.Element("options") != null) {
                     var options = xel.Element("options");
                     newFiringPattern.WithOptions(options);
+                    newFiringPattern.WithCoreOptions(options);
                 }
                 firingPattern.And(newFiringPattern);
 

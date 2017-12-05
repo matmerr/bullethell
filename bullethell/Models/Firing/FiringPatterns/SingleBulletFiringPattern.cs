@@ -17,8 +17,10 @@ namespace bullethell.Models.Firing.FiringPatterns {
         }
 
         public override void WithOptions(XElement options) {
-            // currently no options for SingleBulletFiringPattern
-            firingrate = .5;
+            if (options != null)
+            {
+                angle = options.Element("angle") != null ? (360 / Int32.Parse(options.Element("angle").Value)) : angle;
+            }
         }
 
         public override AbstractFiringPattern Exec() {

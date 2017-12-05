@@ -1,20 +1,39 @@
 <root>
-  <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
-    <move type="MoveToFixedPoint" start="0" stop="10">
-      <options>
-        <x>200</x>
-        <y>400</y>
-      </options>
-    </move>
-    <firingpattern type="Circle" start="0" stop="10">
-      <options>
-        <speed>30</speed>
-        <firingrate> 100 </firingrate>
-        <damage> 1000 </damage>
-      </options>
-    </firingpattern>
-    
-  </enemy>
- 
-  
+    <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
+        <move type="MoveToFixedPoint" start="0" stop="10">
+            <options>
+                <x>200</x>
+                <y>400</y>
+            </options>
+        </move>
+        <firingpattern type="MultipleFire" start=".15" stop=".75">
+            <options>
+                <firingrate> 4 </firingrate>
+            </options>
+        </firingpattern>
+        <firingpattern type="Orbit" start="0" stop="10">
+            <firingpattern type="MultipleFire" start=".3" stop=".75">
+                <options>
+                    <firingrate> 4 </firingrate>
+                </options>
+            </firingpattern>
+            <options>
+                <density> 2 </density>
+                <radius> 20 </radius>
+                <speed>0</speed>
+            </options>
+        </firingpattern>
+        <firingpattern type="Orbit" start="0" stop="10">
+            <options>
+                <density> 2 </density>
+                <radius> 40 </radius>
+                <speed> 0 </speed>
+            </options>
+            <firingpattern type="MultipleFire" start=".45" stop=".75">
+                <options>
+                    <firingrate> 4 </firingrate>
+                </options>
+            </firingpattern>
+        </firingpattern>
+    </enemy>
 </root>
