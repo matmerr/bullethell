@@ -26,10 +26,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
                         j + bulletLife, fromModel.GetLocation(), fromModel);
                     bullet.SetSourceModel(fromModel);
                     bullet.SetRate(speed);
-                    bullet.SetLinearTravelAngle(angle);
+                    bullet.SetDestinationModel(MainContent.PlayerShip);
                     MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetLocationFromSourcetModel());
-                    MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel,
-                        () => bullet.MoveLinearAngle());
+                    MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetAngleFromDestinationModel());
+                    MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet.MoveLinearAngle());
+
 
                     scheduledEvents.Add(new GameEvents.Event(start + .5, stop, bullet));
                 }
@@ -59,11 +60,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
                             j + bulletLife, pointBlankModel1.GetLocation(), fromModel);
                         bullet.SetSourceModel(pointBlankModel1);
                         bullet.SetRate(speed);
-                        bullet.SetLinearTravelAngle(angle);
-                        MainContent.Events.AddSingleTaggedEvent(j, fromModel,
-                            () => bullet.SetLocationFromSourcetModel());
-                        MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel,
-                            () => bullet.MoveLinearAngle());
+                        bullet.SetDestinationModel(MainContent.PlayerShip);
+                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetLocationFromSourcetModel());
+                        MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetAngleFromDestinationModel());
+                        MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet.MoveLinearAngle());
+
 
                         scheduledEvents.Add(new GameEvents.Event(start + .5, stop, bullet));
                         j += 1 / firingrate;
@@ -91,10 +92,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     j + bulletLife, pointBlankModel2.GetLocation(), fromModel);
                 bullet.SetSourceModel(pointBlankModel2);
                 bullet.SetRate(speed);
-                bullet.SetLinearTravelAngle(angle);
+                bullet.SetDestinationModel(MainContent.PlayerShip);
                 MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetLocationFromSourcetModel());
-                MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel,
-                    () => bullet.MoveLinearAngle());
+                MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetAngleFromDestinationModel());
+                MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet.MoveLinearAngle());
+
 
                 scheduledEvents.Add(new GameEvents.Event(start + .5, stop, bullet));
 
@@ -118,10 +120,11 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     j + bulletLife, pointBlankModel3.GetLocation(), fromModel);
                 bullet.SetSourceModel(pointBlankModel3);
                 bullet.SetRate(speed);
-                bullet.SetLinearTravelAngle(angle);
+                bullet.SetDestinationModel(MainContent.PlayerShip);
                 MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetLocationFromSourcetModel());
-                MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel,
-                    () => bullet.MoveLinearAngle());
+                MainContent.Events.AddSingleTaggedEvent(j, fromModel, () => bullet.SetAngleFromDestinationModel());
+                MainContent.Events.AddScheduledTaggedEvent(j, j + bulletLife, fromModel, () => bullet.MoveLinearAngle());
+
 
                 scheduledEvents.Add(new GameEvents.Event(start + .5, stop, bullet));
 
