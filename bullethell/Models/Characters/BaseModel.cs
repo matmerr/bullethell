@@ -278,10 +278,21 @@ namespace bullethell.Models {
             orbitRadius = radius;
         }
 
+        public double GetOrbitRadius() {
+            return this.orbitRadius;
+        }
+
         public void SetOrbitSpeed(double speed) {
             orbitSpeed = speed;
         }
-        
+
+        public void IncrementOrbitRadius() {
+            orbitRadius += rate;
+        }
+
+        public void DecrementOrbitRadius() {
+            orbitRadius -= rate;
+        }
 
         public void MoveOrbit() {
             orbitAngle += orbitSpeed;

@@ -55,6 +55,10 @@ namespace bullethell.Models.Factories {
                 return new ConeFiringPattern();
             }
 
+            if (type == FiringPatternNames.Inward){
+                return new InwardCircleFiringPattern();
+            }
+
 
             return null;
         }
