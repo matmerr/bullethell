@@ -1,58 +1,31 @@
 <root>
-<<<<<<< HEAD
-  <enemy type="Baddie1A" startlife="0" endlife="10" x="600" y="600">
-
-    <firingpattern type="Orbit" start="0" stop="10">
+  <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
+    <move type="MoveToFixedPoint" start="0" stop="3">
       <options>
-        <density>6</density>
-        <speed>3</speed>
-        <radius>200</radius>
+        <x>200</x>
+        <y>400</y>
       </options>
-
-      <firingpattern type="Orbit" start="0" stop="10">
+    </move>
+    <move type="MoveToFixedPoint" start="3" stop="6">
+      <options>
+        <speed> 10 </speed>
+        <x>0</x>
+        <y>0</y>
+      </options>
+    </move>
+    <firingpattern type="Inward" start="0" stop="10">
+      <options>
+        <density> 4 </density>
+        <firingrate> 10 </firingrate>
+        <speed> 2.5 </speed>
+      </options>
+      <firingpattern type="Inward" start="5" stop="10">
         <options>
-          <density>6</density>
-          <speed>3</speed>
-          <radius>50</radius>
+          <density> 4 </density>
+          <firingrate> 10 </firingrate>
+          <speed> -2.5 </speed>
         </options>
       </firingpattern>
     </firingpattern>
   </enemy>
-  
-=======
-    <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
-        <move type="MoveToFixedPoint" start="0" stop="3">
-            <options>
-                <x>200</x>
-                <y>400</y>
-            </options>
-        </move>
-      <move type="MoveToFixedPoint" start="3" stop="6">
-        <options>
-          
-          <speed> 10 </speed>
-          <x>0</x>
-          <y>0</y>
-        </options>
-      </move>
-        <firingpattern type="Inward" start="0" stop="10">
-            <options>
-              <density> 4 </density>
-              <firingrate> 10 </firingrate>
-              <speed> 2.5 </speed>
-            </options>
-          <firingpattern type="Inward" start="5" stop="10">
-            <options>
-              <density> 4 </density>
-              <firingrate> 10 </firingrate>
-              <speed> -2.5 </speed>
-            </options>
-          </firingpattern>
-        </firingpattern>
-      
-        
-    
-        
-    </enemy>
->>>>>>> jomar
 </root>
