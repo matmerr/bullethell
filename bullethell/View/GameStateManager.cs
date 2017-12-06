@@ -47,7 +47,10 @@ namespace bullethell.View {
         }
 
         public void UnloadContent() {
-            Screens.Peek()?.UnloadContent();
+            if (Screens.Count > 0) {
+                Screens.Peek()?.UnloadContent();
+            }
+
         }
     }
 }

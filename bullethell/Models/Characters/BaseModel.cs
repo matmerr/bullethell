@@ -40,7 +40,9 @@ namespace bullethell.Models {
         //protected Point dimensions;
 
         // we need to keep track of 
-        
+        protected double damage = 1;
+
+        public double Damage => damage;
 
         // speed at which the xPos or yPos change
         protected double rate;
@@ -66,6 +68,13 @@ namespace bullethell.Models {
         protected string name;
         public string Name => name;
         
+
+        // orbit firing pattern, delete bullets
+        public int Tag = 0;
+
+        public void SetTag(int t) {
+            this.Tag = t;
+        }
 
         // the when we toggle up a rate, we have the start rate saved
         protected double startingRate;
@@ -135,6 +144,10 @@ namespace bullethell.Models {
         // toggle a multiplier for rate
         public void ToggleRate(int factor) {
             rate = (rate == startingRate) ? rate * factor : startingRate;
+        }
+
+        public void SetDamage(double d) {
+            this.damage = d;
         }
 
         public void SetRate(double rate) {
@@ -272,10 +285,21 @@ namespace bullethell.Models {
             orbitRadius = radius;
         }
 
+        public double GetOrbitRadius() {
+            return this.orbitRadius;
+        }
+
         public void SetOrbitSpeed(double speed) {
             orbitSpeed = speed;
         }
-        
+
+        public void IncrementOrbitRadius() {
+            orbitRadius += rate;
+        }
+
+        public void DecrementOrbitRadius() {
+            orbitRadius -= rate;
+        }
 
         public void MoveOrbit() {
             orbitAngle += orbitSpeed;
