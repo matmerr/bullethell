@@ -1,4 +1,5 @@
 <root>
+<<<<<<< HEAD
   <enemy type="Baddie1A" startlife="0" endlife="10" x="600" y="600">
 
     <firingpattern type="Orbit" start="0" stop="10">
@@ -18,4 +19,40 @@
     </firingpattern>
   </enemy>
   
+=======
+    <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
+        <move type="MoveToFixedPoint" start="0" stop="3">
+            <options>
+                <x>200</x>
+                <y>400</y>
+            </options>
+        </move>
+      <move type="MoveToFixedPoint" start="3" stop="6">
+        <options>
+          
+          <speed> 10 </speed>
+          <x>0</x>
+          <y>0</y>
+        </options>
+      </move>
+        <firingpattern type="Inward" start="0" stop="10">
+            <options>
+              <density> 4 </density>
+              <firingrate> 10 </firingrate>
+              <speed> 2.5 </speed>
+            </options>
+          <firingpattern type="Inward" start="5" stop="10">
+            <options>
+              <density> 4 </density>
+              <firingrate> 10 </firingrate>
+              <speed> -2.5 </speed>
+            </options>
+          </firingpattern>
+        </firingpattern>
+      
+        
+    
+        
+    </enemy>
+>>>>>>> jomar
 </root>

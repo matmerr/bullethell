@@ -25,9 +25,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
             if (options != null) {
                 spokes = options.Element("spokes") != null ? Int32.Parse(options.Element("spokes").Value) : spokes;
                 direction = options.Element("direction") != null ? Int32.Parse(options.Element("direction").Value) : direction;
-                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
-                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
-                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 

@@ -14,9 +14,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
         public override void WithOptions(XElement options) {
             if (options != null) {
                 density = options.Element("density") != null ? (360 / Int32.Parse(options.Element("density").Value)) : density;
-                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
-                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
-                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 
@@ -30,6 +27,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     bullet.SetLinearTravelAngle(j);
                     bullet.SetSourceModel(fromModel);
                     bullet.SetRate(speed);
+                    bullet.SetDamage(damage);
                     MainContent.Events.AddSingleTaggedEvent(i, fromModel, () => bullet.SetLocationFromSourcetModel());
                     MainContent.Events.AddScheduledTaggedEvent(i, i + bulletLife, fromModel, () => bullet.MoveLinearAngle());
                     

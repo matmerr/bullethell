@@ -51,9 +51,13 @@
     <Compile Include="Models\Factories\MovePatternFactory.cs" />
     <Compile Include="Models\Firing\FiringPatternControllerModel.cs" />
     <Compile Include="Models\Firing\AbstractFiringPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\BerserkFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\CircleFiringPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\ConeFiringPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\InwardCircleFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\LaserFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\FireAtPointPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\MultipleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\OrbitFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\PhotonFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\SingleBulletFiringPattern.cs" />
@@ -106,6 +110,7 @@
     <Content Include="Content\goodMissile.png" />
     <Content Include="Content\midBoss.png" />
     <Content Include="Content\ship.png" />
+    <Content Include="XML Scripts\cone.xml" />
     <Content Include="XML Scripts\demo.xml">
       <SubType>Designer</SubType>
     </Content>

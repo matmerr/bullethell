@@ -22,9 +22,6 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 startDegree = options.Element("startdegree") != null ? Double.Parse(options.Element("startdegree").Value) : startDegree;
                 min = options.Element("mindegree") != null ? Double.Parse(options.Element("mindegree").Value) : min;
                 max = options.Element("maxdegree") != null ? Double.Parse(options.Element("maxdegree").Value) : max;
-                speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
-                firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
-                texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
             }
         }
 
