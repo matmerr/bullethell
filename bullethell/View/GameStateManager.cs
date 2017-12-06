@@ -25,8 +25,7 @@ namespace bullethell.View {
             Screens.Push(st);
         }
 
-        public void 
-            State() {
+        public void RemoveState() {
 
         }
 

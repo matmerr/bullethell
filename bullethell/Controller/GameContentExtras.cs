@@ -140,7 +140,14 @@ namespace bullethell.Controller {
             DrawEnemyExplosion(enemy);
         }
 
-        public List<BulletModel> RemoveBullet(int tag) {
+        public void RemoveBullet(BulletModel bullet) {
+            EnemyBulletList.Remove(bullet);
+            Events.RemoveFutureTaggedEvents(bullet);
+            Events.RemoveAllTaggedEvents(bullet.GetHashCode() + "static".GetHashCode());
+            enemyBulletList = EnemyBulletList.Except(RemoveBullet(bullet.GetHashCode() + "static".GetHashCode())).ToList();
+        }
+
+        private List<BulletModel> RemoveBullet(int tag) {
             List<BulletModel> bs = EnemyBulletList.FindAll(e => e.Tag == tag);
             if (bs.Count > 0) {
                 foreach (BulletModel bm in bs.ToList()) {

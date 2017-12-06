@@ -193,7 +193,7 @@ namespace bullethell.View {
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemyBullet, goodBullet)) {
                         MainContent.GoodBulletList.Remove(goodBullet);
-                        MainContent.RemoveBullet(enemyBullet.GetHashCode());
+                        MainContent.RemoveBullet(enemyBullet);
                         MainContent.Events.RemoveFutureTaggedEvents(enemyBullet);
                         // draw explosions lol
                         MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemyBullet, goodBullet));
@@ -203,7 +203,7 @@ namespace bullethell.View {
                 // "Check the enemey bullet to see if it is colliding with player"
                 if (MainContent.IsColliding(enemyBullet, MainContent.PlayerShip)) {
                     MainContent.PlayerShip.TakeDamage();
-                    MainContent.RemoveBullet(enemyBullet.GetHashCode());
+                    MainContent.RemoveBullet(enemyBullet);
                     MainContent.Events.RemoveFutureTaggedEvents(enemyBullet);
                     Point collisionPoint = MainContent.CollisionPoint(enemyBullet, MainContent.PlayerShip);
                     MainContent.DrawTinyExplosion(collisionPoint);
