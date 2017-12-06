@@ -53,6 +53,8 @@ namespace bullethell.Controller {
         private DateTime startTime;
         private List<Event> eventTimesList;
 
+        public List<Event>EventList => eventTimesList;
+
 
         public Timer Clock => clock;
 
@@ -80,8 +82,11 @@ namespace bullethell.Controller {
             eventTimesList.Add(tempEvent);
         }
 
-        public void RemoveTaggedEvents(object tag) {
+        public void RemoveFutureTaggedEvents(object tag) {
             eventTimesList.RemoveAll(e => e.Tag == tag.GetHashCode() && e.StartTime > TimeElapsed());
+        }
+        public void RemoveAllTaggedEvents(object tag) {
+            eventTimesList.RemoveAll(e => e.Tag == tag.GetHashCode());
         }
 
         // add a tuple event to the list of actions

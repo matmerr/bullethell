@@ -35,7 +35,8 @@ namespace bullethell.Models.Firing.FiringPatterns {
                 bullet.SetOrbitRadius(radius);
                 bullet.SetSourceModel(fromModel);
                 bullet.SetOrbitSpeed(speed);
-                double tag = fromModel.GetHashCode() + "orbit".GetHashCode();
+                int tag = fromModel.GetHashCode() + "static".GetHashCode();
+                bullet.SetTag(tag);
                 MainContent.Events.AddScheduledTaggedEvent(start, stop, tag, () => bullet.MoveOrbit());
                 i += density;
 

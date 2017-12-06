@@ -67,6 +67,13 @@ namespace bullethell.Models {
         public string Name => name;
         
 
+        // orbit firing pattern, delete bullets
+        public int Tag = 0;
+
+        public void SetTag(int t) {
+            this.Tag = t;
+        }
+
         // the when we toggle up a rate, we have the start rate saved
         protected double startingRate;
 

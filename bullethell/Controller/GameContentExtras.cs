@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
 using bullethell.Models;
 using bullethell.Models.Factories;
@@ -132,21 +134,33 @@ namespace bullethell.Controller {
 
         public void RemoveEnemy(EnemyModel enemy) {
             EnemyShipList.Remove(enemy);
-            Events.RemoveTaggedEvents(enemy);
+            Events.RemoveFutureTaggedEvents(enemy);
+            Events.RemoveAllTaggedEvents(enemy.GetHashCode()+"static".GetHashCode());
+            enemyBulletList = EnemyBulletList.Except(RemoveBullet(enemy.GetHashCode() + "static".GetHashCode())).ToList();
             DrawEnemyExplosion(enemy);
+        }
+
+        public List<BulletModel> RemoveBullet(int tag) {
+            List<BulletModel> bs = EnemyBulletList.FindAll(e => e.Tag == tag);
+            if (bs.Count > 0) {
+                foreach (BulletModel bm in bs.ToList()) {
+                    bs.AddRange(RemoveBullet(bm.GetHashCode() + "static".GetHashCode()));
+                }
+                
+            }
+            return bs.ToList();
         }
 
         public bool RemoveIfOffScreen(BaseModel model) {
             if (!viewport.Contains(model.GetLocation())) {
                 if (model is EnemyModel em) {
-                    EnemyShipList.Remove(em);
-                    Events.RemoveTaggedEvents(em);
+                    RemoveEnemy(em);
                 } else if (model is BulletModel bm) {
-                    EnemyBulletList.Remove(bm);
-                    Events.RemoveTaggedEvents(bm);
+                    RemoveBullet(bm.GetHashCode());
+                    Events.RemoveFutureTaggedEvents(bm);
                 } else {
                     MiscModelList.Remove(model);
-                    Events.RemoveTaggedEvents(model);
+                    Events.RemoveFutureTaggedEvents(model);
                 }
                 return true;
             }

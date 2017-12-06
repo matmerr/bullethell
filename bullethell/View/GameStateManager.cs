@@ -25,7 +25,8 @@ namespace bullethell.View {
             Screens.Push(st);
         }
 
-        public void RemoveState() {
+        public void 
+            State() {
 
         }
 
@@ -47,7 +48,10 @@ namespace bullethell.View {
         }
 
         public void UnloadContent() {
-            Screens.Peek()?.UnloadContent();
+            if (Screens.Count > 0) {
+                Screens.Peek()?.UnloadContent();
+            }
+
         }
     }
 }
