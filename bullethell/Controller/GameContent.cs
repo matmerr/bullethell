@@ -52,6 +52,7 @@ namespace bullethell.Controller {
         private List<BulletModel> enemyBulletList;
         private List<BulletModel> goodBulletList;
         private List<BaseModel> miscModelList;
+        private List<BaseModel> powerUpList;
 
 
         // field encapsulation so we don't accidentally change stuff outside of this class
