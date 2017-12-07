@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace bullethell.View
 {
@@ -63,8 +64,9 @@ namespace bullethell.View
             {
                 MainContent = null;
             }
-            else
-            {
+            else {
+                Song song = Content.Load<Song>("music");
+                MediaPlayer.Play(song);
                 MainContent.Start();
             }
 

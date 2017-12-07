@@ -272,3 +272,9 @@
 /processorParam:TextureFormat=Color
 /build:invisible.png
 
+#begin music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music.mp3
+
