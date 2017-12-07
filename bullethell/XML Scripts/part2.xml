@@ -129,13 +129,12 @@
     <firingpattern type="Arrow" start="21" stop="23"></firingpattern>
     <firingpattern type="Arrow" start="23" stop="27"></firingpattern>
     <firingpattern type="Arrow" start="25" stop="29"></firingpattern>
-    <firingpattern type="Arrow" start="27" stop="32"></firingpattern>
   </enemy>
   
   
   <!--Midbosses-->
 
-  
+
   <enemy type="MidBoss" startlife="20" endlife="100" x="600" y ="0" speed ="4">
     <move type="MoveToFixedPoint" start="20" stop="23">
       <options>
@@ -149,8 +148,10 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="21" stop="23"></firingpattern>
+    <firingpattern type="Arrow" start="23" stop="27"></firingpattern>
+    <firingpattern type="Arrow" start="25" stop="29"></firingpattern>
   </enemy>
-  
   
   <!--Suiciders-->
 
@@ -283,6 +284,9 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="36" stop="38"></firingpattern>
+    <firingpattern type="Arrow" start="38" stop="40"></firingpattern>
+    <firingpattern type="Arrow" start="40" stop="42"></firingpattern>
   </enemy>
 
 
@@ -302,6 +306,9 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="36" stop="38"></firingpattern>
+    <firingpattern type="Arrow" start="38" stop="40"></firingpattern>
+    <firingpattern type="Arrow" start="40" stop="42"></firingpattern>
   </enemy>
   
   
