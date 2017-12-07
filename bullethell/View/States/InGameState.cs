@@ -53,6 +53,7 @@ namespace bullethell.View
                 { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") },
                 { TextureNames.LaserBullet, Content.Load<Texture2D>("laser") },
                 { TextureNames.Invisible, Content.Load<Texture2D>("invisible") },
+                { TextureNames.Bomb, Content.Load<Texture2D>("bomb") }
             };
 
 

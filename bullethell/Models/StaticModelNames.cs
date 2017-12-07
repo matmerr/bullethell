@@ -45,6 +45,7 @@ namespace bullethell.Models {
         public const string BaddieDie5 = "BaddieDie5";
         public const string LaserBullet = "LaserBullet";
         public const string Invisible = "Invisible";
+        public const string Bomb = "Bomb";
     }
 
     // use this to avoid confusion in the Move method
