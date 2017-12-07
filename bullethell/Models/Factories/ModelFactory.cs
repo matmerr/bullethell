@@ -118,6 +118,10 @@ namespace bullethell.Models.Factories {
                         () => MainContent.EnemyBulletList.Remove((BulletModel) model));
                 }
             }
+            else if(model.Texture == MainContent.Textures[TextureNames.Bomb])
+            {
+                MainContent.PowerUpList.Add(model);
+            }
             else {
                 MainContent.Events.AddSingleEvent(startLife, () => MainContent.MiscModelList.Add(model));
                 MainContent.Events.AddSingleEvent(endLife, () => MainContent.MiscModelList.Remove(model));

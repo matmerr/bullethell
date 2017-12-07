@@ -112,7 +112,7 @@ namespace bullethell.View
             {
                 direction += 8;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            if (OldKeyboardState.IsKeyUp(Keys.B) && Keyboard.GetState().IsKeyDown(Keys.B))
             {
                 if(MainContent.PlayerShip.getBombs() > 0)
                 {
@@ -205,6 +205,13 @@ namespace bullethell.View
                             enemy.TakeDamage(goodBullet);
                             if (enemy.IsDead())
                             {
+                                //Maybe drop bomb
+                                Random r = new Random();
+                                if(r.Next() % 5 == 0)
+                                {
+                                    MainContent.ModelFactory.BuildGenericModel(TextureNames.Bomb, MainContent.Events.TimeElapsed(),
+                                        MainContent.Events.TimeElapsed() + 10, enemy.GetLocation(), 0);
+                                }
                                 Stats.EnemyDestroyed();
                                 MainContent.RemoveEnemy(enemy);
                             }
@@ -233,6 +240,22 @@ namespace bullethell.View
                     new Rectangle(0, 0, bm.Texture.Height, bm.Texture.Height), Color.White, bm.Rotation,
                     new Point(0, 0).ToVector2(), bm.Scale, SpriteEffects.None, 1.0f);
 
+            }
+
+            foreach (BaseModel bm in MainContent.PowerUpList)
+            {
+                spriteBatch.Draw(bm.Texture, bm.DrawingLocationVector,
+                    new Rectangle(0, 0, bm.Texture.Height, bm.Texture.Height), Color.White, bm.Rotation,
+                    new Point(0, 0).ToVector2(), bm.Scale, SpriteEffects.None, 1.0f);
+            }
+
+            foreach (BaseModel pu in MainContent.PowerUpList.ToList())
+            {
+                if (MainContent.IsColliding(MainContent.PlayerShip, pu))
+                {
+                    MainContent.PowerUpList.Remove(pu);
+                    MainContent.PlayerShip.addBomb();
+                }
             }
 
             foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList())

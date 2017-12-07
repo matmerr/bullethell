@@ -64,6 +64,7 @@ namespace bullethell.Controller {
         public List<BulletModel> GoodBulletList => goodBulletList;
         public List<BulletModel> EnemyBulletList => enemyBulletList;
         public List<BaseModel> MiscModelList => miscModelList;
+        public List<BaseModel> PowerUpList => powerUpList;
 
         // constructor
         public GameContent(Dictionary<string,Texture2D> textures) {
@@ -83,6 +84,7 @@ namespace bullethell.Controller {
             enemyBulletList = new List<BulletModel>();
             goodBulletList = new List<BulletModel>();
             miscModelList = new List<BaseModel>();
+            powerUpList = new List<BaseModel>();
         }
 
 
@@ -100,6 +102,7 @@ namespace bullethell.Controller {
             miscModelList.Clear();
             enemyBulletList.Clear();
             goodBulletList.Clear();
+            powerUpList.Clear();
         }
 
         public void Start() {
