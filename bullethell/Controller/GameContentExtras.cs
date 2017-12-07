@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
 using bullethell.Models;
 using bullethell.Models.Factories;
@@ -28,6 +30,7 @@ namespace bullethell.Controller {
                 if (xel.Element("options") != null) {
                     var options = xel.Element("options");
                     newFiringPattern.WithOptions(options);
+                    newFiringPattern.WithCoreOptions(options);
                 }
                 firingPattern.And(newFiringPattern);
 
@@ -90,6 +93,7 @@ namespace bullethell.Controller {
                         if (xxel.Element("options") != null) {
                             var options = xxel.Element("options");
                             firingPattern.WithOptions(options);
+                            firingPattern.WithCoreOptions(options);
                         }
 
                         // get the base firing pattern
@@ -132,21 +136,40 @@ namespace bullethell.Controller {
 
         public void RemoveEnemy(EnemyModel enemy) {
             EnemyShipList.Remove(enemy);
-            Events.RemoveTaggedEvents(enemy);
+            Events.RemoveFutureTaggedEvents(enemy);
+            Events.RemoveAllTaggedEvents(enemy.GetHashCode()+"static".GetHashCode());
+            enemyBulletList = EnemyBulletList.Except(RemoveBullet(enemy.GetHashCode() + "static".GetHashCode())).ToList();
             DrawEnemyExplosion(enemy);
+        }
+
+        public void RemoveBullet(BulletModel bullet) {
+            EnemyBulletList.Remove(bullet);
+            Events.RemoveFutureTaggedEvents(bullet);
+            Events.RemoveAllTaggedEvents(bullet.GetHashCode() + "static".GetHashCode());
+            enemyBulletList = EnemyBulletList.Except(RemoveBullet(bullet.GetHashCode() + "static".GetHashCode())).ToList();
+        }
+
+        private List<BulletModel> RemoveBullet(int tag) {
+            List<BulletModel> bs = EnemyBulletList.FindAll(e => e.Tag == tag);
+            if (bs.Count > 0) {
+                foreach (BulletModel bm in bs.ToList()) {
+                    bs.AddRange(RemoveBullet(bm.GetHashCode() + "static".GetHashCode()));
+                }
+                
+            }
+            return bs.ToList();
         }
 
         public bool RemoveIfOffScreen(BaseModel model) {
             if (!viewport.Contains(model.GetLocation())) {
                 if (model is EnemyModel em) {
-                    EnemyShipList.Remove(em);
-                    Events.RemoveTaggedEvents(em);
+                    RemoveEnemy(em);
                 } else if (model is BulletModel bm) {
-                    EnemyBulletList.Remove(bm);
-                    Events.RemoveTaggedEvents(bm);
+                    RemoveBullet(bm.GetHashCode());
+                    Events.RemoveFutureTaggedEvents(bm);
                 } else {
                     MiscModelList.Remove(model);
-                    Events.RemoveTaggedEvents(model);
+                    Events.RemoveFutureTaggedEvents(model);
                 }
                 return true;
             }
@@ -165,23 +188,23 @@ namespace bullethell.Controller {
 
         public void DrawTinyExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1,currTime, currTime + .2, collisionPoint, "tiny");
         }
 
         public void DrawMediumExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
-            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, TextureNames.BaddieDie2);
-            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, TextureNames.BaddieDie3);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1, currTime, currTime + .2, collisionPoint,  "med");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie2, currTime + .2, currTime + .4, collisionPoint,"med");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie3, currTime + .4, currTime + .6, collisionPoint, "med");
         }
 
         public void DrawBigExplosion(Point collisionPoint) {
             double currTime = Events.TimeElapsed();
-            modelFactory.BuildGenericModel(currTime, currTime + .2, collisionPoint, TextureNames.BaddieDie1);
-            modelFactory.BuildGenericModel(currTime + .2, currTime + .4, collisionPoint, TextureNames.BaddieDie2);
-            modelFactory.BuildGenericModel(currTime + .4, currTime + .6, collisionPoint, TextureNames.BaddieDie3);
-            modelFactory.BuildGenericModel(currTime + .6, currTime + .8, collisionPoint, TextureNames.BaddieDie4);
-            modelFactory.BuildGenericModel(currTime + .8, currTime + 1, collisionPoint, TextureNames.BaddieDie5);
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie1,currTime, currTime + .2, collisionPoint,"big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie2, currTime + .2, currTime + .4, collisionPoint, "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie3, currTime + .4, currTime + .6, collisionPoint,  "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie4, currTime + .6, currTime + .8, collisionPoint,  "big");
+            modelFactory.BuildGenericModel(TextureNames.BaddieDie5, currTime + .8, currTime + 1, collisionPoint,  "big");
 
         }
 

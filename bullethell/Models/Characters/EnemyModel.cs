@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace bullethell.Models {
     public class EnemyModel : BaseModel {
-        private int health;
+        private double health;
 
         public EnemyModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
             SetHealth(1);
             name = "Regular Enemy";
+            damage = 2;
         }
 
         public EnemyModel(Point start, double startRate, Texture2D startTexture) : base(start, startRate, startTexture) {
@@ -24,10 +25,10 @@ namespace bullethell.Models {
             health = h;
         }
 
-        public int Health => health;
+        public double Health => health;
 
-        public void TakeDamage() {
-            health -= 1;
+        public void TakeDamage(BaseModel b) {
+            health -= b.Damage;
         }
 
         public bool IsDead() {

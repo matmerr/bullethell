@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using bullethell.Controller;
@@ -17,6 +18,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
         protected string texture = TextureNames.EnemyBullet;
         protected double speed = 3;       // bullet speed
         protected double firingrate = 10; // rate of fire
+        protected double damage = 1;      // damage of bullet
 
         public AbstractFiringPattern And(AbstractFiringPattern chainedPattern) {
             foreach (GameEvents.Event e in scheduledEvents.ToList()) {
@@ -24,7 +26,7 @@ namespace bullethell.Models.Firing.FiringPatterns {
                     chainedPattern.SetReferences(e.model, ref MainContent);
                 } else {
                     chainedPattern.SetReferences(e.model, ref MainContent);
-                    chainedPattern.SetTimeWindow(start + 1, stop);
+                    chainedPattern.SetTimeWindow(start, stop);
                 }
                 chainedPattern.Exec();
             }
@@ -40,6 +42,13 @@ namespace bullethell.Models.Firing.FiringPatterns {
 
         // if our firing pattern has options
         public abstract void WithOptions(XElement options);
+
+        public void WithCoreOptions(XElement options) {
+            speed = options.Element("speed") != null ? (Double.Parse(options.Element("speed").Value)) : speed;
+            firingrate = options.Element("firingrate") != null ? (Double.Parse(options.Element("firingrate").Value)) : firingrate;
+            texture = options.Element("texture") != null ? options.Element("texture").Value : texture;
+            damage = options.Element("damage") != null ? (Double.Parse(options.Element("damage").Value)) : damage;
+        }
 
         public AbstractFiringPattern SetReferences(BaseModel fromModel, ref GameContent MainContent) {
             this.MainContent = MainContent;

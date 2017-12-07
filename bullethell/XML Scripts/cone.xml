@@ -1,0 +1,11 @@
+﻿<root>
+  <enemy type="Baddie1A" startlife="0" endlife="50" x="400" y="400">
+
+    <firingpattern type="Cone" start="1" stop="50">
+      <options>
+        <radius>50</radius>
+        <firingrate> 5 </firingrate>
+      </options>
+    </firingpattern>
+  </enemy>
+</root>

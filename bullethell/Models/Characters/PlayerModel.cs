@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace bullethell.Models {
     public class PlayerModel : BaseModel {
 
-        private int health;
+        private double health;
         public int Lives;
 
         private int initX, initY;
@@ -25,13 +25,13 @@ namespace bullethell.Models {
             isInvincible = false;
         }
 
-        public int Health => health;
+        public double Health => health;
 
         public bool IsInvincible => isInvincible;
 
-        public void TakeDamage() {
+        public void TakeDamage(BaseModel b) {
             if (!isInvincible) {
-                health -= 1;
+                health -= b.Damage;
             }
         }
 
