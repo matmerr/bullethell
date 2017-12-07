@@ -11,15 +11,15 @@ namespace bullethell.Models {
 
         private double health;
         public int Lives;
+        private int bombs;
 
         private int initX, initY;
         private bool isInvincible;
         
-
-
         public PlayerModel(int startX, int startY, double startRate, Texture2D startTexture) : base(startX, startY, startRate, startTexture) {
             health = 1000;
             Lives = 3;
+            bombs = 1;
             initX = startX;
             initY = startY;
             isInvincible = false;
@@ -52,6 +52,19 @@ namespace bullethell.Models {
 
         public void ToggleInvincibility() {
             isInvincible = !isInvincible;
+        }
+
+        public int getBombs()
+        {
+            return bombs;
+        }
+        public void addBomb()
+        {
+            bombs++;
+        }
+        public void useBomb()
+        {
+            bombs--;
         }
     }
 

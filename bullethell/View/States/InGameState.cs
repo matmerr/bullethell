@@ -111,6 +111,14 @@ namespace bullethell.View
             {
                 direction += 8;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                if(MainContent.PlayerShip.getBombs() > 0)
+                {
+                    MainContent.PlayerShip.useBomb();
+                    RemoveAllBullets();
+                }
+            }
 
             if (direction != 0) MainContent.PlayerShip.Move(Direction.ConvertKeyDirection(direction));
 
@@ -143,6 +151,15 @@ namespace bullethell.View
             OldKeyboardState = NewKeyboardState;
 
             MainContent.Events.ExecuteScheduledEvents();
+        }
+
+        private void RemoveAllBullets()
+        {
+            foreach(BulletModel bullet in MainContent.EnemyBulletList.ToList())
+            {
+                MainContent.RemoveBullet(bullet);
+                MainContent.DrawBigExplosion(bullet.GetLocation());
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -263,6 +280,8 @@ namespace bullethell.View
                     Color.White);
                 j -= 25;
             }
+            spriteBatch.DrawString(font, "Bombs: " + MainContent.PlayerShip.getBombs(), new Vector2(25, 625),
+                Color.Aqua);
             spriteBatch.DrawString(font, "Score: " + Stats.GetPoints(), new Vector2(25, 650),
                 Color.Aqua);
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 675),
