@@ -134,6 +134,10 @@ namespace bullethell.View
                 Screens.Peek().OldKeyboardState = this.NewKeyboardState;
             }
 
+            if (OldKeyboardState.IsKeyUp(Keys.Q) && NewKeyboardState.IsKeyDown(Keys.Q)) {
+                MainContent.ManualInvincibility();
+            }
+
             foreach (BulletModel gb in MainContent.GoodBulletList)
             {
                 gb.Move(Direction.Stay, Direction.Up);
@@ -275,8 +279,7 @@ namespace bullethell.View
 
             if (MainContent.PlayerShip.IsInvincible)
             {
-                spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2((GetWindowBounds().Width / 2) - 50, 3 * (GetWindowBounds().Height / 4)),
-                    Color.Red);
+                spriteBatch.DrawString(font, "TEMPORARILY INVINCIBLE", new Vector2(25, 775), Color.Red);
             }
 
 

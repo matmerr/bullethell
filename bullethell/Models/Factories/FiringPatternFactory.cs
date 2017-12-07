@@ -59,6 +59,10 @@ namespace bullethell.Models.Factories {
                 return new InwardCircleFiringPattern();
             }
 
+            if (type == FiringPatternNames.Arrow) {
+                return new ArrowFiringPattern();
+            }
+
 
             return null;
         }

@@ -25,6 +25,7 @@ namespace bullethell.Models {
         public const string Photon = "Photon";
         public const string Berserk = "Berserk";
         public const string Inward = "Inward";
+        public const string Arrow = "Arrow";
 
     }
 
