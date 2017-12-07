@@ -53,6 +53,7 @@ namespace bullethell.View
                 { TextureNames.BaddieDie5, Content.Load<Texture2D>("baddieDie-5") },
                 { TextureNames.LaserBullet, Content.Load<Texture2D>("laser") },
                 { TextureNames.Invisible, Content.Load<Texture2D>("invisible") },
+                { TextureNames.Bomb, Content.Load<Texture2D>("bomb") }
             };
 
 
@@ -111,6 +112,14 @@ namespace bullethell.View
             {
                 direction += 8;
             }
+            if (OldKeyboardState.IsKeyUp(Keys.B) && Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+                if(MainContent.PlayerShip.getBombs() > 0)
+                {
+                    MainContent.PlayerShip.useBomb();
+                    RemoveAllBullets();
+                }
+            }
 
             if (direction != 0) MainContent.PlayerShip.Move(Direction.ConvertKeyDirection(direction));
 
@@ -147,6 +156,15 @@ namespace bullethell.View
             OldKeyboardState = NewKeyboardState;
 
             MainContent.Events.ExecuteScheduledEvents();
+        }
+
+        private void RemoveAllBullets()
+        {
+            foreach(BulletModel bullet in MainContent.EnemyBulletList.ToList())
+            {
+                MainContent.RemoveBullet(bullet);
+                MainContent.DrawBigExplosion(bullet.GetLocation());
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -191,6 +209,13 @@ namespace bullethell.View
                             enemy.TakeDamage(goodBullet);
                             if (enemy.IsDead())
                             {
+                                //Maybe drop bomb
+                                Random r = new Random();
+                                if(r.Next() % 5 == 0)
+                                {
+                                    MainContent.ModelFactory.BuildGenericModel(TextureNames.Bomb, MainContent.Events.TimeElapsed(),
+                                        MainContent.Events.TimeElapsed() + 10, enemy.GetLocation(), 0);
+                                }
                                 Stats.EnemyDestroyed();
                                 MainContent.RemoveEnemy(enemy);
                             }
@@ -219,6 +244,22 @@ namespace bullethell.View
                     new Rectangle(0, 0, bm.Texture.Height, bm.Texture.Height), Color.White, bm.Rotation,
                     new Point(0, 0).ToVector2(), bm.Scale, SpriteEffects.None, 1.0f);
 
+            }
+
+            foreach (BaseModel bm in MainContent.PowerUpList)
+            {
+                spriteBatch.Draw(bm.Texture, bm.DrawingLocationVector,
+                    new Rectangle(0, 0, bm.Texture.Height, bm.Texture.Height), Color.White, bm.Rotation,
+                    new Point(0, 0).ToVector2(), bm.Scale, SpriteEffects.None, 1.0f);
+            }
+
+            foreach (BaseModel pu in MainContent.PowerUpList.ToList())
+            {
+                if (MainContent.IsColliding(MainContent.PlayerShip, pu))
+                {
+                    MainContent.PowerUpList.Remove(pu);
+                    MainContent.PlayerShip.addBomb();
+                }
             }
 
             foreach (BulletModel enemyBullet in MainContent.EnemyBulletList.ToList())
@@ -267,6 +308,8 @@ namespace bullethell.View
                     Color.White);
                 j -= 25;
             }
+            spriteBatch.DrawString(font, "Bombs: " + MainContent.PlayerShip.getBombs(), new Vector2(25, 625),
+                Color.Aqua);
             spriteBatch.DrawString(font, "Score: " + Stats.GetPoints(), new Vector2(25, 650),
                 Color.Aqua);
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 675),
