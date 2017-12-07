@@ -78,10 +78,36 @@
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Circle" start="5" stop="6" speed="100"></firingpattern>
-    <!--TODO add more firing patterns-->
-  </enemy>
 
+    <firingpattern type="Circle" start="5" stop="8">
+      <options>
+        <startAngle>180</startAngle>
+        <stopAngle>360</stopAngle>
+      </options>
+    </firingpattern>
+    <firingpattern type="Circle" start="9" stop="12"></firingpattern>
+    <firingpattern type="Circle" start="13" stop="16">
+      <options>
+        <startAngle>180</startAngle>
+        <stopAngle>360</stopAngle>
+      </options>
+    </firingpattern>
+    <firingpattern type="Circle" start="17" stop="20"></firingpattern>
+  <firingpattern type="Circle" start="22" stop="25">
+    <options>
+      <startAngle>180</startAngle>
+      <stopAngle>360</stopAngle>
+    </options>
+  </firingpattern>
+  <firingpattern type="Circle" start="27" stop="30"></firingpattern>
+  <firingpattern type="Circle" start="32" stop="35">
+    <options>
+      <startAngle>180</startAngle>
+      <stopAngle>360</stopAngle>
+    </options>
+  </firingpattern>
+  <firingpattern type="Circle" start="37" stop="39"></firingpattern>
+  </enemy>
   
   
   <!--Midbosses-->
@@ -100,6 +126,10 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="21" stop="23"></firingpattern>
+    <firingpattern type="Arrow" start="23" stop="27"></firingpattern>
+    <firingpattern type="Arrow" start="25" stop="29"></firingpattern>
+    <firingpattern type="Arrow" start="27" stop="32"></firingpattern>
   </enemy>
   
   

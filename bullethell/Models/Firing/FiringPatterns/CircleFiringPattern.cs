@@ -5,6 +5,8 @@ using bullethell.Controller;
 namespace bullethell.Models.Firing.FiringPatterns {
     class CircleFiringPattern :AbstractFiringPattern {
         private double density = 60; // how many bullets make up the circle
+        private double startAngle = 0;
+        private double stopAngle = 360;
 
 
         public override void SetName() {
@@ -14,14 +16,16 @@ namespace bullethell.Models.Firing.FiringPatterns {
         public override void WithOptions(XElement options) {
             if (options != null) {
                 density = options.Element("density") != null ? (360 / Int32.Parse(options.Element("density").Value)) : density;
+                startAngle = options.Element("startAngle") != null ? (Double.Parse(options.Element("startAngle").Value)) : 0;
+                stopAngle = options.Element("stopAngle") != null ? (Double.Parse(options.Element("stopAngle").Value)) : 360;
             }
         }
 
         public override AbstractFiringPattern Exec() {
             double i;
             for (i = start; i < stop; i+=1/firingrate) {
-                double j = 1;
-                while (j < 360) {
+                double j = startAngle - 1;
+                while (j < stopAngle) {
 
                     BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture,i, i + bulletLife, fromModel.GetLocation(), fromModel);
                     bullet.SetLinearTravelAngle(j);
