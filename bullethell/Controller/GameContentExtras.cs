@@ -216,6 +216,10 @@ namespace bullethell.Controller {
             Events.AddSingleEvent(Events.TimeElapsed() + 5, () => PlayerShip.ToggleInvincibility());
         }
 
+        public void ManualInvincibility() {
+            Events.AddSingleEvent(Events.TimeElapsed(), () => PlayerShip.ToggleInvincibility());
+        }
+
         private double startwin = 0;
         public bool HasWon() {
             if (Events.TimeElapsed() > 45 && EnemyShipList.Count == 0) {
