@@ -155,6 +155,7 @@ namespace bullethell.View {
                     // "Check each enemy bullet to see if it collides with a good bullet"
                     foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                         if (MainContent.IsColliding(enemy, goodBullet)) {
+                            Stats.AddPoints(5);
                             MainContent.GoodBulletList.Remove(goodBullet);
                             MainContent.DrawTinyExplosion(MainContent.CollisionPoint(enemy, goodBullet));
                             enemy.TakeDamage();
@@ -192,6 +193,7 @@ namespace bullethell.View {
                 // "Check each enemy bullet to see if it collides with a good bullet"
                 foreach (BulletModel goodBullet in MainContent.GoodBulletList.ToList()) {
                     if (MainContent.IsColliding(enemyBullet, goodBullet)) {
+                        Stats.AddPoints(1);
                         MainContent.GoodBulletList.Remove(goodBullet);
                         MainContent.EnemyBulletList.Remove(enemyBullet);
                         MainContent.Events.RemoveTaggedEvents(enemyBullet);
@@ -225,6 +227,8 @@ namespace bullethell.View {
                     Color.White);
                 j -= 25;
             }
+            spriteBatch.DrawString(font, "Score: " + Stats.GetPoints(), new Vector2(25, 650),
+                Color.Aqua);
             spriteBatch.DrawString(font, "Health: " + MainContent.PlayerShip.Health, new Vector2(25, 675),
                 Color.Aqua);
             spriteBatch.DrawString(font, "Lives Remaining: " + MainContent.PlayerShip.Lives, new Vector2(25, 700),
