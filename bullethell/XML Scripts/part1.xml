@@ -337,8 +337,8 @@
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Spray" start="28" stop="29"></firingpattern>
-    <firingpattern type="Spray" start="31" stop="32"></firingpattern>
+    <firingpattern type="Arrow" start="28" stop="29"></firingpattern>
+    <firingpattern type="Arrow" start="31" stop="32"></firingpattern>
   </enemy>
   <!--MidBoss2-->
   <enemy type="MidBoss" startlife="26" endlife="55" x="300" y ="0">
@@ -360,8 +360,8 @@
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Spray" start="28" stop="29"></firingpattern>
-    <firingpattern type="Spray" start="31" stop="32"></firingpattern>
+    <firingpattern type="Arrow" start="28" stop="29"></firingpattern>
+    <firingpattern type="Arrow" start="31" stop="32"></firingpattern>
   </enemy>
   <!--Minions round 3-->
   <enemy type="Baddie1A" startlife="40" endlife="80" x="100" y ="0">
@@ -713,8 +713,8 @@
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Spray" start="58" stop="61"></firingpattern>
-    <firingpattern type="Spray" start="63" stop="66"></firingpattern>
+    <firingpattern type="Arrow" start="58" stop="61"></firingpattern>
+    <firingpattern type="Arrow" start="63" stop="66"></firingpattern>
   </enemy>
   <!--Line of shooters-->
   <enemy type="Baddie1B" startlife="65" endlife="125" x="100" y ="0">
@@ -854,25 +854,25 @@
   </enemy>
   <!--Different midboss-->
   <enemy type="MidBoss" startlife="78" endlife="150" x="400" y ="0" speed ="6">
-    <move type="MoveToFixedPoint" start="55" stop="58">
+    <move type="MoveToFixedPoint" start="78" stop="83">
       <options>
         <x>800</x>
         <y>200</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="58" stop="65">
+    <move type="MoveToFixedPoint" start="83" stop="87">
       <options>
         <x>600</x>
         <y>250</y>
       </options>
     </move>
-    <move type="MoveToFixedPoint" start="65" stop="100">
+    <move type="MoveToFixedPoint" start="87" stop="100">
       <options>
         <x>700</x>
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Spray" start="58" stop="61"></firingpattern>
-    <firingpattern type="Spray" start="63" stop="66"></firingpattern>
+    <firingpattern type="Arrow" start="83" stop="85"></firingpattern>
+    <firingpattern type="Arrow" start="86" stop="88"></firingpattern>
   </enemy>
 </root>
