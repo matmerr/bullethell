@@ -49,8 +49,10 @@ namespace bullethell.View {
 
             StatsModel gameStats = Screens.ToArray()[Screens.Count - 2].GetStats();
 
-            spriteBatch.DrawString(font, "You Won!", new Vector2(25, 550),
+            spriteBatch.DrawString(font, "You Won!", new Vector2(25, 500),
                 Color.Green);
+            spriteBatch.DrawString(font, "Points " + gameStats.GetPoints(), new Vector2(25, 550),
+                Color.Azure);
             spriteBatch.DrawString(font, "Bullets Fired " + gameStats.TotalBulletsFired, new Vector2(25, 600),
                 Color.Azure);
             spriteBatch.DrawString(font, "Enemies Destroyed " + gameStats.TotalEnemiesDestroyed, new Vector2(25, 650),
