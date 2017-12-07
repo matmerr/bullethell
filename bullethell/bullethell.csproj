@@ -58,6 +58,7 @@
     <Compile Include="Models\Firing\FiringPatterns\InwardCircleFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\LaserFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\FireAtPointPattern.cs" />
+    <Compile Include="Models\Firing\FiringPatterns\LassoFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\MultipleBulletFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\OrbitFiringPattern.cs" />
     <Compile Include="Models\Firing\FiringPatterns\PhotonFiringPattern.cs" />
@@ -117,6 +118,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Icon.ico" />
+    <Content Include="XML Scripts\Lasso.xml" />
     <Content Include="XML Scripts\part1.xml" />
     <Content Include="XML Scripts\part2.xml" />
     <Content Include="XML Scripts\testing.xml" />

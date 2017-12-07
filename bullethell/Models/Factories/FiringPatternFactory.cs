@@ -63,6 +63,10 @@ namespace bullethell.Models.Factories {
                 return new ArrowFiringPattern();
             }
 
+            if (type == FiringPatternNames.Lasso) {
+                return new LassoFiringPattern();
+            }
+
 
             return null;
         }
