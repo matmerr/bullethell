@@ -27,6 +27,7 @@ namespace bullethell.Models {
         public const string Inward = "Inward";
         public const string Arrow = "Arrow";
         public const string MovingOrbit = "MovingOrbit";
+        public const string AngledOrbit = "AngledOrbit";
 
     }
 

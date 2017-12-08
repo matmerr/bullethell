@@ -12,14 +12,14 @@
         <y>250</y>
       </options>
     </move>
-    <firingpattern type="MovingOrbit" start="2" stop="6">
+    <firingpattern type="MovingOrbit" start="2" stop="10">
       <options>
         <density> 8 </density>
         <firingrate> 10 </firingrate>
         <speed> 1 </speed>
       </options>
     </firingpattern>
-    <firingpattern type="MovingOrbit" start="2" stop="6">
+    <firingpattern type="MovingOrbit" start="2" stop="10">
       <options>
         <density> 8 </density>
         <firingrate> 10 </firingrate>

@@ -67,6 +67,11 @@ namespace bullethell.Models.Factories {
                 return new MovingOrbitFiringPattern();
             }
 
+            if (type == FiringPatternNames.AngledOrbit)
+            {
+                return new AngledOrbitFiringPattern();
+            }
+
             return null;
         }
     }
