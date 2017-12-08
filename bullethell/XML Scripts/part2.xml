@@ -79,34 +79,74 @@
       </options>
     </move>
 
-    <firingpattern type="Circle" start="5" stop="8">
+    <firingpattern type="LinearCircle" start="5" stop="8"><options><fireType>1</fireType></options></firingpattern>
+    <firingpattern type="LinearCircle" start="6" stop="8">
       <options>
-        <startAngle>180</startAngle>
-        <stopAngle>360</stopAngle>
+        <fireType>1</fireType>
       </options>
     </firingpattern>
-    <firingpattern type="Circle" start="9" stop="12"></firingpattern>
-    <firingpattern type="Circle" start="13" stop="16">
+    <firingpattern type="LinearCircle" start="7" stop="8">
       <options>
-        <startAngle>180</startAngle>
-        <stopAngle>360</stopAngle>
+        <fireType>1</fireType>
       </options>
     </firingpattern>
-    <firingpattern type="Circle" start="17" stop="20"></firingpattern>
-  <firingpattern type="Circle" start="22" stop="25">
+    <firingpattern type="LinearCircle" start="9" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="10" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="11" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="13" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="14" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="15" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="17" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="18" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="19" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="22" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="23" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="24" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="27" stop="30"></firingpattern>
+    <firingpattern type="LinearCircle" start="28" stop="30"></firingpattern>
+    <firingpattern type="LinearCircle" start="29" stop="30"></firingpattern>
+  <firingpattern type="LinearCircle" start="32" stop="35">
     <options>
-      <startAngle>180</startAngle>
-      <stopAngle>360</stopAngle>
+      <fireType>1</fireType>
     </options>
   </firingpattern>
-  <firingpattern type="Circle" start="27" stop="30"></firingpattern>
-  <firingpattern type="Circle" start="32" stop="35">
-    <options>
-      <startAngle>180</startAngle>
-      <stopAngle>360</stopAngle>
-    </options>
-  </firingpattern>
-  <firingpattern type="Circle" start="37" stop="39"></firingpattern>
+    <firingpattern type="LinearCircle" start="33" stop="35">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="34" stop="35">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="37" stop="39"></firingpattern>
+    <firingpattern type="LinearCircle" start="38" stop="39"></firingpattern>
+    <firingpattern type="LinearCircle" start="39" stop="39"></firingpattern>
   </enemy>
   
   
