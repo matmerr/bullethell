@@ -301,6 +301,16 @@ namespace bullethell.Models {
             orbitRadius -= rate;
         }
 
+        public void ToggleOrbitRate()
+        {
+            orbitRadius *= -1;
+        }
+
+        public void ToggleOrbitSpeed()
+        {
+            orbitSpeed *= -1;
+        }
+
         public void MoveOrbit() {
             orbitAngle += orbitSpeed;
             double radOrbitAngle = orbitAngle * (Math.PI / 180);

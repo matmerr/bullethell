@@ -26,6 +26,9 @@ namespace bullethell.Models {
         public const string Berserk = "Berserk";
         public const string Inward = "Inward";
         public const string Arrow = "Arrow";
+        public const string MovingOrbit = "MovingOrbit";
+        public const string AngledOrbit = "AngledOrbit";
+
         public const string Lasso = "Lasso";
         public const string SimpleLasso = "SimpleLasso";
         public const string LinearCircle = "LinearCircle";

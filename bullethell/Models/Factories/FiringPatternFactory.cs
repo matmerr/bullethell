@@ -63,6 +63,16 @@ namespace bullethell.Models.Factories {
                 return new ArrowFiringPattern();
             }
 
+
+            if (type == FiringPatternNames.MovingOrbit) {
+                return new MovingOrbitFiringPattern();
+            }
+
+            if (type == FiringPatternNames.AngledOrbit)
+            {
+                return new AngledOrbitFiringPattern();
+            }
+
             if (type == FiringPatternNames.Lasso) {
                 return new LassoFiringPattern();
             }
@@ -74,7 +84,6 @@ namespace bullethell.Models.Factories {
             if (type == FiringPatternNames.LinearCircle) {
                 return new LinearCircleFiringPattern();
             }
-
 
             return null;
         }
