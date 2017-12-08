@@ -1,22 +1,21 @@
-﻿using System;
+﻿using bullethell.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using bullethell.Controller;
-using Microsoft.Xna.Framework;
 
 namespace bullethell.Models.Firing.FiringPatterns
 {
-    class InwardCircleFiringPattern : AbstractFiringPattern
+    class MovingOrbitFiringPattern : AbstractFiringPattern
     {
         private int density = 360 / 6;
         private double radius = 0;
 
         public override void SetName()
         {
-            name = FiringPatternNames.Inward;
+            name = FiringPatternNames.MovingOrbit;
         }
 
         public override void WithOptions(XElement options)
@@ -34,30 +33,30 @@ namespace bullethell.Models.Firing.FiringPatterns
 
             var invis1 = MainContent.ModelFactory.BuildGenericModel(TextureNames.Invisible, start, stop, fromModel.GetLocation(), fromModel);
             invis1.SetSourceModel(fromModel);
-            //MainContent.Events.AddScheduledTaggedEvent(start, stop, fromModel, () => invis1.MoveOrbit());
+            invis1.SetOrbitRadius(5);
+            MainContent.Events.AddSingleTaggedEvent(start, fromModel, () => invis1.SetLocationFromSourcetModel());
 
-            while (i < 360){
+            while (i < 360)
+            {
                 BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture,
                     fromModel.StartLife,
                     fromModel.EndLife, invis1.GetLocation(), fromModel);
                 bullet.SetOrbitAngle(i);
+                bullet.SetOrbitRadius(0);
                 bullet.SetSourceModel(invis1);
                 bullet.SetOrbitSpeed(speed);
                 bullet.SetRate(speed);
                 double tag = fromModel.GetHashCode() + "static".GetHashCode();
                 double middle = (start + stop) / 2;
-                MainContent.Events.AddScheduledTaggedEvent(start, stop, tag, () => bullet.MoveOrbit());
-                MainContent.Events.AddScheduledTaggedEvent(start, start + 1 , tag, () => bullet.IncrementOrbitRadius());
-                MainContent.Events.AddScheduledTaggedEvent(start + 1, middle, tag, () => bullet.DecrementOrbitRadius());
-                MainContent.Events.AddScheduledTaggedEvent(middle+1,stop, tag, () => bullet.ToggleOrbitRate());
-                MainContent.Events.AddSingleTaggedEvent(start, TextureNames.Invisible, () => invis1.SetLocationFromSourcetModel());
-
+                MainContent.Events.AddScheduledTaggedEvent(start, middle, tag, () => bullet.MoveOrbit());
+                MainContent.Events.AddScheduledTaggedEvent(start, middle, tag, () => bullet.IncrementOrbitRadius());
+                MainContent.Events.AddSingleTaggedEvent(start, fromModel, () => invis1.SetLocationFromSourcetModel());
                 i += density;
 
                 scheduledEvents.Add(new GameEvents.Event(start, stop, bullet));
-                   
+
             }
-                
+
             return this;
         }
     }
