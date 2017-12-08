@@ -78,10 +78,76 @@
         <y>-50</y>
       </options>
     </move>
-    <firingpattern type="Circle" start="5" stop="6" speed="100"></firingpattern>
-    <!--TODO add more firing patterns-->
-  </enemy>
 
+    <firingpattern type="LinearCircle" start="5" stop="8"><options><fireType>1</fireType></options></firingpattern>
+    <firingpattern type="LinearCircle" start="6" stop="8">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="7" stop="8">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="9" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="10" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="11" stop="12"></firingpattern>
+    <firingpattern type="LinearCircle" start="13" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="14" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="15" stop="16">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="17" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="18" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="19" stop="20"></firingpattern>
+    <firingpattern type="LinearCircle" start="22" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="23" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="24" stop="25">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="27" stop="30"></firingpattern>
+    <firingpattern type="LinearCircle" start="28" stop="30"></firingpattern>
+    <firingpattern type="LinearCircle" start="29" stop="30"></firingpattern>
+  <firingpattern type="LinearCircle" start="32" stop="35">
+    <options>
+      <fireType>1</fireType>
+    </options>
+  </firingpattern>
+    <firingpattern type="LinearCircle" start="33" stop="35">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="34" stop="35">
+      <options>
+        <fireType>1</fireType>
+      </options>
+    </firingpattern>
+    <firingpattern type="LinearCircle" start="37" stop="39"></firingpattern>
+    <firingpattern type="LinearCircle" start="38" stop="39"></firingpattern>
+    <firingpattern type="LinearCircle" start="39" stop="39"></firingpattern>
+  </enemy>
   
   
   <!--Midbosses-->
@@ -100,12 +166,15 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="21" stop="23"></firingpattern>
+    <firingpattern type="Arrow" start="23" stop="27"></firingpattern>
+    <firingpattern type="Arrow" start="25" stop="29"></firingpattern>
   </enemy>
   
   
   <!--Midbosses-->
 
-  
+
   <enemy type="MidBoss" startlife="20" endlife="100" x="600" y ="0" speed ="4">
     <move type="MoveToFixedPoint" start="20" stop="23">
       <options>
@@ -119,8 +188,10 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="21" stop="23"></firingpattern>
+    <firingpattern type="Arrow" start="23" stop="27"></firingpattern>
+    <firingpattern type="Arrow" start="25" stop="29"></firingpattern>
   </enemy>
-  
   
   <!--Suiciders-->
 
@@ -253,6 +324,9 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="36" stop="38"></firingpattern>
+    <firingpattern type="Arrow" start="38" stop="40"></firingpattern>
+    <firingpattern type="Arrow" start="40" stop="42"></firingpattern>
   </enemy>
 
 
@@ -272,6 +346,9 @@
         <y>400</y>
       </options>
     </move>
+    <firingpattern type="Arrow" start="36" stop="38"></firingpattern>
+    <firingpattern type="Arrow" start="38" stop="40"></firingpattern>
+    <firingpattern type="Arrow" start="40" stop="42"></firingpattern>
   </enemy>
   
   

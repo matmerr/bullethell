@@ -1,4 +1,33 @@
 ﻿<root>
+  <enemy type="MainBoss" startlife="0" endlife="100" x="400" y ="0" speed ="5">
+    <move type="MoveToFixedPoint" start="1" stop="3">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="3" stop="6">
+      <options>
+        <x>400</x>
+        <y>250</y>
+      </options>
+    </move>
+    <firingpattern type="AngledOrbit" start="2" stop="20">
+      <options>
+        <density> 8 </density>
+        <firingrate> 10 </firingrate>
+        <speed> 2 </speed>
+      </options>
+    </firingpattern>
+    <firingpattern type="AngledOrbit" start="2" stop="20">
+      <options>
+        <density> 8 </density>
+        <firingrate> 10 </firingrate>
+        <speed> 1 </speed>
+      </options>
+    </firingpattern>
+      
+  </enemy>
   
   
   

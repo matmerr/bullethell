@@ -1,0 +1,11 @@
+﻿<root>
+  <enemy type="Baddie1A" startlife="0" endlife="10" x="100" y="200">
+    <move type="MoveToFixedPoint" start="0" stop="3">
+      <options>
+        <x>200</x>
+        <y>400</y>
+      </options>
+    </move>
+    <firingpattern type ="SimpleLasso" start="5" stop = "7"></firingpattern>
+  </enemy>
+</root>

@@ -283,4 +283,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:bomb.png
+#begin music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music.mp3
 
