@@ -33,7 +33,7 @@ namespace bullethell.Models.Firing.FiringPatterns
             double i = 1;
             while (i < 360)
             {
-                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, fromModel.StartLife, fromModel.EndLife, fromModel.GetLocation(), fromModel);
+                BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, start, stop, fromModel.GetLocation(), fromModel);
                 bullet.SetOrbitAngle(i);
                 bullet.SetOrbitRadius(radius);
                 bullet.SetSourceModel(fromModel);

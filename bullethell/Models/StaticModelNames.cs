@@ -29,6 +29,10 @@ namespace bullethell.Models {
         public const string MovingOrbit = "MovingOrbit";
         public const string AngledOrbit = "AngledOrbit";
 
+        public const string Lasso = "Lasso";
+        public const string SimpleLasso = "SimpleLasso";
+        public const string LinearCircle = "LinearCircle";
+
     }
 
     static class TextureNames {

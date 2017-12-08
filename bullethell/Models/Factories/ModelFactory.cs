@@ -115,7 +115,7 @@ namespace bullethell.Models.Factories {
                     MainContent.Events.AddSingleTaggedEvent(startLife, tag,
                         () => MainContent.EnemyBulletList.Add((BulletModel) model));
                     MainContent.Events.AddSingleTaggedEvent(endLife, tag,
-                        () => MainContent.EnemyBulletList.Remove((BulletModel) model));
+                        () => MainContent.RemoveBullet((BulletModel) model));
                 }
             }
             else if(model.Texture == MainContent.Textures[TextureNames.Bomb])

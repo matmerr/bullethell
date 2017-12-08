@@ -29,11 +29,11 @@ namespace bullethell.Models.Firing.FiringPatterns
         public override AbstractFiringPattern Exec()
         {
             double i;
-            for (i = start; i < stop; i += 1 / firingrate)
-            {
+
+            for (i = start; i < stop; i+=1/firingrate) {
                 double j = startAngle - 1;
-                while (j < stopAngle)
-                {
+                while (j < stopAngle) {
+
 
                     BulletModel bullet = MainContent.ModelFactory.BuildEnemyBulletModel(texture, i, i + bulletLife, fromModel.GetLocation(), fromModel);
                     bullet.SetLinearTravelAngle(j);

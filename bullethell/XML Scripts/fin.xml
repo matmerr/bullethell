@@ -1,0 +1,121 @@
+﻿<root>
+  <enemy type ="MainBoss" startlife="0" endlife="100" x="400" y ="0" speed ="5">
+    <move type="MoveToFixedPoint" start="1" stop="3">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="3" stop="6">
+      <options>
+        <x>500</x>
+        <y>500</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="6" stop="9">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="9" stop="12">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="12" stop="15">
+      <options>
+        <x>500</x>
+        <y>500</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="15" stop="18">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="18" stop="21">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="21" stop="24">
+      <options>
+        <x>500</x>
+        <y>500</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="24" stop="27">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="27" stop="30">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="30" stop="33">
+      <options>
+        <x>500</x>
+        <y>500</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="33" stop="36">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="36" stop="39">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="39" stop="42">
+      <options>
+        <x>500</x>
+        <y>500</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="45" stop="48">
+      <options>
+        <x>300</x>
+        <y>200</y>
+      </options>
+    </move>
+    <move type="MoveToFixedPoint" start="48" stop="51">
+      <options>
+        <x>600</x>
+        <y>200</y>
+      </options>
+    </move>
+    <firingpattern type="SimpleLasso" start="3" stop="10"></firingpattern>
+    <firingpattern type="Lasso" start="11" stop="20"></firingpattern>
+    <firingpattern type="SimpleLasso" start="21" stop="24"></firingpattern>
+    <firingpattern type="Lasso" start="22" stop="25"></firingpattern>
+    <firingpattern type="SimpleLasso" start="26" stop="30"></firingpattern>
+    <firingpattern type="Lasso" start="30" stop="31"></firingpattern>
+    <firingpattern type="AngledOrbit" start="32" stop="40"></firingpattern>
+    <firingpattern type="Spiral" start="40" stop="50">
+      <options>
+        <spokes>8</spokes>
+        <direction>1</direction>
+      </options>
+    </firingpattern>
+    <firingpattern type ="Spiral" start="40" stop="50">
+      <options>
+        <spokes>8</spokes>
+        <direction>-1</direction>
+      </options>
+    </firingpattern>
+  </enemy>
+  
+  
+</root>
