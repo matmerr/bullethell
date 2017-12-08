@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bullethell.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,9 +61,9 @@ namespace bullethell.Models.Firing.FiringPatterns
                 MainContent.Events.AddScheduledTaggedEvent(start, stop, tag, () => bullet.IncrementOrbitRadius());
 
 
-                MainContent.Events.AddSingleTaggedEvent(middle, tag, () => bullet.ToggleOrbitSpeed());
-                MainContent.Events.AddSingleTaggedEvent(middle + 1, tag, () => bullet.ToggleOrbitSpeed());
-                MainContent.Events.AddSingleTaggedEvent(middle + 1.5, tag, () => bullet.ToggleOrbitSpeed());
+                MainContent.Events.AddSingleTaggedEvent(start + 2, tag, () => bullet.ToggleOrbitSpeed());
+                MainContent.Events.AddSingleTaggedEvent(start + 3, tag, () => bullet.ToggleOrbitSpeed());
+                MainContent.Events.AddSingleTaggedEvent(start + 3.5, tag, () => bullet.ToggleOrbitSpeed());
                 MainContent.Events.AddSingleTaggedEvent(start, fromModel, () => invis1.SetLocationFromSourcetModel());
                 i += density;
 
