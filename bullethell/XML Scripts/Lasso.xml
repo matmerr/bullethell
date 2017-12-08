@@ -6,6 +6,6 @@
         <y>400</y>
       </options>
     </move>
-    <firingpattern type ="Lasso" start="5" stop = "7"></firingpattern>
+    <firingpattern type ="SimpleLasso" start="5" stop = "7"></firingpattern>
   </enemy>
 </root>
